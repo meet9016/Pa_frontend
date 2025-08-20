@@ -1,22 +1,21 @@
-import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import Header from './component/Header'
-import SubHeader from './SubHeader'
-import SubData from './pages/SubData'
-import SubDetail from './pages/SubDetail'
-import Login from './pages/Login'
-import Footer from './component/Footer'
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+import ProtectedRoute from './pages/routes/ProtectedRoute'
+import AppRoutes from './pages/routes/AppRoutes'
 
 function App() {
 
   return (
     <>
       {/* <Login /> */}
-      <Header />
+      {/* <Header /> */}
       {/* <SubHeader /> */}
       {/* <SubData /> */}
-      <SubDetail />
-      <Footer />
+      {/* <SubDetail />
+      <Footer /> */}
+      <Router>
+        <AppRoutes />
+      </Router>
     </>
   )
 }

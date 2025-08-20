@@ -1,10 +1,10 @@
 import React from "react";
 import "remixicon/fonts/remixicon.css";
-import Header from "./component/Header";
 import { useNavigate } from "react-router";
+import Header from "../../component/Header";
 // import 'flowbite';
 
-const SubHeader = () => {
+const Home = () => {
     const navigate = useNavigate();
 
     const images = Array(20).fill(
@@ -170,7 +170,7 @@ const SubHeader = () => {
     );
 };
 
-export default SubHeader;
+export default Home;
 
 
 

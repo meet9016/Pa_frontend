@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubDetail = () => {
+const ProductDetails = () => {
     const product = {
         img: "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/da/cms-assets/cms/product/5734b087-3ad9-485f-bbe2-52079cd9e35d.png",
         time: "14 MINS",
@@ -275,4 +275,4 @@ const SubDetail = () => {
     );
 };
 
-export default SubDetail;
+export default ProductDetails;

@@ -1,6 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        mobile: "",
+        otp: "",
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const onLoginClick = async () => {
+        try {
+            const formdata = new FormData();
+
+            formdata.append("number", formData.mobile || "");
+            formdata.append("otp", formData.otp);
+            const res = await api.post(`${endPointApi.loginUser}`, formdata);
+
+            if (res.data.status == 200) {
+                saveToken(res.data.data.token)
+                navigate("/home");
+            }
+        } catch (err) {
+            // setError(err.message || "Invalid email or password. Please try again.");
+        } finally {
+            // setIsLoading(false);
+        }
+    }
+
+
     return (
         <div className="min-h-screen w-full bg-[#EAEBEF] flex items-center justify-center">
             {/* White card */}
@@ -50,13 +85,19 @@ const Login = () => {
                         <div className="mt-9 space-y-7">
                             <input
                                 type="text"
+                                name="mobile"
                                 placeholder="Phone Number"
                                 className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
+                                value={formData.mobile}
+                                onChange={handleChange}
                             />
                             <input
                                 type="text"
-                                placeholder="Enter otp"
+                                name="otp"
                                 className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
+                                placeholder="Enter your otp"
+                                value={formData.otp}
+                                onChange={handleChange}
                             />
                             <p className="text-right text-xs text-black cursor-pointer max-w-lg mx-auto">
                                 Forgot Password ?
@@ -65,7 +106,9 @@ const Login = () => {
 
                         {/* Buttons */}
                         <div className="mt-6 space-y-4 max-w-lg mx-auto w-full">
-                            <button className="w-full bg-[#251C4B] text-white py-4 rounded-md font-medium hover:bg-[#251C4B]/90 transition">
+                            <button className="w-full bg-[#251C4B] text-white py-4 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
+                                onClick={onLoginClick}
+                            >
                                 Login
                             </button>
                             <p className="text-center text-md text-black">

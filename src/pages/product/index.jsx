@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import "remixicon/fonts/remixicon.css";
 
-const SubData = () => {
+const Product = () => {
+    const navigate = useNavigate();
+
     const product = {
         img: "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/da/cms-assets/cms/product/5734b087-3ad9-485f-bbe2-52079cd9e35d.png",
         time: "14 MINS",
@@ -11,7 +14,7 @@ const SubData = () => {
     };
     const products = Array(6).fill(product);
     const displayProducts = [...products, ...products, ...products, ...products]
-    
+
     return (
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
             {/* Main Cointaner */}
@@ -21,6 +24,7 @@ const SubData = () => {
                         <div
                             key={index}
                             className="border rounded-xl p-3 hover:shadow-lg transition border-gray-200 bg-white"
+                            onClick={() => navigate('/single-product')}
                         >
                             <img
                                 src={item.img}
@@ -46,4 +50,4 @@ const SubData = () => {
     );
 };
 
-export default SubData;
+export default Product;
