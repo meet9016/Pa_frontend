@@ -23,7 +23,6 @@ const Header = () => {
     return (
         <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md h-auto md:h-[80px] px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-full flex-wrap md:flex-nowrap gap-3">
-
                 <div className="flex items-center gap-4 flex-shrink-0 min-w-[160px]">
                     {/* Logo */}
                     <div className="flex items-center gap-2">
@@ -59,9 +58,9 @@ const Header = () => {
 
                 {/* Supplier Link */}
                 <div className="hidden sm:flex flex-col justify-center text-right"
-                onClick={() => navigate("https://pa-admin-panel.vercel.app/signin")}
+                    onClick={() => navigate("https://pa-admin-panel.vercel.app/signin")}
                 >
-                    <span className="text-black text-[13px] sm:text-[14px] md:text-[15px] font-medium">
+                    <span className="text-black text-[13px]  sm:text-[14px] md:text-[15px] font-medium">
                         Become a
                     </span>
                     <span className="text-black text-[13px] sm:text-[14px] md:text-[15px] font-medium">
@@ -69,25 +68,30 @@ const Header = () => {
                     </span>
                 </div>
 
-                {/* Cart Button */}
-                <button
-                    onClick={handleAddcart}
-                    className="flex items-center gap-2 cursor-pointer bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold whitespace-nowrap"
-                >
-                    <i className="ri-shopping-cart-2-line text-black rounded-full "></i>
-                    My Cart
-                </button>
-                <button
-                    onClick={() => navigate('/')}
-                    className="flex items-center gap-2 cursor-pointer bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold whitespace-nowrap"
-                >
-                  Login
-                </button>
+                {/* Right Buttons */}
+                <div className="flex items-center gap-2"> {/* Reduced gap from 4 to 2 */}
+                    {/* Cart Button */}
+                    <button
+                        onClick={handleAddcart}
+                        className="flex items-center gap-2 cursor-pointer bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold whitespace-nowrap"
+                    >
+                        <i className="ri-shopping-cart-2-line text-black rounded-full"></i>
+                        My Cart
+                    </button>
+
+                    {/* Login Button */}
+                    <button
+                        onClick={() => navigate('/')}
+                        className="flex items-center gap-2 cursor-pointer bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold whitespace-nowrap"
+                    >
+                        Login
+                    </button>
+                </div>
+
 
                 {/* Show Cart */}
                 <div
-                    className={`fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 flex flex-col transform transition-transform duration-300 ease-in-out ${showCart ? "translate-x-0" : "translate-x-full"}`}
-                >
+                    className={`fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 flex flex-col transform transition-transform duration-300 ease-in-out ${showCart ? "translate-x-0" : "translate-x-full"}`}>
                     {/* Header */}
                     <div className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
                         <h2 className="text-2xl font-bold">My Cart</h2>
