@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 const Header = () => {
+    const navigate = useNavigate()
+    const alreadyLogin = localStorage.getItem('auth_token')
     const [showCart, setShowCart] = useState(false);
 
     const handleAddcart = () => {
@@ -54,11 +57,10 @@ const Header = () => {
                     />
                 </div>
 
-
-
-
                 {/* Supplier Link */}
-                <div className="hidden sm:flex flex-col justify-center text-right">
+                <div className="hidden sm:flex flex-col justify-center text-right"
+                onClick={() => navigate("https://pa-admin-panel.vercel.app/signin")}
+                >
                     <span className="text-black text-[13px] sm:text-[14px] md:text-[15px] font-medium">
                         Become a
                     </span>
@@ -72,8 +74,14 @@ const Header = () => {
                     onClick={handleAddcart}
                     className="flex items-center gap-2 cursor-pointer bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold whitespace-nowrap"
                 >
-                    <i className="ri-shopping-cart-2-line text-black rounded-full p-1 text-lg"></i>
+                    <i className="ri-shopping-cart-2-line text-black rounded-full "></i>
                     My Cart
+                </button>
+                <button
+                    onClick={() => navigate('/')}
+                    className="flex items-center gap-2 cursor-pointer bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold whitespace-nowrap"
+                >
+                  Login
                 </button>
 
                 {/* Show Cart */}

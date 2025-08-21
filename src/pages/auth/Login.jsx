@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import api from "../utils.jsx/axiosInstance";
+import endPointApi from "../utils.jsx/endPointApi";
+import { saveToken } from "../utils.jsx/tokenManager";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -23,7 +26,7 @@ const Login = () => {
             formdata.append("number", formData.mobile || "");
             formdata.append("otp", formData.otp);
             const res = await api.post(`${endPointApi.loginUser}`, formdata);
-
+            
             if (res.data.status == 200) {
                 saveToken(res.data.data.token)
                 navigate("/home");
@@ -34,7 +37,6 @@ const Login = () => {
             // setIsLoading(false);
         }
     }
-
 
     return (
         <div className="min-h-screen w-full bg-[#EAEBEF] flex items-center justify-center">
