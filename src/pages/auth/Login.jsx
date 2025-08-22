@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
 import { saveToken } from "../utils.jsx/tokenManager";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -54,6 +55,9 @@ const Login = () => {
             if (res.data.status == 200) {
                 saveToken(res.data.data.token)
                 navigate("/home");
+                toast.success(res.data.message)
+            } else {
+                toast.error(res.data.message)
             }
         } catch (err) {
             // setError(err.message || "Invalid email or password. Please try again.");
@@ -108,30 +112,44 @@ const Login = () => {
                         </div>
 
                         {/* Inputs */}
-                        <div className="mt-9 space-y-7">
-                            <input
-                                type="text"
-                                name="mobile"
-                                placeholder="Phone Number"
-                                className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
-                                value={formData.mobile}
-                                onChange={handleChange}
-                                maxLength={10}
-                            />
-                            {error.mobile && <p className="text-red-500 text-sm">{error.mobile}</p>}
-                            <input
-                                type="text"
-                                name="otp"
-                                className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
-                                placeholder="Enter your otp"
-                                value={formData.otp}
-                                onChange={handleChange}
-                            />
-                            {error.otp && <p className="text-red-500 text-sm">{error.otp}</p>}
-                            <p className="text-right text-xs text-black cursor-pointer max-w-lg mx-auto">
+                        <div className="mt-9 space-y-5">
+                            <div className="space-y-0">
+                                <input
+                                    type="text"
+                                    name="mobile"
+                                    placeholder="Phone Number"
+                                    className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
+                                    value={formData.mobile}
+                                    onChange={handleChange}
+                                    maxLength={10}
+                                />
+                                {error.mobile && (
+                                    <p className="text-red-500 text-sm leading-tight m-1 ml-4">
+                                        {error.mobile}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="space-y-0">
+                                <input
+                                    type="text"
+                                    name="otp"
+                                    className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
+                                    placeholder="Enter your otp"
+                                    value={formData.otp}
+                                    onChange={handleChange}
+                                />
+                                {error.otp && (
+                                    <p className="text-red-500 text-sm leading-tight m-1 ml-4">
+                                        {error.otp}
+                                    </p>
+                                )}
+                            </div>
+                            {/* <p className="text-right text-xs text-black cursor-pointer max-w-lg mx-auto">
                                 Forgot Password ?
-                            </p>
+                            </p> */}
                         </div>
+
 
                         {/* Buttons */}
                         <div className="mt-6 space-y-4 max-w-lg mx-auto w-full">
@@ -140,10 +158,10 @@ const Login = () => {
                             >
                                 Login
                             </button>
-                            <p className="text-center text-md text-black">
+                            {/* <p className="text-center text-md text-black">
                                 Don’t have an account ?{" "}
                                 <span className="text-[#251C4B] cursor-pointer">Sign up</span>
-                            </p>
+                            </p> */}
                         </div>
                     </div>
 

@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import ProtectedRoute from './pages/routes/ProtectedRoute'
 import AppRoutes from './pages/routes/AppRoutes'
+import Toaster from './component/Toaster';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       {/* <SubData /> */}
       {/* <SubDetail />
       <Footer /> */}
+      <Toaster />
       <Router>
         <AppRoutes />
       </Router>
