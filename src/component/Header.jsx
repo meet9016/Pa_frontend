@@ -17,9 +17,7 @@ const Header = () => {
         qty: 1,
         image: "/src/Image/Fruits-and-Vegetables.jpg"
     }
-
     const cartItems = Array(3).fill(cartItem)
-
     return (
         <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md h-auto md:h-[80px] px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-full flex-wrap md:flex-nowrap gap-3">
@@ -57,7 +55,7 @@ const Header = () => {
                 </div>
 
                 {/* Supplier Link */}
-                <div className="hidden sm:flex flex-col justify-center text-right"
+                <div className="hidden sm:flex flex-col justify-center ml-20 text-right"
                     onClick={() => navigate("https://pa-admin-panel.vercel.app/signin")}
                 >
                     <span className="text-black text-[13px]  sm:text-[14px] md:text-[15px] font-medium">
@@ -69,7 +67,7 @@ const Header = () => {
                 </div>
 
                 {/* Right Buttons */}
-                <div className="flex items-center gap-2"> {/* Reduced gap from 4 to 2 */}
+                <div className="flex items-center gap-3"> 
                     {/* Cart Button */}
                     <button
                         onClick={handleAddcart}
