@@ -7,6 +7,9 @@ const ProductDetails = () => {
     const { id } = useParams();
 
     const [singleProductData, setSingleProductData] = useState([])
+    const [selectedImage, setSelectedImage] = useState (
+        singleProductData?.images?.[0]?.image || "/src/Image/No image.jpg"
+    );
     const [count, setCount] = useState(0);
 
     const getSingleProductData = async () => {
@@ -19,6 +22,7 @@ const ProductDetails = () => {
 
             if (res?.data && res?.data?.data) {
                 setSingleProductData(res?.data?.data || [])
+                setSelectedImage(res?.data?.data || [])
             }
         } catch (err) {
             console.log("Error Fetch data", err)
@@ -36,10 +40,10 @@ const ProductDetails = () => {
             const formdata = new FormData();
             formdata.append("product_id", id);
             formdata.append("quantity", count);
-console.log("1212");
+            console.log("1212");
 
-const res = await api.post(endPointApi.postAddToCart, formdata);
-console.log("1313");
+            const res = await api.post(endPointApi.postAddToCart, formdata);
+            console.log("1313");
             console.log("res", res);
         } catch (err) {
             console.log("Error Fetch data", err)
@@ -63,19 +67,15 @@ console.log("1313");
                     <div>
                         <div className="overflow-hidden rounded-lg">
                             <img
-                                src={
-                                    singleProductData?.images?.length > 0
-                                        ? singleProductData.images[0].image
-                                        : "/src/Image/No image.jpg"
-                                }
-                                alt={singleProductData?.product_name || "Product"}
+                                src={selectedImage}
+                                alt={selectedImage?.product_name || "Product"}
                                 className="w-full h-auto object-contain"
                             />
 
                         </div>
                         {/* Thumbnails */}
                         <div className="flex gap-2 justify-center mt-4 flex-wrap">
-                            {
+                            {/* {
                                 singleProductData?.images?.map((img) => (
                                     <img
                                         key={img.id}
@@ -84,7 +84,17 @@ console.log("1313");
                                         className="w-16 h-16 sm:w-20 sm:h-20 border rounded-md border-gray-300 object-contain cursor-pointer hover:border-green-500"
                                     />
                                 ))
-                            }
+                            } */}
+                            {selectedImage?.images?.map((img, index) => (
+                                <img
+                                    key={img.id || index}
+                                    src={img.image}
+                                    alt={`Thumbnail ${index + 1}`}
+                                    onClick={() => setSelectedImage(img.image)} // 👈 click se update
+                                    className={`w-16 h-16 sm:w-20 sm:h-20 border rounded-md object-contain cursor-pointer ${selectedImage === img.image ? "border-green-500" : "border-gray-300"
+                                        }`}
+                                />
+                            ))}
                         </div>
                     </div>
 
