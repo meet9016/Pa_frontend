@@ -12,8 +12,9 @@ const AppRoutes = () => {
       {/* <Route element={<ProtectedRoute />}> */}
 
         <Route path="/home" element={<Home />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/single-product" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<Product />} />
+
+        <Route path="/single-product/:id" element={<ProductDetails />} />
       {/* </Route> */}
       {/* </Route> */}
 

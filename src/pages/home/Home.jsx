@@ -68,20 +68,21 @@ const Home = () => {
                     {/* Category Card Section */}
                     <div className="w-full py-16 flex justify-center">
                         <div className="flex flex-wrap justify-center gap-10 cursor-pointer">
-                            {product?.categories?.map((cat, index) => (
+                            {product?.categories?.map((item, index) => (
                                 <div
                                     key={index}
                                     className="flex flex-col items-center hover:scale-105 transition-transform"
-                                >
+                                    onClick={() => navigate(`/product/${item.categories_id}`)}
+                                >                                    
                                     <div className="w-[120px] h-[120px] rounded-full overflow-hidden border border-gray-200 flex items-center justify-center">
                                         <img
-                                            src={cat.image}
-                                            alt={cat.categories_name}
+                                            src={item.image}
+                                            alt={item.categories_name}
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
                                     <h5 className="mt-3 text-center text-[13px] font-bold text-black">
-                                        {cat.categories_name}
+                                        {item.categories_name}
                                     </h5>
                                 </div>
                             ))}
@@ -89,7 +90,7 @@ const Home = () => {
                     </div>
 
                     {/* Paan Corner Grid */}
-                    <div className="w-full grid grid-cols-2 sm:grid-cols-5 md:grid-cols-10 gap-4 bg-white rounded-2xl mt-6 p-4">
+                    {/* <div className="w-full grid grid-cols-2 sm:grid-cols-5 md:grid-cols-10 gap-4 bg-white rounded-2xl mt-6 p-4">
                         {images.map((src, index) => (
                             <div key={index} className="flex flex-col items-center">
                                 <img
@@ -99,11 +100,11 @@ const Home = () => {
                                 />
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
                     {/* Product Section */}
                     <div className="w-full py-16">
-                        {product?.categories_products?.map((cat, catIndex) => (
+                        {product?.categories_products?.map((item, catIndex) => (
                             <div
                                 key={catIndex}
                                 className="w-full mb-12 bg-white rounded-2xl shadow-md p-6"
@@ -111,7 +112,7 @@ const Home = () => {
                                 {/* Category Header */}
                                 <div className="w-full flex justify-between items-center mb-6">
                                     <h2 className="text-xl md:text-2xl font-bold text-gray-800">
-                                        {cat.categories_name}
+                                        {item.categories_name}
                                     </h2>
                                     <p className="text-green-600 cursor-pointer font-semibold text-sm sm:text-base md:text-lg mr-4 flex items-center gap-1 hover:underline">
                                         See all
@@ -120,7 +121,7 @@ const Home = () => {
 
                                 {/* Products Grid */}
                                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                                    {cat.products?.map((item, index) => (
+                                    {item.products?.map((item, index) => (
                                         <div
                                             key={index}
                                             className="border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between"

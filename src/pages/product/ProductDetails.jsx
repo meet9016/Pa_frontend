@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import api from "../utils.jsx/axiosInstance";
+import endPointApi from "../utils.jsx/endPointApi";
 
 const ProductDetails = () => {
+    const { id } = useParams();
+
+    const [singleProductData, setSingleProductData] = useState([])
+console.log("singleProductData",singleProductData);
+
     const product = {
         img: "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/da/cms-assets/cms/product/5734b087-3ad9-485f-bbe2-52079cd9e35d.png",
         time: "14 MINS",
@@ -11,6 +19,28 @@ const ProductDetails = () => {
     const products = Array(6).fill(product);
     const displayProducts = [...products, ...products];
 
+     const getSingleProductData = async () => {
+        try {
+            const formdata = new FormData();
+            formdata.append("product_id", id);
+
+            // setLoading(true);
+            const res = await api.post(endPointApi.postSingleProduct, formdata);
+            console.log("resss",res.data.data);
+            
+            if (res?.data && res?.data?.data) {
+                setSingleProductData(res?.data?.data || [])
+            }
+        } catch (err) {
+            console.log("Error Fetch data", err)
+        } finally {
+            // setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getSingleProductData()
+    }, [])
     return (
         <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
             <div className="w-full mt-4 max-w-[1300px]">
@@ -49,7 +79,7 @@ const ProductDetails = () => {
                     <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 max-w-2xl mx-auto space-y-6">
                         {/* Title */}
                         <h2 className="text-2xl sm:text-3xl font-bold">
-                            Marketside Fresh Organic Bananas, Bunch
+                            {singleProductData?.product_name}
                         </h2>
 
                         {/* Rating */}
@@ -78,8 +108,8 @@ const ProductDetails = () => {
 
                         {/* Price */}
                         <div className="flex items-center gap-3 flex-wrap">
-                            <span className="text-red-500 text-xl sm:text-2xl font-bold">₹120</span>
-                            <span className="line-through text-gray-400 text-sm sm:text-base">₹150.99</span>
+                            <span className="text-red-500 text-xl sm:text-2xl font-bold">₹{singleProductData?.price}</span>
+                            <span className="line-through text-gray-400 text-sm sm:text-base">₹{singleProductData?.cancle_price}</span>
                         </div>
 
                         {/* Quantity + Buttons */}
