@@ -1,25 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "remixicon/fonts/remixicon.css";
 import { useNavigate } from "react-router";
 import Header from "../../component/Header";
+import api from "../utils.jsx/axiosInstance";
+import endPointApi from "../utils.jsx/endPointApi";
 // import 'flowbite';
 
 const Home = () => {
     const navigate = useNavigate();
+    // const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const images = Array(20).fill(
         "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-12/paan-corner_web.png"
     );
 
-    const product = {
+    const producta = {
         img: "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/da/cms-assets/cms/product/5734b087-3ad9-485f-bbe2-52079cd9e35d.png",
         time: "14 MINS",
         name: "Amul Taaza Toned Milk",
         qty: "500 ml",
         price: "₹29",
     };
-    const products = Array(6).fill(product);
+    const products = Array(6).fill(producta);
 
+    // const getProducts = async () => {
+    //     try {
+    //         setLoading(true);
+    //         setError(null);
+
+    //         const res = await api.post(`${endPointApi.postHome}`);
+    //         setProducts(res.data.data || []);
+    //     } catch (err) {
+    //         setError("Failed to load products");
+    //         console.error(err);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     getProducts();
+    // }, []);
     return (
         <>
             <Header />
@@ -28,7 +51,7 @@ const Home = () => {
                     {/* Top Banner */}
                     <div>
                         <img
-                            src='/src/Image/top-banner.png'
+                            src="/src/image/top-banner.png"
                             alt="Paan Corner"
                             className="w-full h-auto rounded-2xl object-contain"
                         />
