@@ -60,9 +60,9 @@ sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 alt={item.name}
                                 className="w-full h-[120px] sm:h-[140px] md:h-[150px] object-contain mb-2"
                             />
-                            <p className="text-black text-[10px] flex items-center gap-1 bg-gray-100 border rounded-2xl border-gray-100 w-15">
+                            {/* <p className="text-black text-[10px] flex items-center gap-1 bg-gray-100 border rounded-2xl border-gray-100 w-15">
                                 <i className="ri-time-line"></i> 14 MINS
-                            </p>
+                            </p> */}
                             <h4 className="font-semibold mt-1">{item.product_name}</h4>
                             <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
                                 {item.description}

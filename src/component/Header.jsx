@@ -55,7 +55,7 @@ const Header = () => {
                     {/* Left: Logo + Text */}
                     <div className="flex items-center gap-3 flex-shrink-0">
                         <img
-                            src="/src/Image/PA-Logo.png"
+                            src="https://pa.2-min.in/upload/web_logo/20250816095817_8272.png"
                             alt="Logo"
                             className="w-28 sm:w-32 md:w-40 cursor-pointer"
                             onClick={() => navigate('/home')}
