@@ -7,16 +7,7 @@ const ProductDetails = () => {
     const { id } = useParams();
 
     const [singleProductData, setSingleProductData] = useState([])
-
-    const product = {
-        img: "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/da/cms-assets/cms/product/5734b087-3ad9-485f-bbe2-52079cd9e35d.png",
-        time: "14 MINS",
-        name: "Amul Taaza Toned Milk",
-        qty: "500 ml",
-        price: "₹29",
-    };
-    const products = Array(6).fill(product);
-    const displayProducts = [...products, ...products];
+    const [count, setCount] = useState(0);
 
     const getSingleProductData = async () => {
         try {
@@ -39,14 +30,31 @@ const ProductDetails = () => {
     useEffect(() => {
         getSingleProductData()
     }, [])
+
+    const addToCart = async () => {
+        try {
+            const formdata = new FormData();
+            formdata.append("product_id", id);
+            formdata.append("quantity", count);
+console.log("1212");
+
+const res = await api.post(endPointApi.postAddToCart, formdata);
+console.log("1313");
+            console.log("res", res);
+        } catch (err) {
+            console.log("Error Fetch data", err)
+        } finally {
+            // setLoading(false)
+        }
+    }
     return (
         <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
             <div className="w-full mt-4 max-w-[1300px]">
                 {/* Breadcrumb */}
                 <div className="text-sm sm:text-base text-gray-500 mb-4 flex flex-wrap gap-1">
-                    Home <i className="ri-arrow-right-s-line"></i> Fruits & Vegetables{" "}
-                    <i className="ri-arrow-right-s-line"></i> Exotic Fruits & Veggies{" "}
-                    <i className="ri-arrow-right-s-line"></i> Marketside Fresh Organic Bananas, Bunch
+                    Home <i className="ri-arrow-right-s-line"></i> {singleProductData?.category_name}{" "}
+                    <i className="ri-arrow-right-s-line"></i> {singleProductData?.sub_category_name}{" "}
+                    <i className="ri-arrow-right-s-line"></i> {singleProductData?.product_name}
                 </div>
 
                 {/* Main Content */}
@@ -100,7 +108,7 @@ const ProductDetails = () => {
                             <p className="text-gray-500 text-xs sm:text-sm">2</p>
                             <span className="mx-1 text-gray-300">|</span>
                             <p className="text-gray-500 text-xs sm:text-sm">
-                                SKU: <span className="text-black font-bold">E7F8G9H0</span>
+                                SKU: <span className="text-black font-bold">{singleProductData?.sku}</span>
                             </p>
                         </div>
 
@@ -119,13 +127,26 @@ const ProductDetails = () => {
 
                         {/* Quantity + Buttons */}
                         <div className="flex items-center gap-4 flex-wrap">
-                            <div className="flex items-center border border-gray-300 rounded px-3 py-1">
-                                <button>-</button>
-                                <span className="px-4">1</span>
-                                <button>+</button>
+                            <div className="flex items-center border border-gray-300 rounded py-2">
+                                <button
+                                    onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
+                                    className="px-2 cursor-pointer"
+                                >
+                                    -
+                                </button>
+                                <span className="px-4">{count}</span>
+                                <button
+                                    onClick={() => setCount((prev) => prev + 1)}
+                                    className="px-2 cursor-pointer"
+                                >
+                                    +
+                                </button>
                             </div>
 
-                            <button className="bg-black hover:bg-gray-800 text-white px-4 py-2 font-bold rounded flex items-center gap-2 text-sm sm:text-base">
+                            <button
+                                className="bg-[#251C4B] hover:bg-gray-800 text-white px-4 py-2 font-bold rounded flex items-center gap-2 text-sm sm:text-base cursor-pointer"
+                                onClick={() => addToCart()}
+                            >
                                 <i className="ri-shopping-cart-fill"></i> Add to Cart
                             </button>
                         </div>
@@ -247,10 +268,10 @@ const ProductDetails = () => {
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
                                 Share this Product
                             </div>
-                            <div className="flex items-center gap-1 cursor-pointer">
+                            {/* <div className="flex items-center gap-1 cursor-pointer">
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-arrow-left-right-fill"></i>
                                 Compare
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

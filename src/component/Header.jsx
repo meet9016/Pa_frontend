@@ -1,14 +1,43 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import api from "../pages/utils.jsx/axiosInstance";
+import endPointApi from "../pages/utils.jsx/endPointApi";
 
 const Header = () => {
     const navigate = useNavigate()
     const alreadyLogin = localStorage.getItem('auth_token')
     const [showCart, setShowCart] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-    const handleAddcart = () => {
+    const [showMenu, setShowMenu] = useState(false);
+    const [cardList, setCardList] = useState([]);
+
+    const handleAddcart = async () => {
         setShowCart(true)
+        try {
+            // setLoading(true);
+            const res = await api.post(`${endPointApi.postCartList}`, {});
+            console.log("res", res);
+
+            if (res?.data && res?.data?.data) {
+                setCardList(res?.data?.data || [])
+            }
+        } catch (err) {
+            console.log("Error Fetch data", err)
+        } finally {
+            // setLoading(false)
+        }
     }
+
+    const orderOnWhatsapp = async () => {
+        try {
+            const res = await api.post(`${endPointApi.postOrderWiaWhatsapp}`, {});
+            console.log("resss", res);
+        } catch (err) {
+            console.log("Error Fetch data", err)
+        } finally {
+            // setLoading(false)
+        }
+    }
+
 
     const cartItem = {
         name: "Kurkure Chatka Pataka",
@@ -28,7 +57,8 @@ const Header = () => {
                         <img
                             src="/src/Image/PA-Logo.png"
                             alt="Logo"
-                            className="w-28 sm:w-32 md:w-40"
+                            className="w-28 sm:w-32 md:w-40 cursor-pointer"
+                            onClick={() => navigate('/home')}
                         />
                         {/* Divider + Text (hide on mobile) */}
                         <div className="hidden sm:flex items-center gap-2">
@@ -67,18 +97,72 @@ const Header = () => {
                         {/* Cart Button */}
                         <button
                             onClick={handleAddcart}
-                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold"
+                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
                             <i className="ri-shopping-cart-2-line text-black"></i>
                             My Cart
                         </button>
 
+                        {/* Show Cart */}
+                        <div
+                            className={`fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 flex flex-col transform transition-transform duration-300 ease-in-out ${showCart ? "translate-x-0" : "translate-x-full"}`}
+                        >
+                            {/* Header */}
+                            <div className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
+                                <h2 className="text-2xl font-bold">My Cart</h2>
+                                <button onClick={() => setShowCart(false)}>
+                                    <i className="ri-close-large-fill cursor-pointer text-xl"></i>
+                                </button>
+                            </div>
+
+                            {/* Cart Items (Scrollable) */}
+                            <div className="flex-1 overflow-y-auto bg-[#F5F7FD] p-4">
+                                <div className="bg-white rounded-lg shadow-sm p-4">
+                                    {/* Items List */}
+                                    <div className="space-y-4">
+                                        {cartItems.map((item, index) => (
+                                            <div key={index} className="flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        src={item.image}
+                                                        alt={item.name}
+                                                        className="w-15 h-15 border p-1 border-gray-300 object-cover rounded"
+                                                    />
+                                                    <div>
+                                                        <h5 className="text-sm font-medium">{item.name}</h5>
+                                                        <p className="text-xs text-gray-500">{item.weight}</p>
+                                                        <h6 className="text-black font-bold">₹{item.price}</h6>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center bg-green-600 text-white rounded">
+                                                    <button className="px-2 py-1">-</button>
+                                                    <span className="px-2">{item.qty}</span>
+                                                    <button className="px-2 py-1">+</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="bg-[#3E8E1F] text-white px-4 py-3 flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-2xl font-extrabold leading-none">₹316</h3>
+                                    <p className="text-sm font-bold tracking-wide">TOTAL</p>
+                                </div>
+                                <button className="flex items-center gap-2 text-lg font-semibold" onClick={orderOnWhatsapp}>
+                                    Order On Whatsapp
+                                    <i className="ri-arrow-right-s-line text-xl"></i>
+                                </button>
+                            </div>
+                        </div>
                         {/* Login Button */}
                         <button
                             onClick={() => navigate('/')}
-                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold"
+                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
-                            Login
+                            {alreadyLogin ? 'Logout' : 'Login'}
                         </button>
                     </div>
 

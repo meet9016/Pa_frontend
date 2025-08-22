@@ -10,6 +10,7 @@ const Login = () => {
         mobile: "",
         otp: "",
     });
+    const [error, setError] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -17,16 +18,39 @@ const Login = () => {
             ...prev,
             [name]: value,
         }));
+        setError((prev) => ({
+            ...prev,
+            [name]: "",
+        }))
     };
 
     const onLoginClick = async () => {
+        let newErrors = {};
+
+        // Validation
+        if (!formData.mobile) {
+            newErrors.mobile = "Mobile number is required";
+        } else if (!/^\d{10}$/.test(formData.mobile)) {
+            newErrors.mobile = "Please enter a valid 10-digit mobile number";
+        }
+
+        if (!formData.otp) {
+            newErrors.otp = "OTP is required";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setError(newErrors);
+            return;
+        }
+
+        setError({});
         try {
             const formdata = new FormData();
 
             formdata.append("number", formData.mobile || "");
             formdata.append("otp", formData.otp);
             const res = await api.post(`${endPointApi.loginUser}`, formdata);
-            
+
             if (res.data.status == 200) {
                 saveToken(res.data.data.token)
                 navigate("/home");
@@ -92,7 +116,9 @@ const Login = () => {
                                 className="w-full max-w-lg mx-auto block rounded-md bg-gray-100 px-4 py-4 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
                                 value={formData.mobile}
                                 onChange={handleChange}
+                                maxLength={10}
                             />
+                            {error.mobile && <p className="text-red-500 text-sm">{error.mobile}</p>}
                             <input
                                 type="text"
                                 name="otp"
@@ -101,6 +127,7 @@ const Login = () => {
                                 value={formData.otp}
                                 onChange={handleChange}
                             />
+                            {error.otp && <p className="text-red-500 text-sm">{error.otp}</p>}
                             <p className="text-right text-xs text-black cursor-pointer max-w-lg mx-auto">
                                 Forgot Password ?
                             </p>
