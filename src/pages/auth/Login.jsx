@@ -93,7 +93,7 @@ const Login = () => {
                         {/* Image at bottom */}
                         <div className="flex justify-center mt-6">
                             <img
-                                src="loginImage.png"
+                                src="https://pa.2-min.in/upload/web_logo/loginimage_480.png"
                                 alt="Welcome Illustration"
                                 className="w-full object-contain"
                             />
