@@ -1,5 +1,28 @@
 @import "tailwindcss";
 @import 'remixicon/fonts/remixicon.css';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/autoplay';
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #251c4b !important;
+  /* arrow color */
+  width: 28px !important;
+  /* smaller width */
+  height: 28px !important;
+  /* smaller height */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  /* arrow icon size */
+  font-weight: bold;
+}
+
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

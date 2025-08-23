@@ -3,11 +3,17 @@ import { useParams } from "react-router";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
 
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { toast } from "react-toastify";
+
 const ProductDetails = () => {
     const { id } = useParams();
 
     const [singleProductData, setSingleProductData] = useState([])
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
+    const [selectedImage, setSelectedImage] = useState("");
+
 
     const getSingleProductData = async () => {
         try {
@@ -19,6 +25,9 @@ const ProductDetails = () => {
 
             if (res?.data && res?.data?.data) {
                 setSingleProductData(res?.data?.data || [])
+                if (res?.data?.data?.images?.length > 0) {
+                    setSelectedImage(res.data.data.images[0].image);
+                }
             }
         } catch (err) {
             console.log("Error Fetch data", err)
@@ -27,20 +36,34 @@ const ProductDetails = () => {
         }
     }
 
+
     useEffect(() => {
         getSingleProductData()
     }, [])
 
-    const addToCart = async () => {
+
+    useEffect(() => {
+        AOS.init({
+            duration: 800,
+            once: true,
+        });
+    }, []);
+
+    const addToCart = () => {
         try {
             const formdata = new FormData();
             formdata.append("product_id", id);
             formdata.append("quantity", count);
-console.log("1212");
+            formdata.append("type", 1);
 
-const res = await api.post(endPointApi.postAddToCart, formdata);
-console.log("1313");
-            console.log("res", res);
+            api.post(endPointApi.postAddToCart, formdata).then((res) => {
+                if (res.data.status == 200) {
+                    toast.success(res?.data?.message)
+                }
+            })
+            if (res.sta)
+
+                console.log("res", res);
         } catch (err) {
             console.log("Error Fetch data", err)
         } finally {
@@ -60,42 +83,46 @@ console.log("1313");
                 {/* Main Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* LEFT PART */}
-                    <div>
-                        <div className="overflow-hidden rounded-lg">
+                    <div className="flex gap-4">
+                        {/* Thumbnails - Left side */}
+                        <div className="flex mt-5 flex-col gap-2 justify-start">
+                            {singleProductData?.images?.map((img) => (
+                                <img
+                                    key={img.id}
+                                    src={img.image}
+                                    alt="No Image"
+                                    onClick={() => setSelectedImage(img.image)}
+                                    className={`w-16 h-16 sm:w-20 sm:h-20 border rounded-md object-contain cursor-pointer 
+                                     ${selectedImage === img.image
+                                            ? "border-[#251c4b] border-2"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Main Image - Right side */}
+                        <div className="overflow-hidden rounded-lg flex-1">
                             <img
                                 src={
-                                    singleProductData?.images?.length > 0
+                                    selectedImage ||
+                                    (singleProductData?.images?.length > 0
                                         ? singleProductData.images[0].image
-                                        : "/src/Image/No image.jpg"
+                                        : "/src/Image/No image.jpg")
                                 }
                                 alt={singleProductData?.product_name || "Product"}
                                 className="w-full h-auto object-contain"
                             />
-
-                        </div>
-                        {/* Thumbnails */}
-                        <div className="flex gap-2 justify-center mt-4 flex-wrap">
-                            {
-                                singleProductData?.images?.map((img) => (
-                                    <img
-                                        key={img.id}
-                                        src={img.image}
-                                        alt="No Image"
-                                        className="w-16 h-16 sm:w-20 sm:h-20 border rounded-md border-gray-300 object-contain cursor-pointer hover:border-green-500"
-                                    />
-                                ))
-                            }
                         </div>
                     </div>
 
+
                     {/* RIGHT PART */}
-                    <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 max-w-2xl mx-auto space-y-6">
-                        {/* Title */}
+                    {/* <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 max-w-2xl mx-auto space-y-6">
                         <h2 className="text-2xl sm:text-3xl font-bold">
                             {singleProductData?.product_name}
                         </h2>
 
-                        {/* Rating */}
                         <div className="flex items-center gap-2 flex-wrap">
                             <div className="flex text-yellow-400">
                                 {[...Array(5)].map((_, i) => (
@@ -114,18 +141,15 @@ console.log("1313");
 
                         <hr className="border-gray-300" />
 
-                        {/* Description */}
                         <p className="text-sm sm:text-base">
                             {singleProductData?.description}
                         </p>
 
-                        {/* Price */}
                         <div className="flex items-center gap-3 flex-wrap">
                             <span className="text-black text-xl sm:text-2xl font-bold">₹{singleProductData?.price}</span>
                             <span className="line-through text-red-500 text-sm sm:text-base">₹{singleProductData?.cancle_price}</span>
                         </div>
 
-                        {/* Quantity + Buttons */}
                         <div className="flex items-center gap-4 flex-wrap">
                             <div className="flex items-center border border-gray-300 rounded py-2">
                                 <button
@@ -151,10 +175,8 @@ console.log("1313");
                             </button>
                         </div>
 
-                        {/* Info */}
                         <div className="border border-gray-200 rounded-2xl text-black text-sm sm:text-base p-0 max-h-[220px] overflow-y-auto">
                             <div id="accordion-collapse" data-accordion="collapse" data-active-classes="bg-[#251c4b] text-white">
-                                {/* Item 1 */}
                                 <h2 id="accordion-collapse-heading-1">
                                     <button
                                         type="button"
@@ -174,7 +196,6 @@ console.log("1313");
                                         <p className="mb-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                     </div>
                                 </div>
-                                {/* Item 2 */}
                                 <h2 id="accordion-collapse-heading-2">
                                     <button
                                         type="button"
@@ -194,7 +215,6 @@ console.log("1313");
                                         <p className="mb-2">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
                                     </div>
                                 </div>
-                                {/* Item 3 */}
                                 <h2 id="accordion-collapse-heading-3">
                                     <button
                                         type="button"
@@ -214,7 +234,6 @@ console.log("1313");
                                         <p className="mb-2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
                                     </div>
                                 </div>
-                                {/* Item 4 */}
                                 <h2 id="accordion-collapse-heading-4">
                                     <button
                                         type="button"
@@ -234,7 +253,6 @@ console.log("1313");
                                         <p className="mb-2">Helllo shopno</p>
                                     </div>
                                 </div>
-                                {/* Item 5 */}
                                 <h2 id="accordion-collapse-heading-5">
                                     <button
                                         type="button"
@@ -258,7 +276,6 @@ console.log("1313");
                         </div>
 
 
-                        {/* Wishlist, Share, Compare */}
                         <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
                             <div className="flex items-center gap-1 cursor-pointer">
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
@@ -268,13 +285,116 @@ console.log("1313");
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
                                 Share this Product
                             </div>
-                            {/* <div className="flex items-center gap-1 cursor-pointer">
-                                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-arrow-left-right-fill"></i>
-                                Compare
-                            </div> */}
+                        </div>
+                    </div> */}
+
+
+
+
+
+
+
+
+
+
+                    <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 max-w-2xl mx-auto space-y-8">
+                        {/* Title */}
+                        <h2 className="text-2xl sm:text-3xl font-bold">
+                            {singleProductData?.product_name}
+                        </h2>
+
+                        {/* Rating */}
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <div className="flex text-yellow-400">
+                                {[...Array(5)].map((_, i) => (
+                                    <i key={i} className="ri-star-fill"></i>
+                                ))}
+                            </div>
+                            <button className="border border-gray-300 text-black text-xs sm:text-sm px-2 py-0.5 rounded">
+                                3.00
+                            </button>
+                            <p className="text-gray-500 text-xs sm:text-sm">2 Reviews</p>
+                        </div>
+
+                        {/* Description (short) */}
+                        <p className="text-sm sm:text-base text-gray-600">
+                            {singleProductData?.description}
+                        </p>
+
+                        {/* Price */}
+                        <div className="flex items-center gap-3 flex-wrap">
+                            <span className="text-black text-3xl sm:text-4xl font-bold">
+                                ₹{singleProductData?.price}
+                            </span>
+                            <span className="line-through text-red-500 text-base sm:text-lg font-medium">
+                                ₹{singleProductData?.cancle_price}
+                            </span>
+                        </div>
+
+
+
+                        {/* SKU Details Section (instead of hr line) */}
+                        <div className="mt-4 bg-gray-50 rounded-lg p-4">
+                            <h3 className="text-lg font-bold text-gray-800 mb-2">Product Details</h3>
+                            <ul className="space-y-1 text-sm sm:text-base text-gray-600">
+                                <li>
+                                    <span className="font-medium text-gray-800">SKU:</span>{" "}
+                                    {singleProductData?.sku}
+                                </li>
+                                <li>
+                                    <span className="font-medium text-gray-800">Category:</span>{" "}
+                                    {singleProductData?.category_name}
+                                </li>
+                                <li>
+                                    <span className="font-medium text-gray-800">Sub Category:</span>{" "}
+                                    {singleProductData?.sub_category_name}
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Quantity + Buttons */}
+                        <div className="flex items-center gap-6 flex-wrap">
+                            {/* Quantity Selector */}
+                            <div className="flex items-center border border-gray-300 rounded-lg py-2 px-2">
+                                <button
+                                    onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
+                                    className="h-9 w-9 flex items-center justify-center text-xl font-bold cursor-pointer"
+                                >
+                                    -
+                                </button>
+                                <span className="px-4 text-lg font-semibold">{count}</span>
+                                <button
+                                    onClick={() => setCount((prev) => prev + 1)}
+                                    className="h-9 w-9 flex items-center justify-center text-xl font-bold cursor-pointer"
+                                >
+                                    +
+                                </button>
+                            </div>
+                            {/* Add to Cart Button */}
+                            <button
+                                className="bg-[#251C4B] hover:bg-[#1a1335] text-white px-8 py-4 font-bold rounded-lg flex items-center gap-3 text-lg cursor-pointer"
+                                onClick={() => addToCart()}
+                            >
+                                <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
+                            </button>
+                        </div>
+
+
+                        {/* Wishlist, Share */}
+                        <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
+                            <div className="flex items-center gap-1 cursor-pointer">
+                                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
+                                Add to wishlist
+                            </div>
+                            <div className="flex items-center gap-1 cursor-pointer">
+                                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
+                                Share this Product
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
 
                 {/* Description Section */}
                 <div className="mt-12">
@@ -293,7 +413,7 @@ console.log("1313");
                 </div>
 
                 {/* Related Products */}
-                <div className="mt-16 w-full">
+                {/* <div className="mt-16 w-full">
                     <h2 className="text-lg sm:text-xl font-semibold mb-4">Related Products</h2>
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {singleProductData?.related_products?.length > 0 ? (
@@ -302,7 +422,6 @@ console.log("1313");
                                     key={index}
                                     className="border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between"
                                 >
-                                    {/* Image */}
                                     <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
                                         <img
                                             src={
@@ -315,7 +434,6 @@ console.log("1313");
                                         />
                                     </div>
 
-                                    {/* Product Info */}
                                     <h4 className="font-semibold text-sm sm:text-base text-gray-800 h-10">
                                         {item.product_name}
                                     </h4>
@@ -323,7 +441,6 @@ console.log("1313");
                                         {item.description}
                                     </p>
 
-                                    {/* Price Section */}
                                     <div className="flex items-center gap-2 mt-3">
                                         <span className="text-lg font-bold text-black">₹{item.price}</span>
                                         {item.cancle_price && (
@@ -333,7 +450,6 @@ console.log("1313");
                                         )}
                                     </div>
 
-                                    {/* Button */}
                                     <button className="mt-4 px-3 py-2 border bg-green-50 border-green-500 text-green-600 rounded-lg hover:bg-green-500 hover:text-white transition text-sm font-medium">
                                         ADD
                                     </button>
@@ -343,7 +459,99 @@ console.log("1313");
                             <p className="text-gray-500 text-sm">No related products available</p>
                         )}
                     </div>
+                </div> */}
+
+
+                <div className="mt-16 w-full">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-4">Related Products</h2>
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {singleProductData?.related_products?.length > 0 ? (
+                            singleProductData.related_products.map((item, index) => (
+                                <div
+                                    key={index}
+                                    data-aos="fade-up"
+                                    className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
+                                >
+                                    {/* Image */}
+                                    {/* <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
+                                        <img
+                                            src={
+                                                item?.images?.[0]?.image && item?.images?.[0]?.image !== ""
+                                                    ? item?.images?.[0]?.image
+                                                    : "/src/Image/No image.jpg"
+                                            }
+                                            alt={item.product_name || "No Image"}
+                                            className="max-h-full object-contain"
+                                        />
+                                    </div> */}
+                                    <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
+                                        <div className="w-full h-full relative group preserve-3d">
+                                            {/* Front Image */}
+                                            <div className="absolute inset-0 backface-hidden transition-transform duration-700 transform group-hover:rotate-y-180">
+                                                <img
+                                                    src={
+                                                        item.product_image && item.product_image !== ""
+                                                            ? item.product_image
+                                                            : "/src/Image/No image.jpg"
+                                                    }
+                                                    alt={item.name}
+                                                    className="w-full h-full object-contain"
+                                                />
+                                            </div>
+
+                                            {/* Back Image (same as front) */}
+                                            <div className="absolute inset-0 backface-hidden transform rotate-y-180 transition-transform duration-700 group-hover:rotate-y-360">
+                                                <img
+                                                    src={
+                                                        item.product_image && item.product_image !== ""
+                                                            ? item.product_image
+                                                            : "/src/Image/No image.jpg"
+                                                    }
+                                                    alt={item.name}
+                                                    className="w-full h-full object-contain"
+                                                />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    {/* Product Info */}
+                                    <h4 className="font-semibold text-sm sm:text-base text-gray-800 h-10">
+                                        {item.product_name}
+                                    </h4>
+                                    <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
+                                        {item.description}
+                                    </p>
+
+                                    {/* Price Section */}
+                                    <div className="flex items-center gap-5 mt-3">
+                                        <span className="text-lg font-bold text-black">₹{item.price}</span>
+                                        {item.cancle_price && (
+                                            <span className="text-sm text-red-500 line-through">
+                                                ₹{item.cancle_price}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Button (Hidden until hover) */}
+                                    <button className="opacity-0 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md  font-bold">
+                                        Read More
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-500 text-sm">No related products available</p>
+                        )}
+                    </div>
                 </div>
+
+
+
+
+
+
             </div>
         </div>
     );
