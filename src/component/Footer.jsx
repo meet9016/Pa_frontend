@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const Footer = () => {
+    const navigate = useNavigate()
     return (
         <div className="w-full px-4 bg-[#4F3D9C] flex mt-[80px] justify-center text-white">
         {/* <div className="w-full px-4 bg-[#4F3D9C] flex mt-[80px] justify-center text-white"> */}
@@ -32,7 +34,7 @@ const Footer = () => {
                         <div>
                             <h2 className="text-lg font-bold mb-3">Our Values</h2>
                             <div className="space-y-2 text-sm md:text-base">
-                                <p>Home</p>
+                                <p onClick={() => navigate('/home')}>Home</p>
                                 <p>About Us</p>
                                 <p>Shop</p>
                                 <p>All Categories</p>
