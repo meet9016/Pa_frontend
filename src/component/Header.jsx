@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../pages/utils.jsx/axiosInstance";
 import endPointApi from "../pages/utils.jsx/endPointApi";
+import { toast } from "react-toastify";
 
 const Header = () => {
     const navigate = useNavigate()
@@ -9,17 +10,41 @@ const Header = () => {
     const [showCart, setShowCart] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [cardList, setCardList] = useState([]);
+    const [totalAmount, setTotalAmount] = useState();
 
     const handleAddcart = async () => {
         setShowCart(true)
         try {
-            // setLoading(true);
             const res = await api.post(`${endPointApi.postCartList}`, {});
-            console.log("res", res);
 
             if (res?.data && res?.data?.data) {
-                setCardList(res?.data?.data || [])
+                setCardList(res?.data?.data?.cart_list || [])
+                setTotalAmount(res?.data?.data?.cart_total)
             }
+        } catch (err) {
+            console.log("Error Fetch data", err)
+        } finally {
+        }
+    }
+
+    const addToCart = () => {
+        const p_id = cardList.map((i) => i.product_id.join(', '))
+
+        try {
+
+            const formdata = new FormData();
+            formdata.append("product_id", p_id);
+            formdata.append("quantity", count);
+            formdata.append("type", 2);
+
+            api.post(endPointApi.postAddToCart, formdata).then((res) => {
+                if (res.data.status == 200) {
+                    toast.success(res?.data?.message)
+                }
+            })
+            if (res.sta)
+
+                console.log("res", res);
         } catch (err) {
             console.log("Error Fetch data", err)
         } finally {
@@ -27,10 +52,16 @@ const Header = () => {
         }
     }
 
-    const orderOnWhatsapp = async () => {
+    const orderOnWhatsapp = () => {
         try {
-            const res = await api.post(`${endPointApi.postOrderWiaWhatsapp}`, {});
-            console.log("resss", res);
+            api.post(`${endPointApi.postOrderWiaWhatsapp}`, {}).then((res) => {
+                if (res.data.status == 200) {
+                    setShowCart(false)
+                    toast.success(res.data.message)
+                } else {
+                    toast.error(res.data.message)
+                }
+            })
         } catch (err) {
             console.log("Error Fetch data", err)
         } finally {
@@ -120,24 +151,32 @@ const Header = () => {
                                 <div className="bg-white rounded-lg shadow-sm p-4">
                                     {/* Items List */}
                                     <div className="space-y-4">
-                                        {cartItems.map((item, index) => (
-                                            <div key={index} className="flex items-center justify-between">
+                                        {cardList?.map((item) => (
+                                            <div key={item.id} className="flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
                                                     <img
-                                                        src={item.image}
-                                                        alt={item.name}
+                                                        src={item.product_images}
+                                                        alt={item.product_name}
                                                         className="w-15 h-15 border p-1 border-gray-300 object-cover rounded"
                                                     />
                                                     <div>
-                                                        <h5 className="text-sm font-medium">{item.name}</h5>
+                                                        <h5 className="text-sm font-medium">{item.product_name}</h5>
                                                         <p className="text-xs text-gray-500">{item.weight}</p>
                                                         <h6 className="text-black font-bold">₹{item.price}</h6>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center bg-green-600 text-white rounded">
-                                                    <button className="px-2 py-1">-</button>
-                                                    <span className="px-2">{item.qty}</span>
-                                                    <button className="px-2 py-1">+</button>
+                                                    <button
+                                                        className="px-2 py-1"
+                                                    >
+                                                        -
+                                                    </button>
+                                                    {/* <span className="px-2">{quantity[item.id] || 1}</span> */}
+                                                    <button
+                                                        className="px-2 py-1"
+                                                    >
+                                                        +
+                                                    </button>
                                                 </div>
                                             </div>
                                         ))}
@@ -148,7 +187,7 @@ const Header = () => {
                             {/* Footer */}
                             <div className="bg-[#3E8E1F] text-white px-4 py-3 flex items-center justify-between">
                                 <div>
-                                    <h3 className="text-2xl font-extrabold leading-none">₹316</h3>
+                                    <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
                                     <p className="text-sm font-bold tracking-wide">TOTAL</p>
                                 </div>
                                 <button className="flex items-center gap-2 text-lg font-semibold" onClick={orderOnWhatsapp}>
