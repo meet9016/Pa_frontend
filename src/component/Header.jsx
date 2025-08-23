@@ -168,7 +168,7 @@ const Header = () => {
                                                 </div>
                                                 <div className="flex items-center bg-green-600 text-white rounded">
                                                     <button
-                                                        onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
+                                                        // onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
                                                         className="px-2 py-1"
                                                     >
                                                         -
@@ -176,7 +176,7 @@ const Header = () => {
                                                     <span className="px-2 text-lg font-semibold">1</span>
 
                                                     <button
-                                                        onClick={() => setCount((prev) => prev + 1)}
+                                                        // onClick={() => setCount((prev) => prev + 1)}
                                                         className="px-2 py-1"
                                                     >
                                                         +
