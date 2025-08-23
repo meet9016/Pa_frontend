@@ -22,7 +22,7 @@ const Header = () => {
                 setTotalAmount(res?.data?.data?.cart_total)
             }
         } catch (err) {
-            console.log("Error Fetch data", err)
+            console.log("Error data", err)
         } finally {
         }
     }
