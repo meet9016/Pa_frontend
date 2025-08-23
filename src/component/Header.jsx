@@ -11,6 +11,7 @@ const Header = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [cardList, setCardList] = useState([]);
     const [totalAmount, setTotalAmount] = useState();
+    const [count, setCount] = useState(1)
 
     const handleAddcart = async () => {
         setShowCart(true)
@@ -167,12 +168,15 @@ const Header = () => {
                                                 </div>
                                                 <div className="flex items-center bg-green-600 text-white rounded">
                                                     <button
+                                                        onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
                                                         className="px-2 py-1"
                                                     >
                                                         -
                                                     </button>
-                                                    {/* <span className="px-2">{quantity[item.id] || 1}</span> */}
+                                                    <span className="px-2 text-lg font-semibold">{count}</span>
+
                                                     <button
+                                                        onClick={() => setCount((prev) => prev + 1)}
                                                         className="px-2 py-1"
                                                     >
                                                         +
