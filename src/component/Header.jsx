@@ -173,7 +173,7 @@ const Header = () => {
                                                     >
                                                         -
                                                     </button>
-                                                    <span className="px-2 text-lg font-semibold">{count}</span>
+                                                    <span className="px-2 text-lg font-semibold">1</span>
 
                                                     <button
                                                         onClick={() => setCount((prev) => prev + 1)}
