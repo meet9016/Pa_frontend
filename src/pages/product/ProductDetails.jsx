@@ -13,7 +13,7 @@ const ProductDetails = () => {
     const [singleProductData, setSingleProductData] = useState([])
     const [count, setCount] = useState(1);
     const [selectedImage, setSelectedImage] = useState("");
-
+    const [activeTab, setActiveTab] = useState("description")
 
     const getSingleProductData = async () => {
         try {
@@ -117,176 +117,8 @@ const ProductDetails = () => {
                     </div>
 
 
-                    {/* RIGHT PART */}
-                    {/* <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 max-w-2xl mx-auto space-y-6">
-                        <h2 className="text-2xl sm:text-3xl font-bold">
-                            {singleProductData?.product_name}
-                        </h2>
-
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <div className="flex text-yellow-400">
-                                {[...Array(5)].map((_, i) => (
-                                    <i key={i} className="ri-star-fill"></i>
-                                ))}
-                            </div>
-                            <button className="border border-gray-300 text-black text-xs sm:text-sm px-2 py-0.5 rounded">
-                                3.00
-                            </button>
-                            <p className="text-gray-500 text-xs sm:text-sm">2</p>
-                            <span className="mx-1 text-gray-300">|</span>
-                            <p className="text-gray-500 text-xs sm:text-sm">
-                                SKU: <span className="text-black font-bold">{singleProductData?.sku}</span>
-                            </p>
-                        </div>
-
-                        <hr className="border-gray-300" />
-
-                        <p className="text-sm sm:text-base">
-                            {singleProductData?.description}
-                        </p>
-
-                        <div className="flex items-center gap-3 flex-wrap">
-                            <span className="text-black text-xl sm:text-2xl font-bold">₹{singleProductData?.price}</span>
-                            <span className="line-through text-red-500 text-sm sm:text-base">₹{singleProductData?.cancle_price}</span>
-                        </div>
-
-                        <div className="flex items-center gap-4 flex-wrap">
-                            <div className="flex items-center border border-gray-300 rounded py-2">
-                                <button
-                                    onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
-                                    className="px-2 cursor-pointer"
-                                >
-                                    -
-                                </button>
-                                <span className="px-4">{count}</span>
-                                <button
-                                    onClick={() => setCount((prev) => prev + 1)}
-                                    className="px-2 cursor-pointer"
-                                >
-                                    +
-                                </button>
-                            </div>
-
-                            <button
-                                className="bg-[#251C4B] hover:bg-gray-800 text-white px-4 py-2 font-bold rounded flex items-center gap-2 text-sm sm:text-base cursor-pointer"
-                                onClick={() => addToCart()}
-                            >
-                                <i className="ri-shopping-cart-fill"></i> Add to Cart
-                            </button>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-2xl text-black text-sm sm:text-base p-0 max-h-[220px] overflow-y-auto">
-                            <div id="accordion-collapse" data-accordion="collapse" data-active-classes="bg-[#251c4b] text-white">
-                                <h2 id="accordion-collapse-heading-1">
-                                    <button
-                                        type="button"
-                                        className="flex items-center justify-between w-full p-5 font-medium border-b border-gray-200 [aria-expanded='true']:bg-[#251c4b] text-black focus:outline-none"
-                                        data-accordion-target="#accordion-collapse-body-1"
-                                        aria-expanded="true"
-                                        aria-controls="accordion-collapse-body-1"
-                                    >
-                                        <span>What is Flowbite?</span>
-                                        <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                                        </svg>
-                                    </button>
-                                </h2>
-                                <div id="accordion-collapse-body-1" className="hidden" aria-labelledby="accordion-collapse-heading-1">
-                                    <div className="p-5 text-gray-600">
-                                        <p className="mb-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                </div>
-                                <h2 id="accordion-collapse-heading-2">
-                                    <button
-                                        type="button"
-                                        className="flex items-center justify-between w-full p-5 font-medium border-b border-gray-200 text-black focus:outline-none"
-                                        data-accordion-target="#accordion-collapse-body-2"
-                                        aria-expanded="false"
-                                        aria-controls="accordion-collapse-body-2"
-                                    >
-                                        <span>Is there a Figma file available?</span>
-                                        <svg data-accordion-icon className="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                                        </svg>
-                                    </button>
-                                </h2>
-                                <div id="accordion-collapse-body-2" className="hidden" aria-labelledby="accordion-collapse-heading-2">
-                                    <div className="p-5 text-gray-600">
-                                        <p className="mb-2">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
-                                    </div>
-                                </div>
-                                <h2 id="accordion-collapse-heading-3">
-                                    <button
-                                        type="button"
-                                        className="flex items-center justify-between w-full border-b border-gray-200 p-5 font-medium text-black focus:outline-none"
-                                        data-accordion-target="#accordion-collapse-body-3"
-                                        aria-expanded="false"
-                                        aria-controls="accordion-collapse-body-3"
-                                    >
-                                        <span>What are the differences between Flowbite and Tailwind UI?</span>
-                                        <svg data-accordion-icon className="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                                        </svg>
-                                    </button>
-                                </h2>
-                                <div id="accordion-collapse-body-3" className="hidden" aria-labelledby="accordion-collapse-heading-3">
-                                    <div className="p-5 text-gray-600">
-                                        <p className="mb-2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
-                                    </div>
-                                </div>
-                                <h2 id="accordion-collapse-heading-4">
-                                    <button
-                                        type="button"
-                                        className="flex items-center justify-between w-full p-5 font-medium border-b border-gray-200 text-black focus:outline-none"
-                                        data-accordion-target="#accordion-collapse-body-4"
-                                        aria-expanded="true"
-                                        aria-controls="accordion-collapse-body-4"
-                                    >
-                                        <span>Shopno?</span>
-                                        <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                                        </svg>
-                                    </button>
-                                </h2>
-                                <div id="accordion-collapse-body-4" className="hidden" aria-labelledby="accordion-collapse-heading-4">
-                                    <div className="p-5 text-gray-600">
-                                        <p className="mb-2">Helllo shopno</p>
-                                    </div>
-                                </div>
-                                <h2 id="accordion-collapse-heading-5">
-                                    <button
-                                        type="button"
-                                        className="flex items-center justify-between w-full p-5 font-medium  text-black focus:outline-none"
-                                        data-accordion-target="#accordion-collapse-body-5"
-                                        aria-expanded="true"
-                                        aria-controls="accordion-collapse-body-5"
-                                    >
-                                        <span>Hello React</span>
-                                        <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                                        </svg>
-                                    </button>
-                                </h2>
-                                <div id="accordion-collapse-body-5" className="hidden" aria-labelledby="accordion-collapse-heading-5">
-                                    <div className="p-5 text-gray-600">
-                                        <p className="mb-2">Helllo React js</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
 
-                        <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
-                            <div className="flex items-center gap-1 cursor-pointer">
-                                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
-                                Add to wishlist
-                            </div>
-                            <div className="flex items-center gap-1 cursor-pointer">
-                                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
-                                Share this Product
-                            </div>
-                        </div>
-                    </div> */}
 
 
 
@@ -318,7 +150,7 @@ const ProductDetails = () => {
 
                         {/* Description (short) */}
                         <p className="text-sm sm:text-base text-gray-600">
-                            {singleProductData?.description}
+                            {singleProductData?.long_description}
                         </p>
 
                         {/* Price */}
@@ -394,72 +226,46 @@ const ProductDetails = () => {
                     </div>
                 </div>
 
-
-
                 {/* Description Section */}
                 <div className="mt-12">
-                    <div>
-                        {/* Tabs */}
-                        <div className="flex gap-6 text-sm sm:text-base font-medium border-b border-gray-200 flex-wrap">
-                            <button className="pb-2 border-b-2 border-black text-black">Description</button>
-                            <button className="pb-2 text-gray-500 hover:text-black">Reviews (2)</button>
-                        </div>
-
-                        {/* Content */}
-                        <div className="mt-6 space-y-4 text-black text-sm sm:text-base leading-relaxed">
-                            <p>{singleProductData?.description}</p>
-                        </div>
+                    {/* Tab Buttons */}
+                    <div className="flex gap-6 text-sm sm:text-base font-medium border-b border-gray-200 flex-wrap">
+                        <button
+                            onClick={() => setActiveTab("description")}
+                            className={`pb-2 ${activeTab === "description"
+                                ? "border-b-2 border-black text-black"
+                                : "text-gray-500 hover:text-black"
+                                }`}
+                        >
+                            Description
+                        </button>
+                        <button
+                            onClick={() => setActiveTab("additional")}
+                            className={`pb-2 ${activeTab === "additional"
+                                ? "border-b-2 border-black text-black"
+                                : "text-gray-500 hover:text-black"
+                                }`}
+                        >
+                            Additional Information
+                        </button>
+                        <button className="pb-2 text-gray-500 hover:text-black">Reviews (2)</button>
                     </div>
-                </div>
 
-                {/* Related Products */}
-                {/* <div className="mt-16 w-full">
-                    <h2 className="text-lg sm:text-xl font-semibold mb-4">Related Products</h2>
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {singleProductData?.related_products?.length > 0 ? (
-                            singleProductData.related_products.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between"
-                                >
-                                    <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
-                                        <img
-                                            src={
-                                                item?.images?.[0]?.image && item?.images?.[0]?.image !== ""
-                                                    ? item?.images?.[0]?.image
-                                                    : "/src/Image/No image.jpg"
-                                            }
-                                            alt={item.product_name || "No Image"}
-                                            className="max-h-full object-contain"
-                                        />
-                                    </div>
 
-                                    <h4 className="font-semibold text-sm sm:text-base text-gray-800 h-10">
-                                        {item.product_name}
-                                    </h4>
-                                    <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
-                                        {item.description}
-                                    </p>
 
-                                    <div className="flex items-center gap-2 mt-3">
-                                        <span className="text-lg font-bold text-black">₹{item.price}</span>
-                                        {item.cancle_price && (
-                                            <span className="text-sm text-red-500 line-through">
-                                                ₹{item.cancle_price}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <button className="mt-4 px-3 py-2 border bg-green-50 border-green-500 text-green-600 rounded-lg hover:bg-green-500 hover:text-white transition text-sm font-medium">
-                                        ADD
-                                    </button>
+                    <div className="mt-6">
+                        {activeTab === "description" && (
+                            <>
+                                <div className="space-y-4 text-black text-sm sm:text-base leading-relaxed">
+                                    <p>{singleProductData?.description}</p>
                                 </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-500 text-sm">No related products available</p>
+                            </>
+                        )}
+                        {activeTab === "additional" && (
+                            <p>demooo</p>
                         )}
                     </div>
-                </div> */}
+                </div>
 
 
                 <div className="mt-16 w-full">
@@ -472,18 +278,7 @@ const ProductDetails = () => {
                                     data-aos="fade-up"
                                     className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
                                 >
-                                    {/* Image */}
-                                    {/* <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
-                                        <img
-                                            src={
-                                                item?.images?.[0]?.image && item?.images?.[0]?.image !== ""
-                                                    ? item?.images?.[0]?.image
-                                                    : "/src/Image/No image.jpg"
-                                            }
-                                            alt={item.product_name || "No Image"}
-                                            className="max-h-full object-contain"
-                                        />
-                                    </div> */}
+
                                     <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
                                         <div className="w-full h-full relative group preserve-3d">
                                             {/* Front Image */}
@@ -546,15 +341,8 @@ const ProductDetails = () => {
                         )}
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     );
 };
-
 export default ProductDetails;

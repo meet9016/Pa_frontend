@@ -23,14 +23,23 @@ function LayoutWithHeader() {
 }
 const AppRoutes = () => {
   return (
-    <Routes>
-       <Route path="/*" element={<LayoutWithHeader />} />
-      {/* Public routes */}
-      <Route path="/" element={<Login />} />
+    <>
+      <Header />
+      <Routes>
+        {/* <Route path="/" element={<LayoutWithHeader />} /> */}
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/product/:id" element={<Product />} /> */}
+        <Route path="/product/:categories_id/:sub_category_id" element={<Product />} />
 
-      {/* Fallback */}
-      {/* <Route path="*" element={<NotFound />} /> */}
-    </Routes>
+        <Route path="/single-product/:id" element={<ProductDetails />} />
+        {/* Public routes */}
+        {/* <Route path="/" element={<Login />} /> */}
+
+        {/* Fallback */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+      <Footer />
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import api from "../pages/utils.jsx/axiosInstance";
 import endPointApi from "../pages/utils.jsx/endPointApi";
 import { toast } from "react-toastify";
+import Login from "../pages/auth/Login";
 
 const Header = () => {
     const navigate = useNavigate()
@@ -11,7 +12,9 @@ const Header = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [cardList, setCardList] = useState([]);
     const [totalAmount, setTotalAmount] = useState();
-    const [count, setCount] = useState(1)
+    const [loading, setLoading] = useState(false);
+    const [showLogin, setShowLogin] = useState(false)
+
 
     const handleAddcart = async () => {
         setShowCart(true)
@@ -28,30 +31,58 @@ const Header = () => {
         }
     }
 
-    const addToCart = () => {
-        const p_id = cardList.map((i) => i.product_id.join(', '))
 
+
+
+    // const addToCart = () => {
+    //     const p_id = cardList.map((i) => i.product_id.join(', '))
+    //     console.log(p_id, 'qq')
+    //     try {
+    //         const formdata = new FormData();
+    //         formdata.append("product_id", p_id);
+    //         formdata.append("quantity", count);
+    //         formdata.append("type", 2);
+
+    //         api.post(endPointApi.postAddToCart, formdata).then((res) => {
+    //             if (res.data.status == 200) {
+    //                 toast.success(res?.data?.message)
+    //             }
+    //         })
+    //         if (res.sta)
+    //             console.log("res", res);
+    //     } catch (err) {
+    //         console.log("Error Fetch data", err)
+    //     } finally {
+    //         // setLoading(false)
+    //     }
+    // }
+
+
+
+
+
+    const addToCart = async (productId, quantity) => {
         try {
+            const formData = new FormData();
+            formData.append("product_id", productId);
+            formData.append("quantity", quantity);
+            formData.append("type", 2);
 
-            const formdata = new FormData();
-            formdata.append("product_id", p_id);
-            formdata.append("quantity", count);
-            formdata.append("type", 2);
+            setLoading(true);
+            const res = await api.post(`${endPointApi.postAddToCart}`, formData);
 
-            api.post(endPointApi.postAddToCart, formdata).then((res) => {
-                if (res.data.status == 200) {
-                    toast.success(res?.data?.message)
-                }
-            })
-            if (res.sta)
-
-                console.log("res", res);
+            if (res.data && res.data.data) {
+                console.log("Cart Updated:", res.data.data);
+            }
         } catch (err) {
-            console.log("Error Fetch data", err)
+            console.log(err, "ERROR");
         } finally {
-            // setLoading(false)
+            setLoading(false);
         }
-    }
+    };
+
+
+
 
     const orderOnWhatsapp = () => {
         try {
@@ -70,15 +101,6 @@ const Header = () => {
         }
     }
 
-
-    const cartItem = {
-        name: "Kurkure Chatka Pataka",
-        weight: "3 x 39 g",
-        price: 54,
-        qty: 1,
-        image: "/src/Image/Fruits-and-Vegetables.jpg"
-    }
-    const cartItems = Array(3).fill(cartItem)
     return (
         <>
             <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md px-4 sm:px-6 lg:px-8">
@@ -149,42 +171,66 @@ const Header = () => {
 
                             {/* Cart Items (Scrollable) */}
                             <div className="flex-1 overflow-y-auto bg-[#F5F7FD] p-4">
-                                <div className="bg-white rounded-lg shadow-sm p-4">
-                                    {/* Items List */}
-                                    <div className="space-y-4">
-                                        {cardList?.map((item) => (
-                                            <div key={item.id} className="flex items-center justify-between">
-                                                <div className="flex items-center gap-3">
-                                                    <img
-                                                        src={item.product_images}
-                                                        alt={item.product_name}
-                                                        className="w-15 h-15 border p-1 border-gray-300 object-cover rounded"
-                                                    />
-                                                    <div>
-                                                        <h5 className="text-sm font-medium">{item.product_name}</h5>
-                                                        <p className="text-xs text-gray-500">{item.weight}</p>
-                                                        <h6 className="text-black font-bold">₹{item.price}</h6>
+                                <div className="bg-white rounded-lg shadow-sm p-4 h-full flex items-center justify-center">
+                                    {cardList && cardList.length > 0 ? (
+                                        <div className="w-full space-y-4">
+                                            {cardList.map((item, index) => (
+                                                <div key={item.id} className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <img
+                                                            src={item.product_images}
+                                                            alt={item.product_name}
+                                                            className="w-15 h-15 border p-1 border-gray-300 object-cover rounded"
+                                                        />
+                                                        <div>
+                                                            <h5 className="text-sm font-medium">{item.product_name}</h5>
+                                                            <p className="text-xs text-gray-500">{item.weight}</p>
+                                                            <h6 className="text-black font-bold">₹{item.price}</h6>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Quantity Controls */}
+                                                    <div className="flex items-center bg-green-600 text-white rounded">
+                                                        <button
+                                                            className="px-2 py-1"
+                                                            onClick={() => {
+                                                                const newQty = Math.max((item.quantity || 1) - 1, 1);
+                                                                setCardList((prev) =>
+                                                                    prev.map((p, i) =>
+                                                                        i === index ? { ...p, quantity: newQty } : p
+                                                                    )
+                                                                );
+                                                                addToCart(item.product_id, newQty);
+                                                            }}
+                                                        >
+                                                            -
+                                                        </button>
+
+                                                        <span className="px-2 text-lg font-semibold">
+                                                            {item.quantity || 1}
+                                                        </span>
+
+                                                        <button
+                                                            className="px-2 py-1"
+                                                            onClick={() => {
+                                                                const newQty = (item.quantity || 1) + 1;
+                                                                setCardList((prev) =>
+                                                                    prev.map((p, i) =>
+                                                                        i === index ? { ...p, quantity: newQty } : p
+                                                                    )
+                                                                );
+                                                                addToCart(item.product_id, newQty);
+                                                            }}
+                                                        >
+                                                            +
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div className="flex items-center bg-green-600 text-white rounded">
-                                                    <button
-                                                        // onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
-                                                        className="px-2 py-1"
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <span className="px-2 text-lg font-semibold">1</span>
-
-                                                    <button
-                                                        // onClick={() => setCount((prev) => prev + 1)}
-                                                        className="px-2 py-1"
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <img src="https://img.freepik.com/premium-vector/modern-design-concept-empty-cart_637684-304.jpg" alt="Empty cart" className="w-100 mx-auto" />
+                                    )}
                                 </div>
                             </div>
 
@@ -200,13 +246,38 @@ const Header = () => {
                                 </button>
                             </div>
                         </div>
+
+
+
                         {/* Login Button */}
-                        <button
-                            onClick={() => navigate('/')}
+                        {/* <button
+                            
+                            onClick={() => setShowLogin(true)}
                             className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
                             {alreadyLogin ? 'Logout' : 'Login'}
+                            
+                        </button> */}
+
+
+                        <button
+                            onClick={() => {
+                                if (alreadyLogin) {
+                                    // Logout
+                                    localStorage.removeItem("auth_token");
+                                    toast.success("Logged out successfully!");
+                                    navigate("/");
+                                    window.location.reload();
+                                } else {
+                                    // Show login modal
+                                    setShowLogin(true);
+                                }
+                            }}
+                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
+                        >
+                            {alreadyLogin ? "Logout" : "Login"}
                         </button>
+
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -253,7 +324,21 @@ const Header = () => {
                     </div>
                 </div>
 
-                {/* Cart Drawer (already responsive in your code) */}
+                {showLogin && (
+                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+                        <div className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+                            <button
+                                onClick={() => setShowLogin(false)}
+                                className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
+                            >
+                                <i class="ri-close-large-line"></i>
+                            </button>
+
+                            {/* Login Form */}
+                            <Login onClose={() => setShowLogin(false)} />
+                        </div>
+                    </div>
+                )}
             </header>
         </>
     );
