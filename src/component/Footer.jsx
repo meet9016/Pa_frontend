@@ -11,7 +11,7 @@ const Footer = () => {
                     {/* Logo Section */}
                     <div className="flex-shrink-0 flex items-center justify-center md:justify-start">
                         <img
-                            src="/src/Image/footer-PA_logo.png"
+                            src="https://pa.2-min.in/upload/web_logo/footer-pa_logo.png"
                             alt="PA Logo"
                             className="w-[180px] md:w-[250px]"
                         />

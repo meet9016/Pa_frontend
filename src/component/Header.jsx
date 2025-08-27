@@ -14,7 +14,59 @@ const Header = () => {
     const [totalAmount, setTotalAmount] = useState();
     const [loading, setLoading] = useState(false);
     const [showLogin, setShowLogin] = useState(false)
+    const [counts, setCounts] = useState({});
 
+    const handleIncrement = async (cart_id, p_id) => {
+        // naya quantity calculate karo
+        const newQuantity = (counts[cart_id] || 1) + 1;
+
+        // UI update
+        setCounts((prev) => ({
+            ...prev,
+            [cart_id]: newQuantity,
+        }));
+
+        try {
+            const formdata = new FormData();
+            formdata.append("product_id", p_id);
+            formdata.append("quantity", newQuantity);
+            formdata.append("type", 2);
+
+            const res = await api.post(endPointApi.postAddToCart, formdata);
+
+            if (res.data.status === 200) {
+                toast.success(res?.data?.message);
+            }
+            console.log("res", res);
+        } catch (err) {
+            console.log("Error Fetch data", err);
+        }
+    };
+
+
+    const handleDecrement = async (cart_id, p_id) => {
+        const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+
+        setCounts((prev) => ({
+            ...prev,
+            [cart_id]: newQuantity,
+        }));
+
+        try {
+            const formdata = new FormData();
+            formdata.append("product_id", p_id);
+            formdata.append("quantity", newQuantity);
+            formdata.append("type", 2);
+
+            const res = await api.post(endPointApi.postAddToCart, formdata);
+
+            if (res.data.status === 200) {
+                toast.success(res?.data?.message);
+            }
+        } catch (err) {
+            console.log("Error Fetch data", err);
+        }
+    };
 
     const handleAddcart = async () => {
         setShowCart(true)
@@ -193,15 +245,16 @@ const Header = () => {
                                                     <div className="flex items-center bg-green-600 text-white rounded">
                                                         <button
                                                             className="px-2 py-1"
-                                                            onClick={() => {
-                                                                const newQty = Math.max((item.quantity || 1) - 1, 1);
-                                                                setCardList((prev) =>
-                                                                    prev.map((p, i) =>
-                                                                        i === index ? { ...p, quantity: newQty } : p
-                                                                    )
-                                                                );
-                                                                addToCart(item.product_id, newQty);
-                                                            }}
+                                                            // onClick={() => {
+                                                            //     const newQty = Math.max((item.quantity || 1) - 1, 1);
+                                                            //     setCardList((prev) =>
+                                                            //         prev.map((p, i) =>
+                                                            //             i === index ? { ...p, quantity: newQty } : p
+                                                            //         )
+                                                            //     );
+                                                            //     addToCart(item.product_id, newQty);
+                                                            // }}
+                                                            onClick={() => handleDecrement(item.cart_id, item.product_id)}
                                                         >
                                                             -
                                                         </button>
@@ -212,15 +265,16 @@ const Header = () => {
 
                                                         <button
                                                             className="px-2 py-1"
-                                                            onClick={() => {
-                                                                const newQty = (item.quantity || 1) + 1;
-                                                                setCardList((prev) =>
-                                                                    prev.map((p, i) =>
-                                                                        i === index ? { ...p, quantity: newQty } : p
-                                                                    )
-                                                                );
-                                                                addToCart(item.product_id, newQty);
-                                                            }}
+                                                            // onClick={() => {
+                                                            //     const newQty = (item.quantity || 1) + 1;
+                                                            //     setCardList((prev) =>
+                                                            //         prev.map((p, i) =>
+                                                            //             i === index ? { ...p, quantity: newQty } : p
+                                                            //         )
+                                                            //     );
+                                                            //     addToCart(item.product_id, newQty);
+                                                            // }}
+                                                            onClick={() => handleIncrement(item.cart_id, item.product_id)}
                                                         >
                                                             +
                                                         </button>
@@ -229,7 +283,7 @@ const Header = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        <img src="https://img.freepik.com/premium-vector/modern-design-concept-empty-cart_637684-304.jpg" alt="Empty cart" className="w-100 mx-auto" />
+                                        <img src="https://pa.2-min.in/upload/web_logo/empaty.jpg" alt="Empty cart" className="w-100 mx-auto" />
                                     )}
                                 </div>
                             </div>
