@@ -116,19 +116,6 @@ const ProductDetails = () => {
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 max-w-2xl mx-auto space-y-8">
                         {/* Title */}
                         <h2 className="text-2xl sm:text-3xl font-bold">
@@ -187,7 +174,7 @@ const ProductDetails = () => {
                         {/* Quantity + Buttons */}
                         <div className="flex items-center gap-6 flex-wrap">
                             {/* Quantity Selector */}
-                            <div className="flex items-center border border-gray-300 rounded-lg py-2 px-2">
+                            <div className="flex items-center border border-gray-300 rounded-lg py-1 px-2">
                                 <button
                                     onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
                                     className="h-9 w-9 flex items-center justify-center text-xl font-bold cursor-pointer"
@@ -204,10 +191,16 @@ const ProductDetails = () => {
                             </div>
                             {/* Add to Cart Button */}
                             <button
-                                className="bg-[#251C4B] hover:bg-[#1a1335] text-white px-8 py-4 font-bold rounded-lg flex items-center gap-3 text-lg cursor-pointer"
+                                className="bg-[#251C4B] hover:bg-[#1a1335] text-white px-8 py-2 font-bold rounded-lg flex items-center gap-3 text-lg cursor-pointer"
                                 onClick={() => addToCart()}
                             >
                                 <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
+                            </button>
+                            <button
+                                className="bg-[#25d366] text-white px-4 py-2  rounded-lg flex items-center gap-3 text-lg cursor-pointer"
+                            // onClick={() => addToCart()}
+                            >
+                                <i className="ri-whatsapp-fill text-2xl"></i>
                             </button>
                         </div>
 
@@ -262,11 +255,10 @@ const ProductDetails = () => {
                             </>
                         )}
                         {activeTab === "additional" && (
-                            <p>demooo</p>
+                             <></>
                         )}
                     </div>
                 </div>
-
 
                 <div className="mt-16 w-full">
                     <h2 className="text-lg sm:text-xl font-semibold mb-4">Related Products</h2>

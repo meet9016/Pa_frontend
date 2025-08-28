@@ -223,21 +223,23 @@ const Header = () => {
 
                             {/* Cart Items (Scrollable) */}
                             <div className="flex-1 overflow-y-auto bg-[#F5F7FD] p-4">
-                                <div className="bg-white rounded-lg shadow-sm p-4 h-full flex items-center justify-center">
+                                <div className="bg-white rounded-lg shadow-sm p-4">
                                     {cardList && cardList.length > 0 ? (
                                         <div className="w-full space-y-4">
-                                            {cardList.map((item, index) => (
-                                                <div key={item.id} className="flex items-center justify-between">
+                                            {cardList.map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="flex items-center justify-between border-b pb-3 last:border-none"
+                                                >
                                                     <div className="flex items-center gap-3">
                                                         <img
                                                             src={item.product_images}
                                                             alt={item.product_name}
-                                                            className="w-15 h-15 border p-1 border-gray-300 object-cover rounded"
+                                                            className="w-16 h-16 border p-1 border-gray-300 object-cover rounded"
                                                         />
                                                         <div>
                                                             <h5 className="text-sm font-medium">{item.product_name}</h5>
                                                             <p className="text-xs text-gray-500">{item.weight}</p>
-                                                            <h6 className="text-black font-bold">₹{item.price}</h6>
                                                         </div>
                                                     </div>
 
@@ -245,15 +247,6 @@ const Header = () => {
                                                     <div className="flex items-center bg-green-600 text-white rounded">
                                                         <button
                                                             className="px-2 py-1"
-                                                            // onClick={() => {
-                                                            //     const newQty = Math.max((item.quantity || 1) - 1, 1);
-                                                            //     setCardList((prev) =>
-                                                            //         prev.map((p, i) =>
-                                                            //             i === index ? { ...p, quantity: newQty } : p
-                                                            //         )
-                                                            //     );
-                                                            //     addToCart(item.product_id, newQty);
-                                                            // }}
                                                             onClick={() => handleDecrement(item.cart_id, item.product_id)}
                                                         >
                                                             -
@@ -265,15 +258,6 @@ const Header = () => {
 
                                                         <button
                                                             className="px-2 py-1"
-                                                            // onClick={() => {
-                                                            //     const newQty = (item.quantity || 1) + 1;
-                                                            //     setCardList((prev) =>
-                                                            //         prev.map((p, i) =>
-                                                            //             i === index ? { ...p, quantity: newQty } : p
-                                                            //         )
-                                                            //     );
-                                                            //     addToCart(item.product_id, newQty);
-                                                            // }}
                                                             onClick={() => handleIncrement(item.cart_id, item.product_id)}
                                                         >
                                                             +
@@ -283,19 +267,26 @@ const Header = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        <img src="https://pa.2-min.in/upload/web_logo/empaty.jpg" alt="Empty cart" className="w-100 mx-auto" />
+                                        <div className="flex justify-center py-10">
+                                            <img
+                                                src="https://pa.2-min.in/upload/web_logo/empaty.jpg"
+                                                alt="Empty cart"
+                                                className="w-40 opacity-80"
+                                            />
+                                        </div>
                                     )}
                                 </div>
                             </div>
 
+
                             {/* Footer */}
                             <div className="bg-[#3E8E1F] text-white px-4 py-3 flex items-center justify-between">
                                 <div>
-                                    <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
-                                    <p className="text-sm font-bold tracking-wide">TOTAL</p>
+                                    {/* <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
+                                    <p className="text-sm font-bold tracking-wide">TOTAL</p> */}
                                 </div>
                                 <button className="flex items-center gap-2 text-lg font-semibold" onClick={orderOnWhatsapp}>
-                                    Order On Whatsapp
+                                    Inquiry On Whatsapp
                                     <i className="ri-arrow-right-s-line text-xl"></i>
                                 </button>
                             </div>
