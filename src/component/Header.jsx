@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../pages/utils.jsx/axiosInstance";
 import endPointApi from "../pages/utils.jsx/endPointApi";
 import { toast } from "react-toastify";
 import Login from "../pages/auth/Login";
+import debounce from 'lodash.debounce';
 
 const Header = () => {
     const navigate = useNavigate()
@@ -16,6 +17,48 @@ const Header = () => {
     const [showLogin, setShowLogin] = useState(false)
     const [counts, setCounts] = useState({});
 
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [showFullResults, setShowFullResults] = useState(false);
+    const wrapperRef = useRef(null);
+
+    const fetchSuggestions = async (searchText) => {
+        if (!searchText) {
+            setResults([]);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('search', searchText);
+
+        try {
+            const response = await api.post(
+                endPointApi.autoSuggestionProductList,
+                formData
+            );
+            const data = response.data.data;
+            setResults(data);
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+            setResults([]);
+        }
+    };
+
+    const handleShowAllResults = async () => {
+        if (!query) return;
+
+        const formData = new FormData();
+        formData.append('search', query);
+
+        try {
+            const response = await api.post(endPointApi.autoSuggestionProductList, formData);
+            setResults(response.data.data || []);
+            setShowDropdown(true);
+        } catch (error) {
+            console.error('Failed to fetch full results:', error);
+        }
+    };
     const handleIncrement = async (cart_id, p_id) => {
         // naya quantity calculate karo
         const newQuantity = (counts[cart_id] || 1) + 1;
@@ -37,7 +80,6 @@ const Header = () => {
             if (res.data.status === 200) {
                 toast.success(res?.data?.message);
             }
-            console.log("res", res);
         } catch (err) {
             console.log("Error Fetch data", err);
         }
@@ -83,9 +125,6 @@ const Header = () => {
         }
     }
 
-
-
-
     // const addToCart = () => {
     //     const p_id = cardList.map((i) => i.product_id.join(', '))
     //     console.log(p_id, 'qq')
@@ -109,10 +148,6 @@ const Header = () => {
     //     }
     // }
 
-
-
-
-
     const addToCart = async (productId, quantity) => {
         try {
             const formData = new FormData();
@@ -133,9 +168,6 @@ const Header = () => {
         }
     };
 
-
-
-
     const orderOnWhatsapp = () => {
         try {
             api.post(`${endPointApi.postOrderWiaWhatsapp}`, {}).then((res) => {
@@ -152,6 +184,23 @@ const Header = () => {
             // setLoading(false)
         }
     }
+
+    const debouncedFetch = debounce(fetchSuggestions, 300);
+
+    useEffect(() => {
+        debouncedFetch(query);
+        return () => debouncedFetch.cancel();
+    }, [query]);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <>
@@ -180,15 +229,65 @@ const Header = () => {
                         </div>
                     </div>
 
-                    {/* Search Bar */}
-                    <div className="hidden sm:flex items-center bg-gray-100 rounded-lg px-3 py-1 md:px-4 md:py-2 flex-1 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl mx-4">
-                        <i className="ri-search-line text-black text-lg mr-2"></i>
-                        <input
-                            type="text"
-                            placeholder='Search "grocery"'
-                            className="bg-transparent outline-none border-none focus:ring-0 h-[28px] flex-1 text-[13px] sm:text-[14px] md:text-[15px] placeholder-gray-500"
-                        />
+                    <div ref={wrapperRef} className="relative w-full max-w-2xl mx-4">
+                        {/* Search Box */}
+                        <div className="hidden sm:flex items-center bg-gray-100 rounded-lg px-3 py-1 md:px-4 md:py-2 flex-1">
+                            <i className="ri-search-line text-black text-lg mr-2"></i>
+                            <input
+                                type="text"
+                                placeholder='Search "grocery"'
+                                className="bg-transparent outline-none border-none focus:ring-0 h-[28px] flex-1 text-[14px] placeholder-gray-500"
+                                value={query}
+                                onChange={(e) => {
+                                    setQuery(e.target.value);
+                                    setShowDropdown(true);
+                                }}
+                            />
+                            {query && (
+                                <button onClick={() => setQuery("")} className="text-gray-400 text-xl">
+                                    &times;
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Dropdown */}
+                        {showDropdown && results.length > 0 && (
+                            <div className="absolute left-0 right-0 bg-white rounded-lg shadow-lg mt-2 max-h-80 overflow-y-auto z-10">
+                                <ul>
+                                    {results.map((item) => (
+                                        <li
+                                            key={item.product_id}
+                                            className="flex items-center px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                                            onClick={() => {
+                                                setQuery(item.product_name);
+                                                setShowDropdown(false);
+                                            }}
+                                        >
+                                            <img
+                                                src={item.product_image}
+                                                alt={item.product_name}
+                                                className="w-10 h-10 object-cover rounded mr-3"
+                                            />
+                                            <span className="text-sm">{item.product_name}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Show All Results Option */}
+
+                                <div className="w-full text-left px-4 py-3 border-t text-sm text-blue-600 hover:underline">
+                                    <button
+                                        onClick={handleShowAllResults}
+                                        className="cursor-pointer"
+                                    >
+                                        Show all results for <strong className="font-semibold">‘{query}’</strong>
+                                    </button>
+                                </div>
+
+                            </div>
+                        )}
                     </div>
+
 
                     {/* Right Buttons (Desktop) */}
                     <div className="hidden md:flex items-center gap-3">
