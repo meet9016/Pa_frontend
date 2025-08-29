@@ -123,7 +123,6 @@ const Home = () => {
                     <div className="w-full mt-8">
                         {product?.all_categories?.map((cat) => (
                             <div key={cat.categories_id} className="mb-10">
-                                {console.log("cat", cat)}
 
                                 {/* Category Name */}
                                 <h2 className="text-lg sm:text-xl font-semibold mb-4">
@@ -137,7 +136,6 @@ const Home = () => {
                                             key={sub.sub_category_id}
                                             className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
                                         >
-                                            {console.log("asas", sub)}
                                             <div className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center"
                                                 onClick={() => {
                                                     navigate(`/product/${cat.categories_id}/${sub.sub_category_id}`)

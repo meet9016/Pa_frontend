@@ -6,6 +6,7 @@ import ProductDetails from "../product/ProductDetails";
 import ProtectedRoute from "./ProtectedRoute";
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
+import Search from "../search/Search";
 
 
 function LayoutWithHeader() {
@@ -32,6 +33,7 @@ const AppRoutes = () => {
         <Route path="/product/:categories_id/:sub_category_id" element={<Product />} />
 
         <Route path="/single-product/:id" element={<ProductDetails />} />
+        <Route path="/search/:id" element={<Search />} />
         {/* Public routes */}
         {/* <Route path="/" element={<Login />} /> */}
 

@@ -7,7 +7,8 @@ const endPointApi = {
     postAddToCart:'add-to-cart',
     postCartList:'cart-list',
     postOrderWiaWhatsapp:'order-on-whatsapp',
-    autoSuggestionProductList: 'auto-suggestion-product-list'
+    autoSuggestionProductList: 'auto-suggestion-product-list',
+    viewMoreSearchProductList: 'view-more-search-product-list'
 };
 
 export default endPointApi;

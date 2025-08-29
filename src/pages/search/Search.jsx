@@ -1,0 +1,125 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import "remixicon/fonts/remixicon.css";
+import endPointApi from "../utils.jsx/endPointApi";
+import api from "../utils.jsx/axiosInstance";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+const Search = () => {
+    const { id } = useParams();
+
+    const navigate = useNavigate();
+    const [singleProductData, setSingleProductData] = useState([])
+    const [loading, setLoading] = useState(false); // ✅ add loading
+
+    console.log("id", id);
+
+    useEffect(() => {
+        if (!id) return;
+
+        (async () => {
+            try {
+                const formData = new FormData();
+                formData.append("search", String(id));
+
+                const { data } = await api.post(
+                    endPointApi.viewMoreSearchProductList,
+                    formData
+                );
+
+                if (data?.status === 200) {
+                    setSingleProductData(data.data ?? []);
+                } else {
+                    setSingleProductData([]);
+                }
+            } catch (err) {
+                console.error("Failed to fetch full results:", err);
+                setSingleProductData([]);
+            }
+        })();
+    }, [id]);
+    return (
+        <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
+            <div className="w-full max-w-[1300px] pb-5">
+
+                {/* ✅ Show Loader First */}
+                {loading ? (
+                    <div className="w-full mt-20 flex justify-center items-center h-[300px]">
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#251C4B] border-t-transparent"></div>
+                    </div>
+                ) : singleProductData && singleProductData.length > 0 ? (
+                    // ✅ Products Grid
+                    <div className="w-full p-2 grid grid-cols-1 border mt-[40px] rounded-md shadow-md border-gray-200 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {singleProductData?.map((item, index) => (
+                            <div
+                                key={index}
+                                data-aos="fade-up"
+                                className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative cursor-pointer"
+                                onClick={() => navigate(`/single-product/${item.product_id}`)}
+                            >
+                                {/* Image */}
+                                <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
+                                    <img
+                                        src={
+                                            item.product_image && item.product_image !== ""
+                                                ? item.product_image
+                                                : "/src/Image/No image.jpg"
+                                        }
+                                        alt={item.name}
+                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500"
+                                    />
+                                </div>
+
+                                {/* Info */}
+                                <h4 className="font-semibold text-sm sm:text-base text-gray-800 h-10">
+                                    {item.product_name}
+                                </h4>
+                                <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
+                                    {item.description}
+                                </p>
+
+                                {/* Price */}
+                                <div className="flex items-center gap-5 mt-3">
+                                    <span className="text-lg font-bold text-black">₹{item.price}</span>
+                                    {item.cancle_price && (
+                                        <span className="text-sm text-red-500 line-through">
+                                            ₹{item.cancle_price}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Read More */}
+                                <button className="opacity-0 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md font-bold">
+                                    Read More
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    // ✅ No Data
+                    <div className="w-full mt-10 flex justify-center items-center h-[400px]">
+                        <div className="flex flex-col items-center justify-center text-center">
+                            <img
+                                src="/src/Image/no-data.avif"
+                                alt="No Data Found"
+                                className="w-48 h-48 sm:w-60 sm:h-60 object-contain one-time-bounce"
+                            />
+                            <h2 className="mt-4 text-xl font-semibold text-gray-700">No Data Found</h2>
+                            <p className="text-gray-500 text-sm mt-1">Try adjusting your filters or check back later</p>
+                            <button
+                                onClick={() => navigate("/")}
+                                className="mt-6 px-5 py-2 bg-[#251C4B] text-white rounded-lg shadow-md hover:bg-[#372b63] transition"
+                            >
+                                Go Home
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+        </div>
+    );
+};
+
+export default Search;

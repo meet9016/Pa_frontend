@@ -46,18 +46,7 @@ const Header = () => {
     };
 
     const handleShowAllResults = async () => {
-        if (!query) return;
-
-        const formData = new FormData();
-        formData.append('search', query);
-
-        try {
-            const response = await api.post(endPointApi.autoSuggestionProductList, formData);
-            setResults(response.data.data || []);
-            setShowDropdown(true);
-        } catch (error) {
-            console.error('Failed to fetch full results:', error);
-        }
+       navigate(`/search/${query}`)
     };
     const handleIncrement = async (cart_id, p_id) => {
         // naya quantity calculate karo
@@ -213,7 +202,7 @@ const Header = () => {
                             src="https://pa.2-min.in/upload/web_logo/20250816095817_8272.png"
                             alt="Logo"
                             className="w-28 sm:w-32 md:w-40 cursor-pointer"
-                            onClick={() => navigate('/home')}
+                            onClick={() => navigate('/')}
                         />
                         {/* Divider + Text (hide on mobile) */}
                         <div className="hidden sm:flex items-center gap-2">
@@ -252,7 +241,7 @@ const Header = () => {
 
                         {/* Dropdown */}
                         {showDropdown && results.length > 0 && (
-                            <div className="absolute left-0 right-0 bg-white rounded-lg shadow-lg mt-2 max-h-80 overflow-y-auto z-10">
+                            <div className="absolute left-0 right-0 bg-white rounded-lg shadow-lg mt-2 max-h-180 overflow-y-auto z-10">
                                 <ul>
                                     {results.map((item) => (
                                         <li
@@ -280,7 +269,8 @@ const Header = () => {
                                         onClick={handleShowAllResults}
                                         className="cursor-pointer"
                                     >
-                                        Show all results for <strong className="font-semibold">‘{query}’</strong>
+                                        View more
+                                        {/* Show all results for <strong className="font-semibold">‘{query}’</strong> */}
                                     </button>
                                 </div>
 

@@ -34,7 +34,7 @@ const Footer = () => {
                         <div>
                             <h2 className="text-lg font-bold mb-3">Our Values</h2>
                             <div className="space-y-2 text-sm md:text-base">
-                                <p onClick={() => navigate('/home')}>Home</p>
+                                <p onClick={() => navigate('/')}>Home</p>
                                 <p>About Us</p>
                                 <p>Shop</p>
                                 <p>All Categories</p>
