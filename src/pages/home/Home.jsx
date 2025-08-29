@@ -70,8 +70,7 @@ const Home = () => {
           )}
 
           {/* Three Category Cards */}
-       <BannerAutoSlider items={product?.banner ?? []} loading={loading} />
-
+          <BannerAutoSlider items={product?.banner ?? []} loading={loading} />
 
           {/* Paan Corner Grid */}
           {/* <div className="w-full grid grid-cols-2 border bg-white rounded-2xl border-white sm:grid-cols-5 md:grid-cols-10 mt-6">
@@ -89,11 +88,21 @@ const Home = () => {
           {/* All Categories with Subcategories */}
           <div className="w-full mt-8">
             {product?.all_categories?.map((cat) => (
-              <div key={cat.categories_id} className="mb-10">
-                {/* Category Name */}
-                <h2 className="text-lg sm:text-xl font-semibold mb-4">
-                  {cat.categories_name}
-                </h2>
+              <div key={cat.categories_id} className="mb-10 flex flex-col">
+                <div className="flex items-center justify-between">
+                  {/* Category Name */}
+                  <h2 className="text-lg sm:text-xl font-semibold mb-4">
+                    {cat.categories_name}
+                  </h2>
+                  {cat?.view_button && (
+                    <button
+                      onClick={() => navigate(`/category/${cat.categories_id}`)}
+                      className="px-5 py-2 bg-[#251C4B] text-white rounded-lg shadow-md hover:bg-[#372b63] transition mb-4"
+                    >
+                      View more
+                    </button>
+                  )}
+                </div>
 
                 {/* Subcategories Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">

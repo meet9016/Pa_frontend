@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
 import Search from "../search/Search";
-
+import Category from "../category/Category";
 
 function LayoutWithHeader() {
   return (
@@ -17,6 +17,7 @@ function LayoutWithHeader() {
         <Route path="/home" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/single-product/:id" element={<ProductDetails />} />
+
       </Routes>
       <Footer />
     </>
@@ -39,6 +40,8 @@ const AppRoutes = () => {
 
         {/* Fallback */}
         {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="/category/:categoryId" element={<Category />} />
+
       </Routes>
       <Footer />
     </>

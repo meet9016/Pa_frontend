@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 /** slides: [{ slider_id, image, alt? }] */
 const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
   // ----- state -----
-  const [index, setIndex] = useState(1);        // start at first "real" slide (after left-clone)
+  const [index, setIndex] = useState(1); // start at first "real" slide (after left-clone)
   const [animate, setAnimate] = useState(true); // control CSS transition for seamless wrap
   const timerRef = useRef(null);
   const pausedRef = useRef(false);
@@ -11,7 +11,8 @@ const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
 
   // keep motion even if only 1 slide (duplicate for animation)
   const originalLength = slides.length;
-  const baseSlides = originalLength === 1 ? [slides[0], { ...slides[0], _dup: true }] : slides;
+  const baseSlides =
+    originalLength === 1 ? [slides[0], { ...slides[0], _dup: true }] : slides;
   const first = baseSlides[0];
   const last = baseSlides[baseSlides.length - 1];
   const loopSlides = [last, ...baseSlides, first]; // [cloneLast, ...real, cloneFirst]
@@ -41,7 +42,9 @@ const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
       setAnimate(false);
       setIndex(1);
       // re-enable animation on next paint
-      requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)));
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => setAnimate(true))
+      );
     }
   };
 
@@ -58,7 +61,11 @@ const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
   const currentDot = (index - 1 + originalLength) % originalLength;
 
   return (
-    <div className="w-full" aria-roledescription="carousel" aria-label="Home hero">
+    <div
+      className="w-full"
+      aria-roledescription="carousel"
+      aria-label="Home hero"
+    >
       <div
         className="relative bg-white p-3 sm:p-4 rounded-[22px] shadow-sm"
         onMouseEnter={() => (pausedRef.current = true)}
@@ -67,7 +74,7 @@ const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
         onTouchEnd={(e) => {
           const dx = e.changedTouches[0].clientX - (touchStartX.current ?? 0);
           touchStartX.current = null;
-          if (dx < -30) next();        // swipe left -> forward
+          if (dx < -30) next(); // swipe left -> forward
           // swipe right ignored (no reverse)
         }}
         tabIndex={0}
@@ -78,24 +85,33 @@ const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
       >
         <div className="overflow-hidden rounded-[18px]">
           <div
-            className={`flex ${animate ? "transition-transform duration-700 ease-out" : ""}`}
+            className={`flex ${
+              animate ? "transition-transform duration-700 ease-out" : ""
+            }`}
             style={{ transform: `translateX(-${index * 100}%)` }}
             onTransitionEnd={handleTransitionEnd}
           >
-            {loopSlides.map((s, i) => (
-              <div key={(s.slider_id ?? i) + (s._dup ? "-dup" : "")} className="w-full shrink-0">
-                {/* No fixed height: image decides height, fits without crop/stretch */}
-                <div className="w-full grid place-items-center bg-white">
-                  <img
-                    src={s.image}
-                    alt={s.alt || `Slide ${i + 1}`}
-                    draggable="false"
-                    className="max-w-full h-auto object-contain block"
-                    {...(i === 1 ? { loading: "eager" } : { loading: "lazy" })}
-                  />
+            {loopSlides.map((s, i) => {
+              const isClone = i === 0 || i === loopSlides.length - 1; // edge clones
+              const baseKey = String(s.slider_id ?? s.banner_id ?? s.id ?? i);
+              const key = `${isClone ? "clone" : "real"}-${baseKey}-${i}`;
+
+              return (
+                <div key={key} className="w-full shrink-0">
+                  <div className="w-full grid place-items-center bg-white">
+                    <img
+                      src={s.image}
+                      alt={s.alt || `Slide ${i + 1}`}
+                      draggable="false"
+                      className="max-w-full h-auto object-contain block"
+                      {...(i === 1
+                        ? { loading: "eager" }
+                        : { loading: "lazy" })}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -107,7 +123,9 @@ const HeroSlider = ({ slides = [], loading = false, intervalMs = 4000 }) => {
                 <span
                   key={d}
                   className={`h-2.5 rounded-full transition-all ${
-                    d === currentDot ? "w-6 bg-white shadow" : "w-2.5 bg-white/60"
+                    d === currentDot
+                      ? "w-6 bg-white shadow"
+                      : "w-2.5 bg-white/60"
                   }`}
                   aria-label={`Slide ${d + 1}`}
                   aria-current={d === currentDot}
