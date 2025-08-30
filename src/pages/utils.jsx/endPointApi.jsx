@@ -1,6 +1,7 @@
 // Define and export the API endpoint object
 const endPointApi = {
     loginUser: 'web-login',
+    becomeSupplier: 'become-a-supplier',
     postHome:'home',
     postCategorySingleProduct:'category-product-list',
     postSingleProduct:'single-product-list',

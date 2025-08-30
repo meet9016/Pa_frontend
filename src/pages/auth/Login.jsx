@@ -11,9 +11,16 @@ const Login = ({ onClose }) => {
     const [formData, setFormData] = useState({
         mobile: "",
         otp: "",
+        capture_code: "",
+        full_name: "",
+        address: "",
+        city: "",
+        pincode: "",
     });
     const [error, setError] = useState({});
     const [otpSent, setOtpSent] = useState(false);
+    const [newSupplier, setNewSupplier] = useState(false);
+    console.log("newSupplier", newSupplier);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,32 +61,46 @@ const Login = ({ onClose }) => {
     };
 
     // Login function
+    console.log("formData.otp",formData.otp);
     const onLoginClick = async () => {
         let newErrors = {};
-
-        if (!formData.otp) newErrors.otp = "OTP is required";
-        if (!formData.mobile) newErrors.mobile = "Mobile number is required";
-
-        if (Object.keys(newErrors).length > 0) {
-            setError(newErrors);
-            return;
-        }
+        
+        // if (!formData.otp) newErrors.otp = "OTP is required";
+        // if (!formData.mobile) newErrors.mobile = "Mobile number is required";
+        
+        // if (Object.keys(newErrors).length > 0) {
+        //     setError(newErrors);
+        //     return;
+        // }
         try {
+
             const formdata = new FormData();
             formdata.append("number", formData.mobile);
             formdata.append("otp", formData.otp);
 
+            formdata.append("capture_code", formData.capture_code);
+            formdata.append("full_name", formData.full_name);
+            formdata.append("address", formData.address);
+            formdata.append("city", formData.city);
+            formdata.append("pincode", formData.pincode);
+
             const res = await api.post(`${endPointApi.loginUser}`, formdata); // Send mobile + OTP
+            console.log("res", res.data.data);
+
             if (res.data.status === 200) {
                 saveToken(res.data.data.token);
                 toast.success(res.data.message);
                 if (onClose) onClose();
                 navigate("/");
+            } else if (res.data.status === 203) {
+                console.log("sdsds");
+                setFormData({ capture_code: res.data.data.capture_code })
+                setNewSupplier(true);
             } else {
                 toast.error(res.data.message);
             }
         } catch (err) {
-            toast.error("Login failed. Please try again."); 
+            toast.error("Login failed. Please try again.");
         }
     };
 
@@ -116,8 +137,8 @@ const Login = ({ onClose }) => {
 
                 {/* RIGHT */}
                 <div className="flex flex-col justify-center px-4 sm:px-5 py-6">
-                     <div className="flex justify-center mb-6">
-                         <img
+                    <div className="flex justify-center mb-6">
+                        <img
                             src="https://pa.2-min.in/upload/web_logo/20250816095817_8272.png"
                             alt="Logo"
                             className="w-28 sm:w-32 md:w-40 cursor-pointer"
@@ -132,8 +153,10 @@ const Login = ({ onClose }) => {
                             Please login to your account
                         </p>
                     </div>
-
                     <div className="mt-6 space-y-4">
+                        {formData.capture_code === "" && (
+                            <>
+
                         {/* Mobile Input */}
                         <div>
                             <input
@@ -177,29 +200,111 @@ const Login = ({ onClose }) => {
                                 )}
                             </div>
                         )}
-                    </div>
-
-                    {/* Button */}
-                    <div className="mt-5 w-full">
-                        {!otpSent ? (
-                            <button
-                                className="w-full bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
-                                onClick={sendOtp}
-                            >
-                                Send OTP
-                            </button>
-                        ) : (
-                            <button
-                                className="w-full bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
-                                onClick={onLoginClick}
-                            >
-                                Login
-                            </button>
+                        </>
                         )}
+                        {
+                            newSupplier && (
+                                <>
+                                    {/* Full Name */}
+                                    <div>
+                                        <input
+                                            type="text"
+                                            name="full_name"
+                                            placeholder="Full Name"
+                                            className="w-full border rounded-md px-3 py-3 focus:ring-2 focus:ring-[#251C4B] outline-none"
+                                            value={formData.full_name}
+                                            onChange={handleChange}
+                                        />
+                                        {error.full_name && (
+                                            <p className="text-red-500 text-sm">{error.full_name}</p>
+                                        )}
+                                    </div>
+
+                                    {/* Business Name */}
+                                    <div>
+                                        <input
+                                            type="text"
+                                            name="businessName"
+                                            placeholder="Business Name"
+                                            className="w-full border rounded-md px-3 py-3 focus:ring-2 focus:ring-[#251C4B] outline-none"
+                                            value={formData.businessName}
+                                            onChange={handleChange}
+                                        />
+                                        {error.businessName && (
+                                            <p className="text-red-500 text-sm">{error.businessName}</p>
+                                        )}
+                                    </div>
+
+                                    {/* Address */}
+                                    <div>
+                                        <textarea
+                                            name="address"
+                                            placeholder="Full Address"
+                                            className="w-full border rounded-md px-3 py-3 focus:ring-2 focus:ring-[#251C4B] outline-none"
+                                            rows={3}
+                                            value={formData.address}
+                                            onChange={handleChange}
+                                        />
+                                        {error.address && (
+                                            <p className="text-red-500 text-sm">{error.address}</p>
+                                        )}
+                                    </div>
+
+                                    {/* City */}
+                                    <div>
+                                        <input
+                                            type="text"
+                                            name="city"
+                                            placeholder="City"
+                                            className="w-full border rounded-md px-3 py-3 focus:ring-2 focus:ring-[#251C4B] outline-none"
+                                            value={formData.city}
+                                            onChange={handleChange}
+                                        />
+                                        {error.city && (
+                                            <p className="text-red-500 text-sm">{error.city}</p>
+                                        )}
+                                    </div>
+
+                                    {/* Pincode */}
+                                    <div>
+                                        <input
+                                            type="text"
+                                            name="pincode"
+                                            placeholder="Pincode"
+                                            className="w-full border rounded-md px-3 py-3 focus:ring-2 focus:ring-[#251C4B] outline-none"
+                                            value={formData.pincode}
+                                            onChange={handleChange}
+                                            maxLength={6}
+                                        />
+                                        {error.pincode && (
+                                            <p className="text-red-500 text-sm">{error.pincode}</p>
+                                        )}
+                                    </div>
+                                </>
+                            )
+                        }
+                        {/* Button */}
+                        <div className="mt-5 w-full">
+                            {!otpSent ? (
+                                <button
+                                    className="w-full bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
+                                    onClick={sendOtp}
+                                >
+                                    Send OTP
+                                </button>
+                            ) : (
+                                <button
+                                    className="w-full bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
+                                    onClick={onLoginClick}
+                                >
+                                    Login
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

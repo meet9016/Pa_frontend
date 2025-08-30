@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import endPointApi from "../utils.jsx/endPointApi";
+import api from "../utils.jsx/axiosInstance";
+import OtpInput from 'react-otp-input';
 
 const SupplierForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     businessName: "",
-    gst: "",
+    mobile: "",
     address: "",
     city: "",
     pincode: "",
+    capture_code: ""
   });
+  console.log("formData", formData.capture_code);
 
+  const [otp, setOtp] = useState();
   const [error, setError] = useState({});
 
   // Handle Input Change
@@ -29,24 +35,53 @@ const SupplierForm = ({ onClose }) => {
   // Submit Supplier Form
   const handleSubmit = async () => {
     let newErrors = {};
-    if (!formData.fullName) newErrors.fullName = "Full name is required";
-    if (!formData.businessName)
-      newErrors.businessName = "Business name is required";
-    if (!formData.address) newErrors.address = "Address is required";
-    if (!formData.city) newErrors.city = "City is required";
-    if (!formData.pincode) newErrors.pincode = "Pincode is required";
+    // if (!formData.fullName) newErrors.fullName = "Full name is required";
+    // if (!formData.businessName)
+    //   newErrors.businessName = "Business name is required";
+    // if (!formData.address) newErrors.address = "Address is required";
+    // if (!formData.city) newErrors.city = "City is required";
+    // if (!formData.pincode) newErrors.pincode = "Pincode is required";
 
-    if (Object.keys(newErrors).length > 0) {
-      setError(newErrors);
-      return;
+    // if (Object.keys(newErrors).length > 0) {
+    //   setError(newErrors);
+    //   return;
+    // }
+
+    const formdata = new FormData();
+
+    formdata.append("full_name", formData.fullName);
+    formdata.append("company_name", formData.businessName);
+    formdata.append("number", formData.mobile);
+    formdata.append("address", formData.address);
+    formdata.append("city", formData.city);
+    formdata.append("pincode", formData.pincode);
+
+    if (formData.capture_code) {
+      formdata.append("otp", 123456);
+      formdata.append("capture_code", formData.capture_code);
     }
 
     try {
-      // send to backend API (replace with your endpoint)
-      // await api.post(`${endPointApi.supplierForm}`, formData);
+      const res = await api.post(`${endPointApi.becomeSupplier}`, formdata);
 
-      toast.success("Supplier form submitted successfully!");
-      if (onClose) onClose();
+      if (res.data.status === 200) {
+        toast.success(res.data.message);
+        console.log("2222", res.data.data);
+
+        if (res.data.data.capture_code) {
+          setFormData(prev => ({
+            ...prev,
+            capture_code: res.data.data.capture_code
+          }));
+          setNewSupplier(true);
+          console.log("333");
+
+        }
+        if (res.data.data.token) {
+          const token = res.data.data.token;
+          window.location.href = `https://pa-admin-panel.vercel.app?token=${token}`;
+        }
+      }
     } catch (err) {
       toast.error("Something went wrong. Try again.");
     }
@@ -121,14 +156,14 @@ const SupplierForm = ({ onClose }) => {
               )}
             </div>
 
-            {/* GST Number (Optional) */}
+            {/* Mobile Number (Optional) */}
             <div>
               <input
                 type="text"
-                name="gst"
-                placeholder="GST Number (Optional)"
+                name="mobile"
+                placeholder="Mobile Number"
                 className="w-full border rounded-md px-3 py-3 focus:ring-2 focus:ring-[#251C4B] outline-none"
-                value={formData.gst}
+                value={formData.mobile}
                 onChange={handleChange}
               />
             </div>
@@ -178,6 +213,25 @@ const SupplierForm = ({ onClose }) => {
                 <p className="text-red-500 text-sm">{error.pincode}</p>
               )}
             </div>
+
+            {formData.capture_code && (
+              <div className="flex justify-center gap-10">
+                <OtpInput
+                  value={otp}
+                  onChange={(otp) => setOtp(prev => ({ ...prev, otp }))}
+                  numInputs={6}
+                  renderSeparator={<span className="text-white">-</span>}
+                  shouldAutoFocus
+                  renderInput={(props) => (
+                    <input
+                      {...props}
+                      style={{ width: "35px", height: "40px" }}
+                      className="border  border-gray-300 rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#251C4B] transition"
+                    />
+                  )}
+                />
+              </div>
+            )}
           </div>
 
           {/* Submit Button */}
