@@ -79,7 +79,7 @@ const Login = ({ onClose }) => {
                 toast.error(res.data.message);
             }
         } catch (err) {
-            toast.error("Login failed. Please try again.");
+            toast.error("Login failed. Please try again."); 
         }
     };
 
@@ -88,7 +88,7 @@ const Login = ({ onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* LEFT */}
                 <div className="hidden md:flex bg-[#251C4B] text-white rounded-2xl p-4 sm:p-5 flex-col justify-between">
-                    <div>
+                    {/* <div>
                         <h2 className="text-xl sm:text-2xl font-semibold leading-tight">
                             Welcome to
                         </h2>
@@ -104,10 +104,10 @@ const Login = ({ onClose }) => {
                                 lives.
                             </p>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="flex justify-center mt-4">
                         <img
-                            src="https://pa.2-min.in/upload/web_logo/loginimage_480.png"
+                            src="/src/Image/login.png"
                             alt="Welcome Illustration"
                             className="w-full object-contain"
                         />
@@ -116,6 +116,14 @@ const Login = ({ onClose }) => {
 
                 {/* RIGHT */}
                 <div className="flex flex-col justify-center px-4 sm:px-5 py-6">
+                     <div className="flex justify-center mb-6">
+                         <img
+                            src="https://pa.2-min.in/upload/web_logo/20250816095817_8272.png"
+                            alt="Logo"
+                            className="w-28 sm:w-32 md:w-40 cursor-pointer"
+                            onClick={() => navigate('/')}
+                        />
+                    </div>
                     <div className="text-center">
                         <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900">
                             Welcome Back

@@ -26,7 +26,9 @@ function LayoutWithHeader() {
 const AppRoutes = () => {
   return (
     <>
+    <div className="flex flex-col min-h-screen">
       <Header />
+       <main className="flex-grow bg-[#EAEBEF]">
       <Routes>
         {/* <Route path="/" element={<LayoutWithHeader />} /> */}
         <Route path="/" element={<Home />} />
@@ -42,8 +44,9 @@ const AppRoutes = () => {
         {/* <Route path="*" element={<NotFound />} /> */}
         <Route path="/category/:categoryId" element={<Category />} />
 
-      </Routes>
+      </Routes></main>
       <Footer />
+      </div>
     </>
   );
 };

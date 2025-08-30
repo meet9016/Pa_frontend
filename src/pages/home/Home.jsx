@@ -66,7 +66,6 @@ const Home = () => {
             ))}
           </div> */}
 
-
           <div className="w-full mt-1">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
@@ -80,16 +79,18 @@ const Home = () => {
             >
               {product?.slider?.map((slide) => (
                 <SwiperSlide key={slide.slider_id}>
-                  <img
-                    src={slide.image}
-                    alt="Slider"
-                    className="
+                  <a href="#" rel="noopener noreferrer">
+                    <img
+                      src={slide.image}
+                      alt="Slider"
+                      className="
                 w-full 
                 h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
                 rounded-2xl 
                 object-cover
               "
-                  />
+                    />
+                  </a>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -123,11 +124,13 @@ const Home = () => {
             >
               {product?.banner?.map((banners) => (
                 <SwiperSlide key={banners.banner_id}>
-                  <img
-                    src={banners.image}
-                    alt="banner"
-                    className="w-full rounded-2xl object-cover"
-                  />
+                  <a href="#" rel="noopener noreferrer">
+                    <img
+                      src={banners.image}
+                      alt="banner"
+                      className="w-full rounded-2xl object-cover"
+                    />
+                  </a>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -150,19 +153,23 @@ const Home = () => {
           <div className="w-full mt-8">
             {product?.all_categories?.map((cat) => (
               <div key={cat.categories_id} className="mb-10 flex flex-col">
-                <div className="flex items-center justify-between">
-                  {/* Category Name */}
-                  <h2 className="text-lg sm:text-xl font-semibold mb-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
                     {cat.categories_name}
                   </h2>
-                  {cat?.view_button && (
-                    <p
-                      onClick={() => navigate(`/category/${cat.categories_id}`)}
-                      className="px-5 py-2  text-[#251c4b] font-bold text-[18px] underline hover:cursor-pointer rounded-lg  transition mb-4"
-                    >
-                      View More
-                    </p>
-                  )}
+
+                  <div className="flex items-center gap-4">
+                    {cat?.view_button && (
+                      <button
+                        onClick={() =>
+                          navigate(`/category/${cat.categories_id}`)
+                        }
+                        className="px-5 py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
+                      >
+                        View More →
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Subcategories Grid */}

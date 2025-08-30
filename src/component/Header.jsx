@@ -5,6 +5,7 @@ import endPointApi from "../pages/utils.jsx/endPointApi";
 import { toast } from "react-toastify";
 import Login from "../pages/auth/Login";
 import debounce from 'lodash.debounce';
+import SupplierForm from "../pages/auth/Supplier";
 
 const Header = () => {
     const navigate = useNavigate()
@@ -21,6 +22,7 @@ const Header = () => {
     const [results, setResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [showFullResults, setShowFullResults] = useState(false);
+    const [showSupplier, setShowSupplier] = useState(false);
     const wrapperRef = useRef(null);
 
     const fetchSuggestions = async (searchText) => {
@@ -264,15 +266,30 @@ const Header = () => {
 
                                 {/* Show All Results Option */}
 
-                                <div className="w-full text-left px-4 py-3 border-t text-sm text-blue-600 hover:underline">
-                                    <button
-                                        onClick={handleShowAllResults}
-                                        className="cursor-pointer"
-                                    >
-                                        View more
-                                        {/* Show all results for <strong className="font-semibold">‘{query}’</strong> */}
-                                    </button>
-                                </div>
+                               <div className="w-full text-center px-4 py-4">
+  <button
+    onClick={handleShowAllResults}
+    className="inline-flex items-center gap-3 text-base font-semibold transition-all duration-300"
+    style={{ color: "#251C4B" }}
+  >
+    View more
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="#251C4B"
+      className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17.25 8.25L21 12l-3.75 3.75M21 12H3"
+      />
+    </svg>
+  </button>
+</div>
+
 
                             </div>
                         )}
@@ -283,10 +300,10 @@ const Header = () => {
                     <div className="hidden md:flex items-center gap-3">
                         {/* Supplier Link */}
                         <button
-                            onClick={() => navigate("https://pa-admin-panel.vercel.app/signin")}
+                           onClick={() => setShowSupplier(true)}
                             className="text-black text-[13px] sm:text-[14px] md:text-[15px] font-medium hover:underline"
                         >
-                            Supplier
+                            Become a Supplier
                         </button>
 
                         {/* Cart Button */}
@@ -295,7 +312,7 @@ const Header = () => {
                             className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
                             <i className="ri-shopping-cart-2-line text-black"></i>
-                            My Cart
+                            {/* My Cart */}
                         </button>
 
                         {/* Show Cart */}
@@ -421,6 +438,7 @@ const Header = () => {
                             }}
                             className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
+                            <i className="ri-user-3-line"></i>
                             {alreadyLogin ? "Logout" : "Login"}
                         </button>
 
@@ -485,6 +503,21 @@ const Header = () => {
                         </div>
                     </div>
                 )}
+                {showSupplier && (
+  <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+    <div className="relative rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+      <button
+        onClick={() => setShowSupplier(false)}
+        className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
+      >
+        <i className="ri-close-large-line"></i>
+      </button>
+
+      <SupplierForm onClose={() => setShowSupplier(false)} />
+    </div>
+  </div>
+)}
+
             </header>
         </>
     );
