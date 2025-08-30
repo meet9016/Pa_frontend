@@ -42,6 +42,7 @@ const Category = () => {
     <>
       <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">
         <div className="w-full mt-8">
+
           {loading ? (
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -55,10 +56,13 @@ const Category = () => {
           ) : (
             <div key={selectedCategory.categories_id} className="mb-10">
               {/* Category Name */}
-              <h2 className="text-lg sm:text-xl font-semibold mb-4">
+              {/* <h2 className="text-lg sm:text-xl font-semibold mt-15 mb-4">
                 {selectedCategory.categories_name}
-              </h2>
-
+              </h2> */}
+              
+              <div className="text-sm sm:text-base text-gray-500 mb-4  mt-15  flex flex-wrap gap-1">
+                Home <i className="ri-arrow-right-s-line"></i> {selectedCategory.categories_name}{" "}
+              </div>
               {/* Subcategories Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">
                 {selectedCategory.sub_categories?.map((sub, i) => (
@@ -84,7 +88,7 @@ const Category = () => {
                     </p>
                   </div>
                 ))}
-                
+
               </div>
             </div>
           )}

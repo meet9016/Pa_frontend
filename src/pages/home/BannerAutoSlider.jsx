@@ -64,18 +64,18 @@ const BannerAutoSlider = ({ items = [], loading = false, intervalMs = 3000 }) =>
   // seamless wrap for infinite scroll
   const onTransitionEnd = () => {
     isTransitioningRef.current = true;
-    
+
     // Forward wrap: when we reach the cloneFirst (last position)
     if (index === loopSlides.length - 1) {
       setAnimate(false);
       const target = 1;
-      
+
       requestAnimationFrame(() => {
         if (trackRef.current) {
           trackRef.current.style.transform = `translateX(-${target * step}px)`;
         }
         setIndex(target);
-        
+
         requestAnimationFrame(() => {
           setAnimate(true);
           isTransitioningRef.current = false;
@@ -86,13 +86,13 @@ const BannerAutoSlider = ({ items = [], loading = false, intervalMs = 3000 }) =>
     else if (index === 0) {
       setAnimate(false);
       const target = loopSlides.length - 2;
-      
+
       requestAnimationFrame(() => {
         if (trackRef.current) {
           trackRef.current.style.transform = `translateX(-${target * step}px)`;
         }
         setIndex(target);
-        
+
         requestAnimationFrame(() => {
           setAnimate(true);
           isTransitioningRef.current = false;

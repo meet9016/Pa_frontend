@@ -4,12 +4,14 @@ import { useNavigate } from "react-router";
 import Header from "../../component/Header";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-import AOS from "aos";
 import "aos/dist/aos.css";
 import HeroSlider from "./HeroSlider";
 import BannerAutoSlider from "./BannerAutoSlider";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 const Home = () => {
   const images = Array(20).fill(
@@ -54,23 +56,82 @@ const Home = () => {
         <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">
           {/* Top Banner */}
           {/* <div className="w-full">
-                        {product?.slider?.map((slide) => (
-                            <img
-                                key={slide.slider_id}
-                                src={slide.image}
-                                alt="Slider"
-                                className="w-full h-auto rounded-2xl object-contain"
-                            />
-                        ))}
-                    </div> */}
-          {loading ? (
+            {product?.slider?.map((slide) => (
+              <img
+                key={slide.slider_id}
+                src={slide.image}
+                alt="Slider"
+                className="w-full h-auto rounded-2xl object-contain"
+              />
+            ))}
+          </div> */}
+
+
+          <div className="w-full mt-1">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={20}
+              slidesPerView={1}
+              navigation
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              loop={true}
+              className="rounded-2xl"
+            >
+              {product?.slider?.map((slide) => (
+                <SwiperSlide key={slide.slider_id}>
+                  <img
+                    src={slide.image}
+                    alt="Slider"
+                    className="
+                w-full 
+                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
+                rounded-2xl 
+                object-cover
+              "
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+
+          {/* {loading ? (
             <div className="w-full h-40 sm:h-56 md:h-72 lg:h-80 rounded-[22px] bg-gray-300 animate-pulse mb-4" />
           ) : (
             <HeroSlider slides={product?.slider ?? []} />
-          )}
+          )} */}
 
           {/* Three Category Cards */}
-          <BannerAutoSlider items={product?.banner ?? []} loading={loading} />
+          {/* <BannerAutoSlider items={product?.banner ?? []} loading={loading} /> */}
+
+          <div className="w-full mt-10">
+            <Swiper
+              spaceBetween={20}
+              slidesPerView={3}
+              loop={true}
+              autoplay={{
+                delay: 2000,
+                disableOnInteraction: false,
+              }}
+              breakpoints={{
+                320: { slidesPerView: 1 },
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+              modules={[Autoplay]}
+            >
+              {product?.banner?.map((banners) => (
+                <SwiperSlide key={banners.banner_id}>
+                  <img
+                    src={banners.image}
+                    alt="banner"
+                    className="w-full rounded-2xl object-cover"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
 
           {/* Paan Corner Grid */}
           {/* <div className="w-full grid grid-cols-2 border bg-white rounded-2xl border-white sm:grid-cols-5 md:grid-cols-10 mt-6">
@@ -95,12 +156,12 @@ const Home = () => {
                     {cat.categories_name}
                   </h2>
                   {cat?.view_button && (
-                    <button
+                    <p
                       onClick={() => navigate(`/category/${cat.categories_id}`)}
-                      className="px-5 py-2 bg-[#251C4B] text-white rounded-lg shadow-md hover:bg-[#372b63] transition mb-4"
+                      className="px-5 py-2  text-[#251c4b] font-bold text-[18px] underline hover:cursor-pointer rounded-lg  transition mb-4"
                     >
-                      View more
-                    </button>
+                      View More
+                    </p>
                   )}
                 </div>
 

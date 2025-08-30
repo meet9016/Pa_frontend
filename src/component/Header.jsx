@@ -46,7 +46,7 @@ const Header = () => {
     };
 
     const handleShowAllResults = async () => {
-       navigate(`/search/${query}`)
+        navigate(`/search/${query}`)
     };
     const handleIncrement = async (cart_id, p_id) => {
         // naya quantity calculate karo
@@ -369,16 +369,28 @@ const Header = () => {
 
 
                             {/* Footer */}
-                            <div className="bg-[#3E8E1F] text-white px-4 py-3 flex items-center justify-between">
-                                <div>
-                                    {/* <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
-                                    <p className="text-sm font-bold tracking-wide">TOTAL</p> */}
-                                </div>
-                                <button className="flex items-center gap-2 text-lg font-semibold" onClick={orderOnWhatsapp}>
-                                    Inquiry On Whatsapp
+                            <div className="bg-[#F5F7FD] px-4 py-3">
+                                <div className="bg-[#251c4b] text-white rounded-lg shadow-sm p-4 flex items-center justify-between">
+                                    {/* <div>
+                                        <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
+                                        <p className="text-sm font-bold tracking-wide">TOTAL</p>
+                                    </div> */}
+                                    {/* Left side: WhatsApp icon + text */}
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            className="bg-[#25d366] text-white px-2 py-1 rounded-lg flex items-center justify-center"
+                                        >
+                                            <i className="ri-whatsapp-fill text-2xl"></i>
+                                        </button>
+                                        <p className="text-[18px] font-bold">Inquiry On Whatsapp</p>
+                                    </div>
+
+                                    {/* Right side: Arrow */}
                                     <i className="ri-arrow-right-s-line text-xl"></i>
-                                </button>
+                                </div>
                             </div>
+
+
                         </div>
 
 

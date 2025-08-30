@@ -74,11 +74,9 @@ const ProductDetails = () => {
         <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
             <div className="w-full mt-4 max-w-[1300px]">
                 {/* Breadcrumb */}
-                <div className="text-sm sm:text-base text-gray-500 mb-4 flex flex-wrap gap-1">
-                    Home <i className="ri-arrow-right-s-line"></i> {singleProductData?.category_name}{" "}
-                    <i className="ri-arrow-right-s-line"></i> {singleProductData?.sub_category_name}{" "}
-                    <i className="ri-arrow-right-s-line"></i> {singleProductData?.product_name}
-                </div>
+                <div className="text-sm sm:text-base text-gray-500 mb-4 flex flex-wrap gap-1"> Home <i className="ri-arrow-right-s-line"></i> {singleProductData?.category_name}{" "} <i className="ri-arrow-right-s-line"></i> {singleProductData?.sub_category_name}{" "} <i className="ri-arrow-right-s-line"></i> {singleProductData?.product_name} </div>
+
+
 
                 {/* Main Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -123,7 +121,7 @@ const ProductDetails = () => {
                         </h2>
 
                         {/* Rating */}
-                        <div className="flex items-center gap-2 flex-wrap">
+                        {/* <div className="flex items-center gap-2 flex-wrap">
                             <div className="flex text-yellow-400">
                                 {[...Array(5)].map((_, i) => (
                                     <i key={i} className="ri-star-fill"></i>
@@ -133,7 +131,7 @@ const ProductDetails = () => {
                                 3.00
                             </button>
                             <p className="text-gray-500 text-xs sm:text-sm">2 Reviews</p>
-                        </div>
+                        </div> */}
 
                         {/* Description (short) */}
                         <p className="text-sm sm:text-base text-gray-600">
@@ -207,10 +205,10 @@ const ProductDetails = () => {
 
                         {/* Wishlist, Share */}
                         <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
-                            <div className="flex items-center gap-1 cursor-pointer">
+                            {/* <div className="flex items-center gap-1 cursor-pointer">
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
                                 Add to wishlist
-                            </div>
+                            </div> */}
                             <div className="flex items-center gap-1 cursor-pointer">
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
                                 Share this Product
@@ -241,7 +239,7 @@ const ProductDetails = () => {
                         >
                             Additional Information
                         </button>
-                        <button className="pb-2 text-gray-500 hover:text-black">Reviews (2)</button>
+                        {/* <button className="pb-2 text-gray-500 hover:text-black">Reviews (2)</button> */}
                     </div>
 
 
@@ -255,14 +253,14 @@ const ProductDetails = () => {
                             </>
                         )}
                         {activeTab === "additional" && (
-                             <></>
+                            <></>
                         )}
                     </div>
                 </div>
 
                 <div className="mt-16 w-full">
                     <h2 className="text-lg sm:text-xl font-semibold mb-4">Related Products</h2>
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 md:px-8 pb-10">
                         {singleProductData?.related_products?.length > 0 ? (
                             singleProductData.related_products.map((item, index) => (
                                 <div

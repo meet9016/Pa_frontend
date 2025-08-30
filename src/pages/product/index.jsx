@@ -10,7 +10,9 @@ const Product = () => {
     const navigate = useNavigate();
     const { categories_id, sub_category_id } = useParams();
     const [singleProductData, setSingleProductData] = useState([])
-    const [loading, setLoading] = useState(true); // ✅ add loading
+    const [loading, setLoading] = useState(true);
+    const [name, setName] = useState([]);
+
     const getSingleProductData = async () => {
         try {
             const formdata = new FormData();
@@ -22,6 +24,7 @@ const Product = () => {
 
             if (res?.data && res?.data?.data) {
                 setSingleProductData(res?.data?.data?.products || [])
+                setName(res?.data)
             }
         } catch (err) {
             console.log("Error Fetch data", err)
@@ -79,15 +82,17 @@ const Product = () => {
                 </div>
             </div> */}
 
-            <div className="w-full max-w-[1300px] pb-5">
-
-                {/* ✅ Show Loader First */}
+            <div className="w-full max-w-[1300px] mt-4 pb-5">
+                <div className="text-sm sm:text-base text-gray-500 mb-4 flex flex-wrap gap-1">
+                    Home <i className="ri-arrow-right-s-line"></i> {name?.data?.categories_name}{" "}
+                </div>
+                {/*  Show Loader First */}
                 {loading ? (
                     <div className="w-full mt-20 flex justify-center items-center h-[300px]">
                         <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#251C4B] border-t-transparent"></div>
                     </div>
                 ) : singleProductData && singleProductData.length > 0 ? (
-                    // ✅ Products Grid
+                    //  Products Grid
                     <div className="w-full p-2 grid grid-cols-1 border mt-[40px] rounded-md shadow-md border-gray-200 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {singleProductData?.map((item, index) => (
                             <div
@@ -135,7 +140,7 @@ const Product = () => {
                         ))}
                     </div>
                 ) : (
-                    // ✅ No Data
+                    //  No Data
                     <div className="w-full mt-10 flex justify-center items-center h-[400px]">
                         <div className="flex flex-col items-center justify-center text-center">
                             <img
