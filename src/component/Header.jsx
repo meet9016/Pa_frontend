@@ -160,6 +160,10 @@ const Header = () => {
     };
 
     const orderOnWhatsapp = () => {
+        if(!alreadyLogin){
+            toast.error("Please login!")
+            return
+        }
         try {
             api.post(`${endPointApi.postOrderWiaWhatsapp}`, {}).then((res) => {
                 if (res.data.status == 200) {
@@ -266,29 +270,29 @@ const Header = () => {
 
                                 {/* Show All Results Option */}
 
-                               <div className="w-full text-center px-4 py-4">
-  <button
-    onClick={handleShowAllResults}
-    className="inline-flex items-center gap-3 text-base font-semibold transition-all duration-300"
-    style={{ color: "#251C4B" }}
-  >
-    View more
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      stroke="#251C4B"
-      className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M17.25 8.25L21 12l-3.75 3.75M21 12H3"
-      />
-    </svg>
-  </button>
-</div>
+                                <div className="w-full text-center px-4 py-4">
+                                    <button
+                                        onClick={handleShowAllResults}
+                                        className="inline-flex items-center gap-3 text-base font-semibold transition-all duration-300"
+                                        style={{ color: "#251C4B" }}
+                                    >
+                                        View more
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={2}
+                                            stroke="#251C4B"
+                                            className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M17.25 8.25L21 12l-3.75 3.75M21 12H3"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
 
 
                             </div>
@@ -300,7 +304,7 @@ const Header = () => {
                     <div className="hidden md:flex items-center gap-3">
                         {/* Supplier Link */}
                         <button
-                           onClick={() => setShowSupplier(true)}
+                            onClick={() => setShowSupplier(true)}
                             className="text-black text-[13px] sm:text-[14px] md:text-[15px] font-medium hover:underline"
                         >
                             Become a Supplier
@@ -387,7 +391,9 @@ const Header = () => {
 
                             {/* Footer */}
                             <div className="bg-[#F5F7FD] px-4 py-3">
-                                <div className="bg-[#251c4b] text-white rounded-lg shadow-sm p-4 flex items-center justify-between">
+                                <div className="bg-[#251c4b] text-white rounded-lg shadow-sm p-4 flex items-center justify-between"
+                                    onClick={orderOnWhatsapp}
+                                >
                                     {/* <div>
                                         <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
                                         <p className="text-sm font-bold tracking-wide">TOTAL</p>
@@ -504,19 +510,19 @@ const Header = () => {
                     </div>
                 )}
                 {showSupplier && (
-  <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-    <div className="relative rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
-      <button
-        onClick={() => setShowSupplier(false)}
-        className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
-      >
-        <i className="ri-close-large-line"></i>
-      </button>
+                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+                        <div className="relative rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+                            <button
+                                onClick={() => setShowSupplier(false)}
+                                className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
+                            >
+                                <i className="ri-close-large-line"></i>
+                            </button>
 
-      <SupplierForm onClose={() => setShowSupplier(false)} />
-    </div>
-  </div>
-)}
+                            <SupplierForm onClose={() => setShowSupplier(false)} />
+                        </div>
+                    </div>
+                )}
 
             </header>
         </>

@@ -16,7 +16,7 @@ const SupplierForm = ({ onClose }) => {
   });
   console.log("formData", formData.capture_code);
 
-  const [otp, setOtp] = useState();
+  const [otp, setOtp] = useState("");
   const [error, setError] = useState({});
 
   // Handle Input Change
@@ -35,17 +35,27 @@ const SupplierForm = ({ onClose }) => {
   // Submit Supplier Form
   const handleSubmit = async () => {
     let newErrors = {};
-    // if (!formData.fullName) newErrors.fullName = "Full name is required";
-    // if (!formData.businessName)
-    //   newErrors.businessName = "Business name is required";
-    // if (!formData.address) newErrors.address = "Address is required";
-    // if (!formData.city) newErrors.city = "City is required";
-    // if (!formData.pincode) newErrors.pincode = "Pincode is required";
+    if (!formData.fullName) newErrors.fullName = "Full name is required";
+    if (!formData.businessName)
+      newErrors.businessName = "Business name is required";
+    if (!formData.mobile) {
+      newErrors.mobile = "Mobile is required";
+    } else if (!/^\d{10}$/.test(formData.mobile)) {
+      newErrors.mobile = "Mobile must be a 10-digit number";
+    }
 
-    // if (Object.keys(newErrors).length > 0) {
-    //   setError(newErrors);
-    //   return;
-    // }
+    if (!formData.address) newErrors.address = "Address is required";
+    if (!formData.city) newErrors.city = "City is required";
+    if (!formData.pincode) {
+      newErrors.pincode = "Pincode is required";
+    } else if (!/^\d{6}$/.test(formData.pincode)) {
+      newErrors.pincode = "Pincode must be a 6-digit number";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setError(newErrors);
+      return;
+    }
 
     const formdata = new FormData();
 
@@ -57,34 +67,36 @@ const SupplierForm = ({ onClose }) => {
     formdata.append("pincode", formData.pincode);
 
     if (formData.capture_code) {
-      formdata.append("otp", 123456);
+      formdata.append("otp", otp);
       formdata.append("capture_code", formData.capture_code);
     }
 
-    try {
-      const res = await api.post(`${endPointApi.becomeSupplier}`, formdata);
+    // try {
+    const res = await api.post(`${endPointApi.becomeSupplier}`, formdata);
 
-      if (res.data.status === 200) {
-        toast.success(res.data.message);
-        console.log("2222", res.data.data);
+    if (res.data.status === 200) {
+      toast.success(res.data.message);
 
-        if (res.data.data.capture_code) {
-          setFormData(prev => ({
-            ...prev,
-            capture_code: res.data.data.capture_code
-          }));
-          setNewSupplier(true);
-          console.log("333");
+      if (res.data.data.capture_code) {
+        setFormData(prev => ({
+          ...prev,
+          capture_code: res.data.data.capture_code
+        }));
+        // setNewSupplier(true);
 
-        }
-        if (res.data.data.token) {
-          const token = res.data.data.token;
-          window.location.href = `https://pa-admin-panel.vercel.app?token=${token}`;
-        }
       }
-    } catch (err) {
-      toast.error("Something went wrong. Try again.");
+      if (res.data.data.token) {
+        const token = res.data.data.token;
+        window.location.href = `http://localhost:5174/?token=${token}`;
+        // window.open("http://localhost:5174/?token=78785477", "_blank");
+
+      }
+    }else if(res.data.status === 400){
+      toast.error(res.data.message)
     }
+    // } catch (err) {
+    //   toast.error("Something went wrong. Try again.");
+    // }
   };
 
   return (
@@ -166,6 +178,9 @@ const SupplierForm = ({ onClose }) => {
                 value={formData.mobile}
                 onChange={handleChange}
               />
+              {error.mobile && (
+                <p className="text-red-500 text-sm">{error.mobile}</p>
+              )}
             </div>
 
             {/* Address */}
@@ -218,7 +233,7 @@ const SupplierForm = ({ onClose }) => {
               <div className="flex justify-center gap-10">
                 <OtpInput
                   value={otp}
-                  onChange={(otp) => setOtp(prev => ({ ...prev, otp }))}
+                  onChange={setOtp}   // 👈 directly set the string
                   numInputs={6}
                   renderSeparator={<span className="text-white">-</span>}
                   shouldAutoFocus
@@ -226,7 +241,7 @@ const SupplierForm = ({ onClose }) => {
                     <input
                       {...props}
                       style={{ width: "35px", height: "40px" }}
-                      className="border  border-gray-300 rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#251C4B] transition"
+                      className="border border-gray-300 rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#251C4B] transition"
                     />
                   )}
                 />
