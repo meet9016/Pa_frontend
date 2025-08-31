@@ -151,7 +151,7 @@ const Login = ({ onClose }) => {
                     </div> */}
                     <div className="flex justify-center mt-4">
                         <img
-                            src="/src/Image/login.png"
+                            src="https://pa.2-min.in/upload/web_logo/be_come_seller.jpeg"
                             alt="Welcome Illustration"
                             className="w-full object-contain"
                         />
