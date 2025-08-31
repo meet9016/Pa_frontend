@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:justify-between gap-8 border-white/20 pb-1">
           {/* Logo */}
           <img
-            src="/src/Image/footer.logo.png"
+            src="https://pa.2-min.in/upload/web_logo/footer_logo.png"
             alt="PA Logo"
             className="w-[150px] md:w-[200px]"
           />

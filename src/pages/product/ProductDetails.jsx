@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
 
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [singleProductData, setSingleProductData] = useState([]);
   const [count, setCount] = useState(1);
@@ -38,7 +39,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     getSingleProductData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     AOS.init({
@@ -46,20 +47,27 @@ const ProductDetails = () => {
       once: true,
     });
   }, []);
-
+  const auth_token = localStorage.getItem("auth_token");
   const addToCart = () => {
     try {
+      if (!auth_token) {
+        toast.error("Please Login!")
+
+      }
       const formdata = new FormData();
       formdata.append("product_id", id);
       formdata.append("quantity", count);
       formdata.append("type", 1);
+      console.log("res0000111");
 
       api.post(endPointApi.postAddToCart, formdata).then((res) => {
+        console.log("res0000", res);
+
         if (res.data.status == 200) {
           toast.success(res?.data?.message);
         }
       });
-      if (res.sta) console.log("res", res);
+      // if (res.sta) console.log("res", res);
     } catch (err) {
       console.log("Error Fetch data", err);
     } finally {
@@ -93,11 +101,10 @@ const ProductDetails = () => {
                   alt="No Image"
                   onClick={() => setSelectedImage(img.image)}
                   className={`w-16 h-16 sm:w-20 sm:h-20 border rounded-md object-contain cursor-pointer 
-                                     ${
-                                       selectedImage === img.image
-                                         ? "border-[#251c4b] border-2"
-                                         : "border-gray-300"
-                                     }`}
+                                     ${selectedImage === img.image
+                      ? "border-[#251c4b] border-2"
+                      : "border-gray-300"
+                    }`}
                 />
               ))}
             </div>
@@ -153,9 +160,9 @@ const ProductDetails = () => {
 
             {/* SKU Details Section (instead of hr line) */}
             <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
-             <h3 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
-  Product Details
-</h3>
+              <h3 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
+                Product Details
+              </h3>
 
 
               <ul className="space-y-2 text-gray-700 text-sm">
@@ -209,7 +216,13 @@ const ProductDetails = () => {
                   <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
                 </button>
 
-                <button className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer">
+                <button className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
+                  onClick={() => {
+                    if (singleProductData?.whatsapp_inquiry_url) {
+                      window.open(singleProductData.whatsapp_inquiry_url, "_blank");
+                    }
+                  }}
+                >
                   <i className="ri-whatsapp-fill text-2xl"></i> Chat Now
                 </button>
               </div>
@@ -230,61 +243,59 @@ const ProductDetails = () => {
         </div>
 
         {/* Description Section */}
-       <div className="mt-12 bg-white shadow-md rounded-2xl border border-gray-200 overflow-hidden">
-  {/* Top Header Tabs */}
-  <div className="flex gap-6 text-sm sm:text-base font-medium border-b border-gray-200 bg-gray-50 px-6 py-4 rounded-t-2xl">
-    <button
-      onClick={() => setActiveTab("description")}
-      className={`transition pb-2 ${
-        activeTab === "description"
-          ? "border-b-2 border-black text-black"
-          : "text-gray-500 hover:text-black"
-      }`}
-    >
-      Description
-    </button>
-    <button
-      onClick={() => setActiveTab("additional")}
-      className={`transition pb-2 ${
-        activeTab === "additional"
-          ? "border-b-2 border-black text-black"
-          : "text-gray-500 hover:text-black"
-      }`}
-    >
-      Additional Information
-    </button>
-    {/* Future Reviews Tab */}
-    {/* <button className="pb-2 text-gray-500 hover:text-black">Reviews (2)</button> */}
-  </div>
-
-  {/* Bottom Content */}
-  <div className="px-6 py-6 bg-white">
-    {activeTab === "description" && (
-      <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
-        <p>{singleProductData?.description}</p>
-      </div>
-    )}
-
-    {activeTab === "additional" && (
-      <>
-        {singleProductData?.additional ? (
-          <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
-            <p>{singleProductData.additional}</p>
+        <div className="mt-12 bg-white shadow-md rounded-2xl border border-gray-200 overflow-hidden">
+          {/* Top Header Tabs */}
+          <div className="flex gap-6 text-sm sm:text-base font-medium border-b border-gray-200 bg-gray-50 px-6 py-4 rounded-t-2xl">
+            <button
+              onClick={() => setActiveTab("description")}
+              className={`transition pb-2 ${activeTab === "description"
+                ? "border-b-2 border-black text-black"
+                : "text-gray-500 hover:text-black"
+                }`}
+            >
+              Description
+            </button>
+            <button
+              onClick={() => setActiveTab("additional")}
+              className={`transition pb-2 ${activeTab === "additional"
+                ? "border-b-2 border-black text-black"
+                : "text-gray-500 hover:text-black"
+                }`}
+            >
+              Additional Information
+            </button>
+            {/* Future Reviews Tab */}
+            {/* <button className="pb-2 text-gray-500 hover:text-black">Reviews (2)</button> */}
           </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-8">
-            <img
-              src="/src/Image/no-data-found.png"
-              alt="No Data Found"
-              className="w-64 h-64 sm:w-72 sm:h-72 opacity-80"
-            />
-            <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
+
+          {/* Bottom Content */}
+          <div className="px-6 py-6 bg-white">
+            {activeTab === "description" && (
+              <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
+                <p>{singleProductData?.description}</p>
+              </div>
+            )}
+
+            {activeTab === "additional" && (
+              <>
+                {singleProductData?.additional ? (
+                  <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
+                    <p>{singleProductData.additional}</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <img
+                      src="/src/Image/no-data-found.png"
+                      alt="No Data Found"
+                      className="w-64 h-64 sm:w-72 sm:h-72 opacity-80"
+                    />
+                    <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
+                  </div>
+                )}
+              </>
+            )}
           </div>
-        )}
-      </>
-    )}
-  </div>
-</div>
+        </div>
 
 
         <div className="mt-16 w-full">
@@ -303,8 +314,11 @@ const ProductDetails = () => {
                   data-aos="fade-up"
                   className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
                 >
+                  {console.log("item", item)}
+
                   <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
-                    <div className="w-full h-full relative group preserve-3d">
+                    <div className="w-full h-full relative group preserve-3d" onClick={() => navigate(`/single-product/${item.product_id}`)}
+                    >
                       {/* Front Image */}
                       <div className="absolute inset-0 backface-hidden transition-transform duration-700 transform group-hover:rotate-y-180">
                         <img
@@ -368,7 +382,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default ProductDetails;

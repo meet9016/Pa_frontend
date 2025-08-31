@@ -112,7 +112,7 @@ const Login = ({ onClose }) => {
         console.log("res", res.data.status);
 
         if (res.data.status === 200) {
-            saveToken(res?.data?.token)
+            saveToken(res?.data?.data?.token)
             if (onClose) onClose()
             navigate('/')
             toast.success(res?.data?.message || 'Logged in')

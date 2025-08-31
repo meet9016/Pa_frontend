@@ -14,7 +14,6 @@ const SupplierForm = ({ onClose }) => {
     pincode: "",
     capture_code: ""
   });
-  console.log("formData", formData.capture_code);
 
   const [otp, setOtp] = useState("");
   const [error, setError] = useState({});
@@ -119,7 +118,7 @@ const SupplierForm = ({ onClose }) => {
           </div> */}
           <div className="flex justify-center mt-4">
             <img
-              src="/src/Image/seller.png"
+              src="https://pa.2-min.in/upload/web_logo/seller_reg.jpeg"
               alt="Supplier Illustration"
               className="w-full object-contain"
             />
