@@ -86,7 +86,8 @@ const SupplierForm = ({ onClose }) => {
       }
       if (res.data.data.token) {
         const token = res.data.data.token;
-        window.location.href = `http://localhost:5174/?token=${token}`;
+        // window.location.href = `http://localhost:5174/?token=${token}`;
+        window.location.href = `https://pa-admin-panel.vercel.app/?token=${token}`;
         // window.open("http://localhost:5174/?token=78785477", "_blank");
 
       }
