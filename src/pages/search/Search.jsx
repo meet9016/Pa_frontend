@@ -11,7 +11,7 @@ const Search = () => {
 
     const navigate = useNavigate();
     const [singleProductData, setSingleProductData] = useState([])
-    const [loading, setLoading] = useState(false); // ✅ add loading
+    const [loading, setLoading] = useState(false);// add loading
 
     console.log("id", id);
 
@@ -36,6 +36,8 @@ const Search = () => {
             } catch (err) {
                 console.error("Failed to fetch full results:", err);
                 setSingleProductData([]);
+            } finally {
+                setLoading(false)
             }
         })();
     }, [id]);
@@ -43,13 +45,13 @@ const Search = () => {
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
             <div className="w-full max-w-[1300px] pb-5">
 
-                {/* ✅ Show Loader First */}
+                {/* Show Loader First */}
                 {loading ? (
                     <div className="w-full mt-20 flex justify-center items-center h-[300px]">
                         <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#251C4B] border-t-transparent"></div>
                     </div>
                 ) : singleProductData && singleProductData.length > 0 ? (
-                    // ✅ Products Grid
+                    //  Products Grid
                     <div className="w-full p-2 grid grid-cols-1 border mt-[40px] rounded-md shadow-md border-gray-200 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {singleProductData?.map((item, index) => (
                             <div
@@ -82,11 +84,6 @@ const Search = () => {
                                 {/* Price */}
                                 <div className="flex items-center gap-5 mt-3">
                                     <span className="text-lg font-bold text-black">₹{item.price}</span>
-                                    {item.cancle_price && (
-                                        <span className="text-sm text-red-500 line-through">
-                                            ₹{item.cancle_price}
-                                        </span>
-                                    )}
                                 </div>
 
                                 {/* Read More */}
@@ -97,7 +94,7 @@ const Search = () => {
                         ))}
                     </div>
                 ) : (
-                    // ✅ No Data
+                    //  No Data
                     <div className="w-full mt-10 flex justify-center items-center h-[400px]">
                         <div className="flex flex-col items-center justify-center text-center">
                             <img

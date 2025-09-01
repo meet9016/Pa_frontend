@@ -100,11 +100,11 @@ const Product = () => {
           <div className="text-center">
             <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
               {name?.data?.categories_name}
-              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-indigo-500 rounded-full"></span>
+              {/* <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-indigo-500 rounded-full"></span> */}
             </h2>
             <p className="mt-2 text-gray-500 text-base sm:text-lg">
               Explore our latest collection in
-              <span className="text-indigo-600 font-semibold">
+              <span className="text-black font-semibold">
                 {" "}
                 {name?.data?.categories_name}
               </span>
@@ -127,6 +127,7 @@ const Product = () => {
                 className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative cursor-pointer"
                 onClick={() => navigate(`/single-product/${item.product_id}`)}
               >
+              {console.log("item",item)}
                 {/* Image */}
                 <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
                   <img
@@ -145,7 +146,7 @@ const Product = () => {
                   {item.product_name}
                 </h4>
                 <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
-                  {item.description}
+                  {item.description.replace(/<[^>]+>/g, "")}
                 </p>
 
                 {/* Price */}
@@ -172,16 +173,14 @@ const Product = () => {
           <div className="w-full mt-10 flex justify-center items-center h-[400px]">
             <div className="flex flex-col items-center justify-center text-center">
               <img
-                src="/src/Image/no-data.avif"
+                src="https://superadmin.progressalliance.org/upload/web_logo/not-found.jpg"
                 alt="No Data Found"
                 className="w-48 h-48 sm:w-60 sm:h-60 object-contain one-time-bounce"
               />
               <h2 className="mt-4 text-xl font-semibold text-gray-700">
-                No Data Found
+                No Product Found
               </h2>
-              <p className="text-gray-500 text-sm mt-1">
-                Try adjusting your filters or check back later
-              </p>
+             
               <button
                 onClick={() => navigate("/")}
                 className="mt-6 px-5 py-2 bg-[#251C4B] text-white rounded-lg shadow-md hover:bg-[#372b63] transition"

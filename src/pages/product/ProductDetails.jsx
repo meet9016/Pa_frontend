@@ -6,6 +6,7 @@ import endPointApi from "../utils.jsx/endPointApi";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast } from "react-toastify";
+import Login from "../auth/Login";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,6 +16,8 @@ const ProductDetails = () => {
   const [count, setCount] = useState(1);
   const [selectedImage, setSelectedImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
+  const [showLogin, setShowLogin] = useState(false)
+
 
   const getSingleProductData = async () => {
     try {
@@ -51,8 +54,8 @@ const ProductDetails = () => {
   const addToCart = () => {
     try {
       if (!auth_token) {
-        toast.error("Please Login!")
-
+        setShowLogin(true)
+        // toast.error("Please Loginss!")
       }
       const formdata = new FormData();
       formdata.append("product_id", id);
@@ -210,7 +213,7 @@ const ProductDetails = () => {
 
               <div className="flex flex-col sm:flex-row w-full gap-4">
                 <button
-                  className="flex-1 bg-[#251C4B] hover:bg-[#1a1335] text-white py-3 font-bold rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
+                  className="flex-1 bg-[#251C4B] hover:bg-[#1a1335] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
                   onClick={() => addToCart()}
                 >
                   <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
@@ -223,7 +226,7 @@ const ProductDetails = () => {
                     }
                   }}
                 >
-                  <i className="ri-whatsapp-fill text-2xl"></i> Chat Now
+                  <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
                 </button>
               </div>
             </div>
@@ -234,10 +237,10 @@ const ProductDetails = () => {
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
                                 Add to wishlist
                             </div> */}
-              <div className="flex items-center gap-1 cursor-pointer">
+              {/* <div className="flex items-center gap-1 cursor-pointer">
                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
                 Share this Product
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -272,7 +275,7 @@ const ProductDetails = () => {
           <div className="px-6 py-6 bg-white">
             {activeTab === "description" && (
               <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
-                <p>{singleProductData?.description}</p>
+                <p>{singleProductData?.description?.replace(/<[^>]+>/g, "")}</p>
               </div>
             )}
 
@@ -285,7 +288,7 @@ const ProductDetails = () => {
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8">
                     <img
-                      src="/src/Image/no-data-found.png"
+                      src="https://superadmin.progressalliance.org/upload/web_logo/cat_product_no_found.jpeg"
                       alt="No Data Found"
                       className="w-64 h-64 sm:w-72 sm:h-72 opacity-80"
                     />
@@ -382,6 +385,26 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
+
+
+
+      {showLogin && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+          <div className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+            <button
+              onClick={() => setShowLogin(false)}
+              className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
+            >
+              <i class="ri-close-large-line"></i>
+            </button>
+
+            {/* Login Form */}
+            <Login onClose={() => setShowLogin(false)} />
+          </div>
+        </div>
+      )}
+
     </div >
   );
 };
