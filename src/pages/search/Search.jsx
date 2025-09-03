@@ -41,10 +41,17 @@ const Search = () => {
             }
         })();
     }, [id]);
-    return (
-        <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
-            <div className="w-full max-w-[1300px] pb-5">
 
+    useEffect(() => {
+        AOS.init({
+            duration: 800,
+            once: true,
+        }); 
+    }, []);
+
+    return (
+        <div className="w-full mt-9 md:mt-[80px] bg-[#EAEBEF] flex justify-center">
+            <div className="w-full max-w-[1300px] pb-5">
                 {/* Show Loader First */}
                 {loading ? (
                     <div className="w-full mt-20 flex justify-center items-center h-[300px]">
@@ -52,7 +59,9 @@ const Search = () => {
                     </div>
                 ) : singleProductData && singleProductData.length > 0 ? (
                     //  Products Grid
-                    <div className="w-full p-2 grid grid-cols-1 border mt-[40px] rounded-md shadow-md border-gray-200 bg-gray-100 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div
+                        data-aos="fade-up"
+                        className="w-full p-2 grid grid-cols-1  mt-[40px] rounded-md  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {singleProductData?.map((item, index) => (
                             <div
                                 key={index}
@@ -86,9 +95,9 @@ const Search = () => {
                                     <span className="text-lg font-bold text-black">₹{item.price}</span>
                                 </div>
 
-                                {/* Read More */}
-                                <button className="opacity-0 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md font-bold">
-                                    Read More
+                                {/* view more */}
+                                <button className="opacity-50 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg cursor-pointer hover:bg-[#251c4b] transition text-md  font-bold">
+                                    View Product
                                 </button>
                             </div>
                         ))}

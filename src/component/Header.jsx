@@ -21,9 +21,10 @@ const Header = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [showFullResults, setShowFullResults] = useState(false);
     const [showSupplier, setShowSupplier] = useState(false);
     const wrapperRef = useRef(null);
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
+
 
     const fetchSuggestions = async (searchText) => {
         if (!searchText) {
@@ -51,7 +52,6 @@ const Header = () => {
         navigate(`/search/${query}`)
     };
     const handleIncrement = async (cart_id, p_id) => {
-        // naya quantity calculate karo
         const newQuantity = (counts[cart_id] || 1) + 1;
 
         // UI update
@@ -102,6 +102,10 @@ const Header = () => {
     };
 
     const handleAddcart = async () => {
+        if (!alreadyLogin) {
+            setShowLogin(true)
+            return
+        }
         setShowCart(true)
         try {
             const res = await api.post(`${endPointApi.postCartList}`, {});
@@ -160,7 +164,7 @@ const Header = () => {
     };
 
     const orderOnWhatsapp = () => {
-        if(!alreadyLogin){
+        if (!alreadyLogin) {
             toast.error("Please login!")
             return
         }
@@ -245,9 +249,9 @@ const Header = () => {
                             )}
                         </div>
 
-                        {/* Dropdown */}
+                        {/*  Desktop Dropdown */}
                         {showDropdown && results.length > 0 && (
-                            <div className="absolute left-0 right-0 bg-white rounded-lg shadow-lg mt-2 max-h-180 overflow-y-auto z-10">
+                            <div className="hidden md:block absolute left-0 right-0 bg-white rounded-lg shadow-lg mt-2 max-h-80 overflow-y-auto z-10">
                                 <ul>
                                     {results.map((item) => (
                                         <li
@@ -256,6 +260,7 @@ const Header = () => {
                                             onClick={() => {
                                                 setQuery(item.product_name);
                                                 setShowDropdown(false);
+                                                navigate(`/single-product/${item.product_id}`);
                                             }}
                                         >
                                             <img
@@ -267,196 +272,176 @@ const Header = () => {
                                         </li>
                                     ))}
                                 </ul>
-
-                                {/* Show All Results Option */}
-
                                 <div className="w-full text-center px-4 py-4">
                                     <button
                                         onClick={handleShowAllResults}
-                                        className="inline-flex items-center gap-3 text-base font-semibold transition-all duration-300"
+                                        className="inline-flex items-center gap-3 text-base font-semibold"
                                         style={{ color: "#251C4B" }}
                                     >
-                                        View more
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={2}
-                                            stroke="#251C4B"
-                                            className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M17.25 8.25L21 12l-3.75 3.75M21 12H3"
-                                            />
-                                        </svg>
+                                        View more →
                                     </button>
                                 </div>
-
-
                             </div>
                         )}
+
                     </div>
 
 
                     {/* Right Buttons (Desktop) */}
-                    <div className="hidden md:flex items-center gap-3">
-                        {/* Supplier Link */}
-                        <button
-                            onClick={() => setShowSupplier(true)}
-                            className="text-black text-[13px] sm:text-[14px] md:text-[15px] font-medium hover:underline"
-                        >
-                            Become a Supplier
-                        </button>
 
-                        {/* Cart Button */}
+                    <div className="hidden md:flex items-center gap-5">
+                        {/* Cart Button (Desktop) */}
                         <button
                             onClick={handleAddcart}
-                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
+                            className="flex items-center gap-2 bg-[#cfcbdb] px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
-                            <i className="ri-shopping-cart-2-line text-black"></i>
-                            {/* My Cart */}
+                            <i className="ri-shopping-cart-2-line text-[#251c4b] text-2xl"></i>
                         </button>
 
-                        {/* Show Cart */}
-                        <div
-                            className={`fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 flex flex-col transform transition-transform duration-300 ease-in-out ${showCart ? "translate-x-0" : "translate-x-full"}`}
-                        >
-                            {/* Header */}
-                            <div className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
-                                <h2 className="text-2xl font-bold">My Cart</h2>
-                                <button onClick={() => setShowCart(false)}>
-                                    <i className="ri-close-large-fill cursor-pointer text-xl"></i>
-                                </button>
-                            </div>
-
-                            {/* Cart Items (Scrollable) */}
-                            <div className="flex-1 overflow-y-auto bg-[#F5F7FD] p-4">
-                                <div className="bg-white rounded-lg shadow-sm p-4">
-                                    {cardList && cardList.length > 0 ? (
-                                        <div className="w-full space-y-4">
-                                            {cardList.map((item) => (
-                                                <div
-                                                    key={item.id}
-                                                    className="flex items-center justify-between border-b pb-3 last:border-none"
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <img
-                                                            src={item.product_images}
-                                                            alt={item.product_name}
-                                                            className="w-16 h-16 border p-1 border-gray-300 object-cover rounded"
-                                                        />
-                                                        <div>
-                                                            <h5 className="text-sm font-medium">{item.product_name}</h5>
-                                                            <p className="text-xs text-gray-500">{item.weight}</p>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Quantity Controls */}
-                                                    <div className="flex items-center bg-green-600 text-white rounded">
-                                                        <button
-                                                            className="px-2 py-1"
-                                                            onClick={() => handleDecrement(item.cart_id, item.product_id)}
-                                                        >
-                                                            -
-                                                        </button>
-
-                                                        <span className="px-2 text-lg font-semibold">
-                                                            {item.quantity || 1}
-                                                        </span>
-
-                                                        <button
-                                                            className="px-2 py-1"
-                                                            onClick={() => handleIncrement(item.cart_id, item.product_id)}
-                                                        >
-                                                            +
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="flex justify-center py-10">
-                                            <img
-                                                src="https://pa.2-min.in/upload/web_logo/empaty.jpg"
-                                                alt="Empty cart"
-                                                className="w-40 opacity-80"
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-
-                            {/* Footer */}
-                            <div className="bg-[#F5F7FD] px-4 py-3">
-                                <div className="bg-[#251c4b] text-white rounded-lg shadow-sm p-4 flex items-center justify-between"
-                                    onClick={orderOnWhatsapp}
-                                >
-                                    {/* <div>
-                                        <h3 className="text-2xl font-extrabold leading-none">₹{totalAmount}</h3>
-                                        <p className="text-sm font-bold tracking-wide">TOTAL</p>
-                                    </div> */}
-                                    {/* Left side: WhatsApp icon + text */}
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            className="bg-[#25d366] text-white px-2 py-1 rounded-lg flex items-center justify-center"
-                                        >
-                                            <i className="ri-whatsapp-fill text-2xl"></i>
-                                        </button>
-                                        <p className="text-[18px] font-bold">Inquiry On Whatsapp</p>
-                                    </div>
-
-                                    {/* Right side: Arrow */}
-                                    <i className="ri-arrow-right-s-line text-xl"></i>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-
-
-                        {/* Login Button */}
-                        {/* <button
-                            
-                            onClick={() => setShowLogin(true)}
-                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
-                        >
-                            {alreadyLogin ? 'Logout' : 'Login'}
-                            
-                        </button> */}
-
-
+                        {/* Login / Logout Button */}
                         <button
                             onClick={() => {
                                 if (alreadyLogin) {
-                                    // Logout
                                     localStorage.removeItem("auth_token");
                                     toast.success("Logged out successfully!");
                                     navigate("/");
                                     window.location.reload();
                                 } else {
-                                    // Show login modal
                                     setShowLogin(true);
                                 }
                             }}
-                            className="flex items-center gap-2 bg-gray-200 px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
+                            className="flex items-center gap-2 bg-[#cfcbdb] px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
                         >
-                            <i className="ri-user-3-line"></i>
-                            {alreadyLogin ? "Logout" : "Login"}
+                            {alreadyLogin ? <i class="ri-user-3-line text-2xl text-[#251c4b]"></i> : <i class="ri-login-circle-line text-2xl text-[#251c4b]"></i>}
+                        </button>
+                    </div>
+
+                    {/* Cart Drawer (Show on both Mobile + Desktop) */}
+                    <div
+                        className={`fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 flex flex-col transform transition-transform duration-300 ease-in-out ${showCart ? "translate-x-0" : "translate-x-full"
+                            }`}
+                    >
+                        {/* Header */}
+                        <div className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
+                            <h2 className="text-2xl font-bold">My Cart</h2>
+                            <button onClick={() => setShowCart(false)}>
+                                <i className="ri-close-large-fill cursor-pointer text-xl"></i>
+                            </button>
+                        </div>
+
+                        {/* Cart Items (Scrollable) */}
+                        <div className="flex-1 overflow-y-auto bg-[#F5F7FD] p-4">
+                            <div className="bg-white rounded-lg shadow-sm p-4">
+                                {cardList && cardList.length > 0 ? (
+                                    <div className="w-full space-y-4">
+                                        {cardList.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="flex items-center justify-between border-b pb-3 last:border-none"
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        src={item.product_images}
+                                                        alt={item.product_name}
+                                                        className="w-16 h-16 border p-1 border-gray-300 object-cover rounded"
+                                                    />
+                                                    <div>
+                                                        <h5 className="text-sm font-medium">{item.product_name}</h5>
+                                                        <p className="text-xs text-gray-500">{item.weight}</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Quantity Controls */}
+                                                <div className="flex items-center bg-green-600 text-white rounded">
+                                                    <button
+                                                        className="px-2 py-1"
+                                                        onClick={() => handleDecrement(item.cart_id, item.product_id)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span className="px-2 text-lg font-semibold">
+                                                        {item.quantity || 1}
+                                                    </span>
+                                                    <button
+                                                        className="px-2 py-1"
+                                                        onClick={() => handleIncrement(item.cart_id, item.product_id)}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex justify-center py-10">
+                                        <img
+                                            src="https://pa.2-min.in/upload/web_logo/empaty.jpg"
+                                            alt="Empty cart"
+                                            className="w-40 opacity-80"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="bg-[#F5F7FD] px-4 py-3">
+                            <div
+                                className="bg-[#251c4b] text-white rounded-lg shadow-sm p-4 flex items-center justify-between"
+                                onClick={orderOnWhatsapp}
+                            >
+                                <div className="flex items-center gap-2">
+                                    <button className="bg-[#25d366] text-white px-2 py-1 rounded-lg flex items-center justify-center">
+                                        <i className="ri-whatsapp-fill text-2xl"></i>
+                                    </button>
+                                    <p className="text-[18px] font-bold">Inquiry On Whatsapp</p>
+                                </div>
+                                <i className="ri-arrow-right-s-line text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    {/* Mobile Right Side Icons */}
+                    <div className="md:hidden flex items-center gap-3">
+                        {/* Search Button */}
+                        <button
+                            onClick={() => setShowMobileSearch(!showMobileSearch)}
+                            className="p-2 rounded-md bg-[#cfcbdb]"
+                        >
+                            <i className="ri-search-line text-xl text-[#251c4b]"></i>
+                        </button>
+
+                        {/* Cart Button */}
+                        <button
+                            onClick={handleAddcart}
+                            className="p-2 rounded-md bg-[#cfcbdb]"
+                        >
+                            <i className="ri-shopping-cart-2-line text-xl text-[#251c4b]"></i>
+                        </button>
+
+                        {/* Login / Logout Button */}
+                        <button
+                            onClick={() => {
+                                if (alreadyLogin) {
+                                    localStorage.removeItem("auth_token");
+                                    toast.success("Logged out successfully!");
+                                    navigate("/");
+                                    window.location.reload();
+                                } else {
+                                    setShowLogin(true);
+                                }
+                            }}
+                            className="p-2 rounded-md bg-[#cfcbdb]"
+                        >
+                            <i
+                                className={`${alreadyLogin ? "ri-user-3-line text-[#251c4b]" : "ri-login-circle-line"} text-xl text-[#251c4b]`}
+                            ></i>
                         </button>
 
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden flex items-center gap-2 p-2 rounded-md bg-gray-100"
-                        onClick={() => setShowMenu(!showMenu)}
-                    >
-                        <i className="ri-menu-line text-xl"></i>
-                    </button>
                 </div>
 
                 {/* Mobile Menu Drawer */}
@@ -521,6 +506,90 @@ const Header = () => {
 
                             <SupplierForm onClose={() => setShowSupplier(false)} />
                         </div>
+                    </div>
+                )}
+
+                {/* Mobile Search Input with Slide Down Animation */}
+                {showMobileSearch && (
+                    <div
+                        ref={wrapperRef}
+                        className={`md:hidden fixed top-0 left-0 w-full bg-white shadow-md z-50 transform transition-transform duration-300 ease-in-out ${showMobileSearch ? "translate-y-0" : "-translate-y-full"
+                            }`}
+                    >
+                        {/* Search Bar */}
+                        <div className="flex items-center bg-gray-100 rounded-lg px-3 py-2 m-3">
+                            {/* Search Icon */}
+                            <i className="ri-search-line text-black text-lg mr-2"></i>
+
+                            {/* Input */}
+                            <input
+                                type="text"
+                                placeholder='Search "grocery"'
+                                className="bg-transparent outline-none border-none focus:ring-0 flex-1 text-sm placeholder-gray-500"
+                                value={query}
+                                onChange={(e) => {
+                                    setQuery(e.target.value);
+                                    setShowDropdown(true);
+                                }}
+                            />
+
+                            {/* Clear Input (×) */}
+                            {/* {query && (
+                                <button
+                                    onClick={() => setQuery("")}
+                                    className="text-gray-400 text-xl ml-2"
+                                >
+                                    &times;
+                                </button>
+                            )} */}
+
+                            {/* Close Search (Right side) */}
+                            <i
+                                className="ri-close-line text-2xl ml-3 cursor-pointer text-gray-600 hover:text-black"
+                                onClick={() => {
+                                    setShowMobileSearch(false);
+                                    setQuery("");
+                                    setShowDropdown(false);
+                                }}
+                            ></i>
+                        </div>
+
+                        {/* Dropdown */}
+                        {showDropdown && results.length > 0 && (
+                            <div className="w-full bg-white rounded-lg shadow-lg mt-2 max-h-80 overflow-y-auto z-50 transition-all duration-300 ease-in-out">
+                                <ul>
+                                    {results.map((item) => (
+                                        <li
+                                            key={item.product_id}
+                                            className="flex items-center px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                                            onClick={() => {
+                                                setQuery(item.product_name);
+                                                setShowDropdown(false);
+                                                navigate(`/product/${item.product_id}`);
+                                            }}
+                                        >
+                                            <img
+                                                src={item.product_image}
+                                                alt={item.product_name}
+                                                className="w-10 h-10 object-cover rounded mr-3"
+                                            />
+                                            <span className="text-sm">{item.product_name}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* View More Button */}
+                                <div className="w-full text-center px-4 py-4">
+                                    <button
+                                        onClick={handleShowAllResults}
+                                        className="inline-flex items-center gap-3 text-base font-semibold"
+                                        style={{ color: "#251C4B" }}
+                                    >
+                                        View more →
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 

@@ -5,8 +5,6 @@ import Header from "../../component/Header";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
 import "aos/dist/aos.css";
-import HeroSlider from "./HeroSlider";
-import BannerAutoSlider from "./BannerAutoSlider";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -55,18 +53,7 @@ const Home = () => {
         {/* Main Container with fixed width */}
         <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">
           {/* Top Banner */}
-          {/* <div className="w-full">
-            {product?.slider?.map((slide) => (
-              <img
-                key={slide.slider_id}
-                src={slide.image}
-                alt="Slider"
-                className="w-full h-auto rounded-2xl object-contain"
-              />
-            ))}
-          </div> */}
-
-          <div className="w-full mt-1">
+          <div className="w-full mt-9 sm:mt-4 md:mt-1">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
               spaceBetween={20}
@@ -84,11 +71,11 @@ const Home = () => {
                       src={slide.image}
                       alt="Slider"
                       className="
-                w-full 
-                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
-                rounded-2xl 
-                object-cover
-              "
+              w-full 
+              h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
+              rounded-2xl 
+              object-cover
+            "
                     />
                   </a>
                 </SwiperSlide>
@@ -96,16 +83,10 @@ const Home = () => {
             </Swiper>
           </div>
 
-          {/* {loading ? (
-            <div className="w-full h-40 sm:h-56 md:h-72 lg:h-80 rounded-[22px] bg-gray-300 animate-pulse mb-4" />
-          ) : (
-            <HeroSlider slides={product?.slider ?? []} />
-          )} */}
+
 
           {/* Three Category Cards */}
-          {/* <BannerAutoSlider items={product?.banner ?? []} loading={loading} /> */}
-
-          <div className="w-full mt-10">
+          <div className="w-full mt-9">
             <Swiper
               spaceBetween={20}
               slidesPerView={3}
@@ -115,9 +96,9 @@ const Home = () => {
                 disableOnInteraction: false,
               }}
               breakpoints={{
-                320: { slidesPerView: 1 },
-                640: { slidesPerView: 1 },
-                768: { slidesPerView: 2 },
+                200: { slidesPerView: 2 },
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
                 1024: { slidesPerView: 3 },
               }}
               modules={[Autoplay]}
@@ -136,23 +117,10 @@ const Home = () => {
             </Swiper>
           </div>
 
-          {/* Paan Corner Grid */}
-          {/* <div className="w-full grid grid-cols-2 border bg-white rounded-2xl border-white sm:grid-cols-5 md:grid-cols-10 mt-6">
-                        {images.map((src, index) => (
-                            <div key={index} className="flex flex-col items-center">
-                                <img
-                                    src={src}
-                                    alt={`Paan Corner ${index + 1}`}
-                                    className="w-[150px] rounded-2xl object-cover"
-                                />
-                            </div>
-                        ))}
-                    </div> */}
-
           {/* All Categories with Subcategories */}
-          <div className="w-full mt-8">
+          <div className="w-full mt-9">
             {product?.all_categories?.map((cat) => (
-              <div key={cat.categories_id} className="mb-10 flex flex-col">
+              <div key={cat.categories_id} className="mb-9 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
                     {cat.categories_name}
@@ -182,9 +150,7 @@ const Home = () => {
                       <div
                         className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center"
                         onClick={() => {
-                          navigate(
-                            `/product/${cat.categories_id}/${sub.sub_category_id}`
-                          );
+                          navigate(`/product/${cat.categories_id}/${sub.sub_category_id}`);
                         }}
                       >
                         <img
@@ -193,12 +159,15 @@ const Home = () => {
                           className="w-[120px] h-[120px] object-contain"
                         />
                       </div>
-                      <p className="mt-5 text-center text-sm font-medium">
+
+                      {/* sub_category_name fix */}
+                      <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-5 text-center text-sm font-medium">
                         {sub.sub_category_name}
                       </p>
                     </div>
                   ))}
                 </div>
+
               </div>
             ))}
           </div>

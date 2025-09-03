@@ -194,6 +194,9 @@ const ProductDetails = () => {
               </ul>
             </div>
 
+
+
+
             <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center border border-gray-300 rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
                 <button
@@ -230,6 +233,8 @@ const ProductDetails = () => {
                 </button>
               </div>
             </div>
+
+
 
             {/* Wishlist, Share */}
             <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
@@ -320,10 +325,16 @@ const ProductDetails = () => {
                   {console.log("item", item)}
 
                   <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
-                    <div className="w-full h-full relative group preserve-3d" onClick={() => navigate(`/single-product/${item.product_id}`)}
+                    <div
+                      className="w-full h-full relative group preserve-3d"
+                      onClick={() => {
+                        navigate(`/single-product/${item.product_id}`);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
                     >
+
                       {/* Front Image */}
-                      <div className="absolute inset-0 backface-hidden transition-transform duration-700 transform group-hover:rotate-y-180">
+                      <div className="absolute inset-0 backface-hidden transform  group-hover:scale-105 transition-all duration-500">
                         <img
                           src={
                             item.product_image && item.product_image !== ""
@@ -336,7 +347,7 @@ const ProductDetails = () => {
                       </div>
 
                       {/* Back Image (same as front) */}
-                      <div className="absolute inset-0 backface-hidden transform rotate-y-180 transition-transform duration-700 group-hover:rotate-y-360">
+                      {/* <div className="absolute inset-0 backface-hidden transform rotate-y-180 transition-transform duration-700 group-hover:rotate-y-360">
                         <img
                           src={
                             item.product_image && item.product_image !== ""
@@ -346,7 +357,7 @@ const ProductDetails = () => {
                           alt={item.name}
                           className="w-full h-full object-contain"
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
@@ -372,7 +383,7 @@ const ProductDetails = () => {
                   </div>
 
                   {/* Button (Hidden until hover) */}
-                  <button className="opacity-50 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md  font-bold">
+                  <button className="opacity-50 cursor-pointer group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md  font-bold">
                     View Product
                   </button>
                 </div>

@@ -8,11 +8,13 @@ import Header from "../../component/Header";
 import Footer from "../../component/Footer";
 import Search from "../search/Search";
 import Category from "../category/Category";
+import { useState } from "react";
 
 function LayoutWithHeader() {
+
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />
@@ -26,26 +28,31 @@ function LayoutWithHeader() {
 const AppRoutes = () => {
   return (
     <>
-    <div className="flex flex-col min-h-screen">
-      <Header />
-       <main className="flex-grow bg-[#EAEBEF]">
-      <Routes>
-        {/* <Route path="/" element={<LayoutWithHeader />} /> */}
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/product/:id" element={<Product />} /> */}
-        <Route path="/product/:categories_id/:sub_category_id" element={<Product />} />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow bg-[#EAEBEF]">
+          <Routes>
+            {/* <Route path="/" element={<LayoutWithHeader />} /> */}
+            <Route
+              path="/"
+              element={
+                <Home /> // ✅ Home ko state pass
+              }
+            />
+            {/* <Route path="/product/:id" element={<Product />} /> */}
+            <Route path="/product/:categories_id/:sub_category_id" element={<Product />} />
 
-        <Route path="/single-product/:id" element={<ProductDetails />} />
-        <Route path="/search/:id" element={<Search />} />
-        {/* Public routes */}
-        {/* <Route path="/" element={<Login />} /> */}
+            <Route path="/single-product/:id" element={<ProductDetails />} />
+            <Route path="/search/:id" element={<Search />} />
+            {/* Public routes */}
+            {/* <Route path="/" element={<Login />} /> */}
 
-        {/* Fallback */}
-        {/* <Route path="*" element={<NotFound />} /> */}
-        <Route path="/category/:categoryId" element={<Category />} />
+            {/* Fallback */}
+            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route path="/category/:categoryId" element={<Category />} />
 
-      </Routes></main>
-      <Footer />
+          </Routes></main>
+        <Footer />
       </div>
     </>
   );
