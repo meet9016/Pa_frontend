@@ -8,6 +8,7 @@ import OtpInput from 'react-otp-input';
 
 const Login = ({ onClose }) => {
     const navigate = useNavigate();
+    const authToken = localStorage.getItem('auth_token')
     const [formData, setFormData] = useState({
         mobile: "",
         otp: "",
@@ -21,6 +22,7 @@ const Login = ({ onClose }) => {
     const [error, setError] = useState({});
     const [otpSent, setOtpSent] = useState(false);
     const [newSupplier, setNewSupplier] = useState(false);
+    const [userType, setUserType] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -113,9 +115,13 @@ const Login = ({ onClose }) => {
 
         if (res.data.status === 200) {
             saveToken(res?.data?.data?.token)
-            if (onClose) onClose()
-            navigate('/')
-            toast.success(res?.data?.message || 'Logged in')
+            if (res.data.data.user_type == 2) {
+                setUserType(true)
+            } else {
+                if (onClose) onClose()
+                navigate('/')
+                toast.success(res?.data?.message || 'Logged in')
+            }
         } else if (res.data.status === 203) {
             setFormData(prev => ({
                 ...prev,
@@ -127,6 +133,15 @@ const Login = ({ onClose }) => {
 
     };
 
+    const Suuplier = () => {
+        // window.location.href = `http://localhost:5174/?token=${token}`;
+        window.location.href = `https://seller.progressalliance.org/?token=${authToken}`;
+    }
+
+    const onCounting = () => {
+        if (onClose) onClose()
+        navigate('/')
+    }
     return (
         <div className="w-full mx-auto bg-gray-100 rounded-xl p-4 sm:p-5 md:p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -316,12 +331,33 @@ const Login = ({ onClose }) => {
                                     Send OTP
                                 </button>
                             ) : (
-                                <button
-                                    className="w-full bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
-                                    onClick={onLoginClick}
-                                >
-                                    Login
-                                </button>
+                                <>
+                                    {userType ?
+                                        <div className="flex gap-4">
+                                            <button
+                                                className="flex-1 bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
+                                                onClick={onCounting}
+                                            >
+                                                Become
+                                            </button>
+
+                                            <button
+                                                className="flex-1 bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
+                                                onClick={Suuplier}
+                                            >
+                                                Suuplier
+                                            </button>
+                                        </div>
+
+                                        :
+                                        <button
+                                            className="w-full bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
+                                            onClick={onLoginClick}
+                                        >
+                                            Login
+                                        </button>
+                                    }
+                                </>
                             )}
                         </div>
                     </div>
