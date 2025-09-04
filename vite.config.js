@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://pa.2-min.in/", // 👈 API ka domain
+        target: "https://superadmin.progressalliance.org/", // 👈 API ka domain
         changeOrigin: true,
         secure: false,
       },

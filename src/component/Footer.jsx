@@ -70,8 +70,10 @@
 
 
 import React from "react";
+import { useNavigate } from "react-router";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full bg-[#251c4b] text-white">
       <div className="w-full max-w-[1300px] mx-auto px-6 py-10">
@@ -79,7 +81,7 @@ const Footer = () => {
         <div className="flex flex-col items-center md:flex-row md:justify-between gap-8  pb-8">
           {/* Logo */}
           <img
-            src="https://pa.2-min.in/upload/web_logo/footer_logo.png"
+            src="https://superadmin.progressalliance.org/upload/web_logo/footer_logo.png"
             alt="PA Logo"
             className="w-[140px] md:w-[200px]"
           />
@@ -88,11 +90,15 @@ const Footer = () => {
           <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-end w-full">
             {/* Privacy + Terms */}
             <div className="flex flex-col gap-3 text-base font-medium items-center md:flex-row md:gap-6">
-              <span className="cursor-pointer hover:text-gray-200">
+              <span
+                onClick={() => navigate('/privacy-policy')}
+                className="cursor-pointer hover:text-gray-200">
                 Privacy Policy
               </span>
               <div className="hidden md:block w-[1px] h-6 bg-white/40"></div>
-              <span className="cursor-pointer hover:text-gray-200">
+              <span
+                onClick={() => navigate('/terms-condition')}
+                className="cursor-pointer hover:text-gray-200">
                 Terms & Conditions
               </span>
             </div>

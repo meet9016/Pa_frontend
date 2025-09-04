@@ -24,6 +24,8 @@ const Header = () => {
     const [showSupplier, setShowSupplier] = useState(false);
     const wrapperRef = useRef(null);
     const [showMobileSearch, setShowMobileSearch] = useState(false);
+    const [userDropDown, setUserDropDown] = useState(false);
+
 
 
     const fetchSuggestions = async (searchText) => {
@@ -201,6 +203,7 @@ const Header = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+
     return (
         <>
             <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md px-4 sm:px-6 lg:px-8">
@@ -209,7 +212,7 @@ const Header = () => {
                     {/* Left: Logo + Text */}
                     <div className="flex items-center gap-3 flex-shrink-0">
                         <img
-                            src="https://pa.2-min.in/upload/web_logo/20250816095817_8272.png"
+                            src="https://superadmin.progressalliance.org/upload/web_logo/20250816095817_8272.png"
                             alt="Logo"
                             className="w-28 sm:w-32 md:w-40 cursor-pointer"
                             onClick={() => navigate('/')}
@@ -289,11 +292,11 @@ const Header = () => {
 
                     {/* Right Buttons (Desktop) */}
 
-                    <div className="hidden md:flex items-center gap-5">
+                    <div className="hidden md:flex items-center">
                         {/* Cart Button (Desktop) */}
                         <button
                             onClick={handleAddcart}
-                            className="flex items-center gap-2 bg-[#cfcbdb] px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
+                            className="flex items-center gap-2  px-3 py-2 md:px-4 rounded-lg text-black  cursor-pointer"
                         >
                             <i className="ri-shopping-cart-2-line text-[#251c4b] text-2xl"></i>
                         </button>
@@ -302,19 +305,62 @@ const Header = () => {
                         <button
                             onClick={() => {
                                 if (alreadyLogin) {
-                                    localStorage.removeItem("auth_token");
-                                    toast.success("Logged out successfully!");
-                                    navigate("/");
-                                    window.location.reload();
+                                    setUserDropDown((prev) => !prev);
                                 } else {
                                     setShowLogin(true);
                                 }
                             }}
-                            className="flex items-center gap-2 bg-[#cfcbdb] px-3 py-2 md:px-4 rounded-lg text-black font-semibold cursor-pointer"
+                            className="flex items-center gap-2 px-3 py-2 md:px-4 rounded-lg text-black  cursor-pointer"
                         >
-                            {alreadyLogin ? <i class="ri-user-3-line text-2xl text-[#251c4b]"></i> : <i class="ri-login-circle-line text-2xl text-[#251c4b]"></i>}
+                            {alreadyLogin ? (
+                                <i className="ri-user-3-line text-2xl text-[#251c4b]"></i>
+                            ) : (
+                                <i className="ri-login-box-line text-2xl text-[#251c4b]"></i>
+                            )}
                         </button>
                     </div>
+
+
+
+                    {/*User Dropdown */}
+                    {userDropDown && alreadyLogin && (
+                        <div className="absolute right-3 mt-50 w-45 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                            <ul className="py-2">
+                                <li
+                                    onClick={() => navigate('/inquiry')}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    <div className="flex gap-4">
+                                        <i className="ri-user-search-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        Inquiry
+                                    </div>
+                                </li>
+                                <li
+                                    onClick={() => {
+                                        localStorage.removeItem("auth_token");
+                                        setUserDropDown(false);
+                                        toast.success("Logged out successfully!");
+                                        navigate("/");
+                                    }}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    <div className="flex gap-4">
+                                        <i className="ri-logout-box-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        Sign Out
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+
+
+
+
+
+
+
+
+
+
 
                     {/* Cart Drawer (Show on both Mobile + Desktop) */}
                     <div
@@ -375,7 +421,7 @@ const Header = () => {
                                 ) : (
                                     <div className="flex justify-center py-10">
                                         <img
-                                            src="https://pa.2-min.in/upload/web_logo/empaty.jpg"
+                                            src="https://superadmin.progressalliance.orgn/upload/web_logo/empaty.jpg"
                                             alt="Empty cart"
                                             className="w-40 opacity-80"
                                         />
@@ -408,7 +454,7 @@ const Header = () => {
                         {/* Search Button */}
                         <button
                             onClick={() => setShowMobileSearch(!showMobileSearch)}
-                            className="p-2 rounded-md bg-[#cfcbdb]"
+                            className="p-2 rounded-md"
                         >
                             <i className="ri-search-line text-xl text-[#251c4b]"></i>
                         </button>
@@ -416,7 +462,7 @@ const Header = () => {
                         {/* Cart Button */}
                         <button
                             onClick={handleAddcart}
-                            className="p-2 rounded-md bg-[#cfcbdb]"
+                            className="p-2 rounded-md"
                         >
                             <i className="ri-shopping-cart-2-line text-xl text-[#251c4b]"></i>
                         </button>
@@ -433,7 +479,7 @@ const Header = () => {
                                     setShowLogin(true);
                                 }
                             }}
-                            className="p-2 rounded-md bg-[#cfcbdb]"
+                            className="p-2 rounded-md"
                         >
                             <i
                                 className={`${alreadyLogin ? "ri-user-3-line text-[#251c4b]" : "ri-login-circle-line"} text-xl text-[#251c4b]`}

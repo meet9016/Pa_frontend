@@ -166,7 +166,7 @@ const Login = ({ onClose }) => {
                     </div> */}
                     <div className="flex justify-center mt-4">
                         <img
-                            src="https://pa.2-min.in/upload/web_logo/be_come_seller.jpeg"
+                            src="https://superadmin.progressalliance.org/upload/web_logo/be_come_seller.jpeg"
                             alt="Welcome Illustration"
                             className="w-full object-contain"
                         />
@@ -177,7 +177,7 @@ const Login = ({ onClose }) => {
                 <div className="flex flex-col justify-center px-4 sm:px-5 py-6">
                     <div className="flex justify-center mb-6">
                         <img
-                            src="https://pa.2-min.in/upload/web_logo/loginimage_480.png"
+                            src="https://superadmin.progressalliance.org/upload/web_logo/login_popup.png"
                             alt="Logo"
                             className="w-28 sm:w-32 md:w-40 cursor-pointer"
                             onClick={() => navigate('/')}

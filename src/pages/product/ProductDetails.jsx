@@ -18,11 +18,11 @@ const ProductDetails = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [showLogin, setShowLogin] = useState(false)
 
-
   const getSingleProductData = async () => {
     try {
       const formdata = new FormData();
       formdata.append("product_id", id);
+      
 
       // setLoading(true);
       const res = await api.post(endPointApi.postSingleProduct, formdata);

@@ -9,6 +9,9 @@ import Footer from "../../component/Footer";
 import Search from "../search/Search";
 import Category from "../category/Category";
 import { useState } from "react";
+import Inquiry from "../home/Inquiry";
+import PrivacyPolicy from "../home/PrivacyPolicy";
+import TermsCondition from "../home/TermsCondition";
 
 function LayoutWithHeader() {
 
@@ -41,9 +44,12 @@ const AppRoutes = () => {
             />
             {/* <Route path="/product/:id" element={<Product />} /> */}
             <Route path="/product/:categories_id/:sub_category_id" element={<Product />} />
-
             <Route path="/single-product/:id" element={<ProductDetails />} />
             <Route path="/search/:id" element={<Search />} />
+            <Route path="/inquiry" element={<Inquiry />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-condition" element={<TermsCondition />} />
+
             {/* Public routes */}
             {/* <Route path="/" element={<Login />} /> */}
 
