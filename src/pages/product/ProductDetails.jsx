@@ -148,7 +148,7 @@ const ProductDetails = () => {
 
             {/* Description (short) */}
             <p className="text-sm sm:text-base text-gray-600">
-              {singleProductData?.long_description}
+              {singleProductData?.description}
             </p>
 
             {/* Price */}
@@ -280,7 +280,7 @@ const ProductDetails = () => {
           <div className="px-6 py-6 bg-white">
             {activeTab === "description" && (
               <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
-                <p>{singleProductData?.description?.replace(/<[^>]+>/g, "")}</p>
+                <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
               </div>
             )}
 

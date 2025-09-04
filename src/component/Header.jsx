@@ -333,7 +333,7 @@ const Header = () => {
                                     onClick={() => navigate('/inquiry')}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                                     <div className="flex gap-4">
-                                        <i className="ri-user-search-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        <i class="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
                                         Inquiry
                                     </div>
                                 </li>
@@ -368,7 +368,7 @@ const Header = () => {
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                     <div className="flex gap-4">
-                                        <i className="ri-user-search-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        <i class="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
                                         Inquiry
                                     </div>
                                 </li>
@@ -499,12 +499,12 @@ const Header = () => {
                             <i className="ri-shopping-cart-2-line text-xl text-[#251c4b]"></i>
                         </button>
 
-                    
+
                         {/* Login / User Button (Mobile) */}
                         <button
                             onClick={() => {
                                 if (alreadyLogin) {
-                                    setUserDropDown((prev) => !prev); 
+                                    setUserDropDown((prev) => !prev);
                                 } else {
                                     setShowLogin(true);
                                 }
