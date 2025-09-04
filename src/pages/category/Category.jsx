@@ -13,13 +13,20 @@ const Category = () => {
   const [loading, setLoading] = useState(false);
   const { categoryId } = useParams();
   const navigate = useNavigate();
+  console.log("category", category);
+  console.log("loading", loading);
+
 
   const getCategory = async () => {
     try {
       setLoading(true);
-      const res = await api.post(endPointApi.postHome, {});
+      const formData = new FormData();
+      formData.append('categories_id', categoryId)
+      const res = await api.post(endPointApi.viewSubcategoryList, formData);
+      console.log("res?.data?.data", res?.data?.data);
+
       if (res?.data?.data) {
-        setCategory(res.data.data.all_categories || []);
+        setCategory(res.data.data.sub_categories || []);
       }
     } catch (err) {
       console.log("Error Fetch data", err);
@@ -41,12 +48,33 @@ const Category = () => {
   return (
     <>
       <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">
-        <div className="w-full mt-8">
+        <div className="w-full mt-30">
 
-          {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="h-[170px] bg-gray-100 animate-pulse rounded-xl" />
+          {!loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">
+              {category?.map((sub) => (
+                <div
+                  key={sub.sub_category_id}
+                  className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+                >
+                  <div
+                    className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center"
+                    onClick={() => {
+                      navigate(`/single-product/${sub.categories_id}/${sub.sub_category_id}`);
+                    }}
+                  >
+                    <img
+                      src={sub.image}
+                      alt={sub.sub_category_name}
+                      className="w-[120px] h-[120px] object-contain"
+                    />
+                  </div>
+
+                  {/* sub_category_name fix */}
+                  <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-5 text-center text-sm font-medium">
+                    {sub.sub_category_name}
+                  </p>
+                </div>
               ))}
             </div>
           ) : !selectedCategory ? (
@@ -59,7 +87,7 @@ const Category = () => {
               {/* <h2 className="text-lg sm:text-xl font-semibold mt-15 mb-4">
                 {selectedCategory.categories_name}
               </h2> */}
-              
+
               <div className="text-sm sm:text-base text-gray-500 mb-4  mt-15  flex flex-wrap gap-1">
                 Home <i className="ri-arrow-right-s-line"></i> {selectedCategory.categories_name}{" "}
               </div>

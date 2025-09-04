@@ -11,6 +11,7 @@ const endPointApi = {
     autoSuggestionProductList: 'auto-suggestion-product-list',
     viewMoreSearchProductList: 'view-more-search-product-list',
     inquiryList: 'order-list',
+    viewSubcategoryList: 'view-sub-category-list',
 };
 
 export default endPointApi;

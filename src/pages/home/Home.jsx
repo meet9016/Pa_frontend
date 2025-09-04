@@ -134,7 +134,7 @@ const Home = () => {
                         }
                         className="px-5 py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
                       >
-                        View More →
+                        View Mores →
                       </button>
                     )}
                   </div>
