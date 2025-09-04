@@ -102,15 +102,15 @@
 
 
 //         const formdata = new FormData();
-//         formdata.append("number", formData.mobile);
-//         formdata.append("otp", formData.otp);
+        // formdata.append("number", formData.mobile);
+        // formdata.append("otp", formData.otp);
 
-//         if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
-//         if (formData.full_name) formdata.append('full_name', formData.full_name)
-//         // if (formData.businessName) formdata.append('full_name', formData.businessName)
-//         if (formData.address) formdata.append('address', formData.address)
-//         if (formData.city) formdata.append('city', formData.city)
-//         if (formData.pincode) formdata.append('pincode', formData.pincode)
+        // if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
+        // if (formData.full_name) formdata.append('full_name', formData.full_name)
+        // // if (formData.businessName) formdata.append('full_name', formData.businessName)
+        // if (formData.address) formdata.append('address', formData.address)
+        // if (formData.city) formdata.append('city', formData.city)
+        // if (formData.pincode) formdata.append('pincode', formData.pincode)
 
 //         const res = await api.post(`${endPointApi.loginUser}`, formdata); // Send mobile + OTP
 //         console.log("res", res.data.status);
@@ -463,6 +463,7 @@ const Login = ({ onClose }) => {
     const [newSupplier, setNewSupplier] = useState(false);
 
     const [showButtons, setShowButtons] = useState(false); // new state
+    const [userType, setUserType] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -523,13 +524,34 @@ const Login = ({ onClose }) => {
         }
 
         const formdata = new FormData();
-        formdata.append("number", formData.mobile);
+        // formdata.append("number", formData.mobile);
+        // formdata.append("otp", formData.otp);
+
+         formdata.append("number", formData.mobile);
         formdata.append("otp", formData.otp);
+
+        if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
+        if (formData.full_name) formdata.append('full_name', formData.full_name)
+        // if (formData.businessName) formdata.append('full_name', formData.businessName)
+        if (formData.address) formdata.append('address', formData.address)
+        if (formData.city) formdata.append('city', formData.city)
+        if (formData.pincode) formdata.append('pincode', formData.pincode)
 
         const res = await api.post(`${endPointApi.loginUser}`, formdata);
         if (res.data.status === 200) {
+            console.log(res.data.data, 'aaa');
+            
             saveToken(res?.data?.data?.token);
             setShowButtons(true); // 👈 only show Become & Supplier buttons
+            if (res.data.data.user_type == 2) {
+                setUserType(true)
+                setShowButtons(true); // 👈 only show Become & Supplier buttons
+
+            } else {
+                if (onClose) onClose()
+                navigate('/')
+                toast.success(res?.data?.message || 'Logged in')
+            }
         } else if (res.data.status === 203) {
             setFormData((prev) => ({
                 ...prev,
@@ -567,7 +589,7 @@ const Login = ({ onClose }) => {
 
                 {/* RIGHT */}
                 <div className="flex flex-col justify-center px-4 sm:px-5 py-6">
-                    {!showButtons ? (
+                    {!showButtons && (
                         <div className="flex justify-center mb-6">
                             <img
                                 src="https://superadmin.progressalliance.org/upload/web_logo/login_popup.png"
@@ -576,16 +598,8 @@ const Login = ({ onClose }) => {
                                 onClick={() => navigate("/")}
                             />
                         </div>
-                    ):(
-                    <div className="flex justify-center mb-20">
-                        <img
-                            src="https://superadmin.progressalliance.org/upload/web_logo/switch-roles.png"
-                            alt="Logo"
-                            className="w-28 sm:w-32 md:w-40 lg:w-52 xl:w-60 border border-white rounded-2xl p-10 bg-white cursor-pointer border rounded-[500px]"
-                            onClick={() => navigate("/")}
-                        />
-                    </div>
                     )}
+
                     {/* ✅ If showButtons true → only show 2 buttons */}
                     {showButtons ? (
                         <div className="flex flex-col gap-7">
