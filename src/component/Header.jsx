@@ -318,6 +318,9 @@ const Header = () => {
                                 <i className="ri-login-box-line text-2xl text-[#251c4b]"></i>
                             )}
                         </button>
+
+
+
                     </div>
 
 
@@ -356,7 +359,36 @@ const Header = () => {
 
 
 
-
+                    {/* Mobile User Dropdown */}
+                    {userDropDown && alreadyLogin && (
+                        <div className="fixed right-2 top-[70px] w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-[9999] md:hidden">
+                            <ul className="py-2">
+                                <li
+                                    onClick={() => navigate('/inquiry')}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    <div className="flex gap-4">
+                                        <i className="ri-user-search-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        Inquiry
+                                    </div>
+                                </li>
+                                <li
+                                    onClick={() => {
+                                        localStorage.removeItem("auth_token");
+                                        setUserDropDown(false);
+                                        toast.success("Logged out successfully!");
+                                        navigate("/");
+                                    }}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    <div className="flex gap-4">
+                                        <i className="ri-logout-box-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        Sign Out
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
 
 
 
@@ -467,14 +499,12 @@ const Header = () => {
                             <i className="ri-shopping-cart-2-line text-xl text-[#251c4b]"></i>
                         </button>
 
-                        {/* Login / Logout Button */}
+                    
+                        {/* Login / User Button (Mobile) */}
                         <button
                             onClick={() => {
                                 if (alreadyLogin) {
-                                    localStorage.removeItem("auth_token");
-                                    toast.success("Logged out successfully!");
-                                    navigate("/");
-                                    window.location.reload();
+                                    setUserDropDown((prev) => !prev); 
                                 } else {
                                     setShowLogin(true);
                                 }
@@ -485,6 +515,7 @@ const Header = () => {
                                 className={`${alreadyLogin ? "ri-user-3-line text-[#251c4b]" : "ri-login-circle-line"} text-xl text-[#251c4b]`}
                             ></i>
                         </button>
+
 
                     </div>
 
@@ -611,7 +642,7 @@ const Header = () => {
                                             onClick={() => {
                                                 setQuery(item.product_name);
                                                 setShowDropdown(false);
-                                                navigate(`/product/${item.product_id}`);
+                                                navigate(`/single-product/${item.product_id}`);
                                             }}
                                         >
                                             <img
