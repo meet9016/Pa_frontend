@@ -22,7 +22,7 @@ const ProductDetails = () => {
     try {
       const formdata = new FormData();
       formdata.append("product_id", id);
-      
+
 
       // setLoading(true);
       const res = await api.post(endPointApi.postSingleProduct, formdata);
@@ -277,7 +277,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Bottom Content */}
-          <div className="px-6 py-6 bg-white">
+          <div className="px-6 py-6 bg-white h-[200px]">
             {activeTab === "description" && (
               <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
                 <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
@@ -292,11 +292,11 @@ const ProductDetails = () => {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8">
-                    <img
+                    {/* <img
                       src="https://superadmin.progressalliance.org/upload/web_logo/cat_product_no_found.jpeg"
                       alt="No Data Found"
                       className="w-64 h-64 sm:w-72 sm:h-72 opacity-80"
-                    />
+                    /> */}
                     <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
                   </div>
                 )}
@@ -314,7 +314,7 @@ const ProductDetails = () => {
             </h2>
           </div>
 
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10 hover: cursor-pointer">
             {singleProductData?.related_products?.length > 0 ? (
               singleProductData.related_products.map((item, index) => (
                 <div

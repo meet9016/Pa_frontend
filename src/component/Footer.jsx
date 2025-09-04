@@ -78,7 +78,7 @@ const Footer = () => {
     <div className="w-full bg-[#251c4b] text-white">
       <div className="w-full max-w-[1300px] mx-auto px-6 py-10">
         {/* Top Section */}
-        <div className="flex flex-col items-center md:flex-row md:justify-between gap-8  pb-8">
+        <div className="flex flex-col items-center md:flex-row md:justify-between gap-8 pb-1">
           {/* Logo */}
           <img
             src="https://superadmin.progressalliance.org/upload/web_logo/footer_logo.png"

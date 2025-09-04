@@ -85,7 +85,7 @@ const Product = () => {
 
       <div className="w-full max-w-[1300px] mt-4 pb-5">
         <div className="w-full mb-12">
-          <div className="flex items-center text-gray-500 text-sm sm:text-base mb-6">
+          {/* <div className="flex items-center text-gray-500 text-sm sm:text-base mb-6">
             <a
               href="/"
               className="flex items-center space-x-1 hover:text-indigo-600 transition-colors"
@@ -95,9 +95,9 @@ const Product = () => {
             </a>
             <span className="mx-2 text-gray-400">/</span>
             <span className="font-medium text-gray-700">Categories</span>
-          </div>
+          </div> */}
           
-          <div className="text-center">
+          <div className="text-center mt-5">
             <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
               {name?.data?.categories_name}
               {/* <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-indigo-500 rounded-full"></span> */}

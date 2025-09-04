@@ -567,7 +567,7 @@ const Login = ({ onClose }) => {
 
                 {/* RIGHT */}
                 <div className="flex flex-col justify-center px-4 sm:px-5 py-6">
-                    {!showButtons && (
+                    {!showButtons ? (
                         <div className="flex justify-center mb-6">
                             <img
                                 src="https://superadmin.progressalliance.org/upload/web_logo/login_popup.png"
@@ -576,8 +576,16 @@ const Login = ({ onClose }) => {
                                 onClick={() => navigate("/")}
                             />
                         </div>
+                    ):(
+                    <div className="flex justify-center mb-20">
+                        <img
+                            src="https://superadmin.progressalliance.org/upload/web_logo/switch-roles.png"
+                            alt="Logo"
+                            className="w-28 sm:w-32 md:w-40 lg:w-52 xl:w-60 border border-white rounded-2xl p-10 bg-white cursor-pointer border rounded-[500px]"
+                            onClick={() => navigate("/")}
+                        />
+                    </div>
                     )}
-
                     {/* ✅ If showButtons true → only show 2 buttons */}
                     {showButtons ? (
                         <div className="flex flex-col gap-7">
