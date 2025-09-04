@@ -96,7 +96,7 @@ const Product = () => {
             <span className="mx-2 text-gray-400">/</span>
             <span className="font-medium text-gray-700">Categories</span>
           </div> */}
-          
+
           <div className="text-center mt-5">
             <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
               {name?.data?.categories_name}
@@ -127,7 +127,6 @@ const Product = () => {
                 className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative cursor-pointer"
                 onClick={() => navigate(`/single-product/${item.product_id}`)}
               >
-              {console.log("item",item)}
                 {/* Image */}
                 <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
                   <img
@@ -142,10 +141,10 @@ const Product = () => {
                 </div>
 
                 {/* Info */}
-                <h4 className="font-semibold text-sm sm:text-base text-gray-800 h-10">
+                <h4 className="font-semibold text-sm sm:text-base text-gray-800 truncate">
                   {item.product_name}
                 </h4>
-                <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
+                <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-2">
                   {item.description.replace(/<[^>]+>/g, "")}
                 </p>
 
@@ -173,14 +172,14 @@ const Product = () => {
           <div className="w-full mt-10 flex justify-center items-center h-[400px]">
             <div className="flex flex-col items-center justify-center text-center">
               <img
-                src="https://superadmin.progressalliance.org/upload/web_logo/not-found.jpg"
+                src="https://superadmin.progressalliance.org/upload/web_logo/not-found.png"
                 alt="No Data Found"
                 className="w-48 h-48 sm:w-60 sm:h-60 object-contain one-time-bounce"
               />
               <h2 className="mt-4 text-xl font-semibold text-gray-700">
                 No Product Found
               </h2>
-             
+
               <button
                 onClick={() => navigate("/")}
                 className="mt-6 px-5 py-2 bg-[#251C4B] text-white rounded-lg shadow-md hover:bg-[#372b63] transition"

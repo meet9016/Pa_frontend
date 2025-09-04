@@ -161,7 +161,7 @@ const Home = () => {
                       </div>
 
                       {/* sub_category_name fix */}
-                      <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-5 text-center text-sm font-medium">
+                      <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-2 text-center text-sm font-medium">
                         {sub.sub_category_name}
                       </p>
                     </div>

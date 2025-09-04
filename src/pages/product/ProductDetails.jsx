@@ -322,8 +322,7 @@ const ProductDetails = () => {
                   data-aos="fade-up"
                   className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
                 >
-                  {console.log("item", item)}
-
+                
                   <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
                     <div
                       className="w-full h-full relative group preserve-3d"
@@ -366,7 +365,7 @@ const ProductDetails = () => {
                     {item.product_name}
                   </h4>
 
-                  <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-5">
+                  <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-2">
                     {item.description}
                   </p>
 

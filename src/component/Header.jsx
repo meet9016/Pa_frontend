@@ -71,7 +71,7 @@ const Header = () => {
             const res = await api.post(endPointApi.postAddToCart, formdata);
 
             if (res.data.status === 200) {
-                toast.success(res?.data?.message);
+                // toast.success(res?.data?.message);
             }
         } catch (err) {
             console.log("Error Fetch data", err);
@@ -96,7 +96,7 @@ const Header = () => {
             const res = await api.post(endPointApi.postAddToCart, formdata);
 
             if (res.data.status === 200) {
-                toast.success(res?.data?.message);
+                // toast.success(res?.data?.message);
             }
         } catch (err) {
             console.log("Error Fetch data", err);
@@ -438,7 +438,7 @@ const Header = () => {
                                                         -
                                                     </button>
                                                     <span className="px-2 text-lg font-semibold">
-                                                        {item.quantity || 1}
+                                                        {counts[item.cart_id] ?? item.quantity ?? 1}
                                                     </span>
                                                     <button
                                                         className="px-2 py-1"
@@ -461,7 +461,6 @@ const Header = () => {
                                 )}
                             </div>
                         </div>
-{console.log("cardList",cardList)}
 
                         {/* Footer */}
                         {cardList.length !== 0 && (
