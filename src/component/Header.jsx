@@ -453,7 +453,7 @@ const Header = () => {
                                 ) : (
                                     <div className="flex justify-center py-10">
                                         <img
-                                            src="https://superadmin.progressalliance.orgn/upload/web_logo/empaty.jpg"
+                                            src="https://superadmin.progressalliance.org/upload/web_logo/empaty.jpg"
                                             alt="Empty cart"
                                             className="w-40 opacity-80"
                                         />
