@@ -92,13 +92,13 @@ const ProductDetails = () => {
       const formData = new FormData();
       formData.append("product_id", id);
       formData.append("quantity", count);
-      formData.append("remark", remarkData); 
+      formData.append("remark", remarkData);
 
       const res = await api.post(endPointApi.inquiryPopup, formData);
 
       if (res.data && res.data.data) {
         setInquiryPopup(false);
-        setRemarkData(""); 
+        setRemarkData("");
         toast.success(res.data.message)
       } else {
         toast.error(res.data.message)
@@ -226,9 +226,6 @@ const ProductDetails = () => {
               </ul>
             </div>
 
-
-
-
             <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center border border-gray-300 rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
                 <button
@@ -275,6 +272,9 @@ const ProductDetails = () => {
                 Share this Product
               </div> */}
             </div>
+
+
+            
           </div>
         </div>
 

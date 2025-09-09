@@ -409,7 +409,11 @@ const Header = () => {
                             <ul className="py-2">
                                 {/* Profile */}
                                 <li
-                                    onClick={() => navigate('/my-profile')}
+                                    onClick={() => {
+                                        navigate('/my-profile');
+                                        setUserDropDown(false);
+                                    }}
+
                                     className="px-4 py-3 hover:bg-[#f8f7fc] cursor-pointer transition flex items-center gap-3"
                                 >
                                     <i className="ri-user-fill text-[#251c4b] text-lg"></i>
@@ -418,7 +422,10 @@ const Header = () => {
 
                                 {/* Inquiry */}
                                 <li
-                                    onClick={() => navigate('/inquiry')}
+                                    onClick={() => {
+                                        navigate('/inquiry');
+                                        setUserDropDown(false)
+                                    }}
                                     className="px-4 py-3 hover:bg-[#f8f7fc] cursor-pointer transition flex items-center gap-3"
                                 >
                                     <i className="ri-whatsapp-line text-[#251c4b] text-lg"></i>
