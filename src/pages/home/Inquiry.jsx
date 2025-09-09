@@ -203,7 +203,7 @@ const Inquiry = () => {
     return (
         // outer wrapper: ensure no accidental horizontal overflow
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center overflow-x-hidden">
-            <div className="w-full max-w-[1300px] mt-8 pb-5">
+            <div className="w-full max-w-[1300px] mt-2 pb-5">
                 {/* MOBILE: card/list layout to avoid horizontal scroll */}
                 {isMobile ? (
                     <div className="flex flex-col gap-4">
