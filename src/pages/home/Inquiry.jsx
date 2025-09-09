@@ -56,10 +56,9 @@ const Inquiry = () => {
             <div className="w-full max-w-[1300px] mt-8 pb-5 overflow-x-auto">
                 <DataTable
                     value={inquiryData}
-                   
+                    tableStyle={{ minWidth: '20rem' }}
                     emptyMessage="No product found"
                     responsiveLayout="stack"
-                    breakpoint="960px"
                 >
                     <Column sortable field='order_number' header="Inquiry Number"></Column>
                     <Column
