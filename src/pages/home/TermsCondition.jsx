@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const TermsCondition = () => {
+
     return (
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
             <div className="w-full max-w-[1300px] mt-4 pb-5">

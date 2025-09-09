@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
 
@@ -8,15 +8,20 @@ import "aos/dist/aos.css";
 import { toast } from "react-toastify";
 import Login from "../auth/Login";
 
+
+
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [singleProductData, setSingleProductData] = useState([]);
   const [count, setCount] = useState(1);
   const [selectedImage, setSelectedImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [showLogin, setShowLogin] = useState(false)
+  const auth_token = localStorage.getItem("auth_token");
+  const [inquiryPopup, setInquiryPopup] = useState(false)
 
   const getSingleProductData = async () => {
     try {
@@ -50,11 +55,13 @@ const ProductDetails = () => {
       once: true,
     });
   }, []);
-  const auth_token = localStorage.getItem("auth_token");
+
   const addToCart = () => {
     try {
       if (!auth_token) {
+        localStorage.setItem("redirectAfterLogin", location.pathname);
         setShowLogin(true)
+        return;
         // toast.error("Please Loginss!")
       }
       const formdata = new FormData();
@@ -224,9 +231,9 @@ const ProductDetails = () => {
 
                 <button className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
                   onClick={() => {
-                    if (singleProductData?.whatsapp_inquiry_url) {
-                      window.open(singleProductData.whatsapp_inquiry_url, "_blank");
-                    }
+                    // if (singleProductData?.whatsapp_inquiry_url) {
+                    //   window.open(singleProductData.whatsapp_inquiry_url, "_blank");
+                    // }
                   }}
                 >
                   <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
@@ -322,7 +329,7 @@ const ProductDetails = () => {
                   data-aos="fade-up"
                   className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
                 >
-                
+
                   <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
                     <div
                       className="w-full h-full relative group preserve-3d"
@@ -382,7 +389,21 @@ const ProductDetails = () => {
                   </div>
 
                   {/* Button (Hidden until hover) */}
-                  <button className="opacity-50 cursor-pointer group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md  font-bold">
+                  {/* <button className="opacity-50 cursor-pointer group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md  font-bold">
+                    View Product
+                  </button> */}
+                  <button
+                    className="
+        opacity-100             
+        sm:opacity-50            
+        sm:group-hover:opacity-100 
+        cursor-pointer
+        mt-4 px-3 py-2 
+        border bg-[#251c4b] border-[#251c4b] 
+        text-white rounded-lg 
+        transition text-md
+      "
+                  >
                     View Product
                   </button>
                 </div>
@@ -401,7 +422,11 @@ const ProductDetails = () => {
 
       {showLogin && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-          <div className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+          <div
+            data-aos="fade-up"
+            data-aos-duration="600"
+            data-aos-easing="ease-out-cubic"
+            className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
             <button
               onClick={() => setShowLogin(false)}
               className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"

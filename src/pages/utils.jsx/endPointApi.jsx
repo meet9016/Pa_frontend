@@ -12,6 +12,8 @@ const endPointApi = {
     viewMoreSearchProductList: 'view-more-search-product-list',
     inquiryList: 'order-list',
     viewSubcategoryList: 'view-sub-category-list',
+    userProfile: 'profile',
+    editProfile: 'edit-profile',
 };
 
 export default endPointApi;

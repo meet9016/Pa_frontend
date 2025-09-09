@@ -10,15 +10,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import Login from "../auth/Login";
+import Aos from "aos";
 
 const Home = () => {
-  const images = Array(20).fill(
-    "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-12/paan-corner_web.png"
-  );
+
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showLogin, setShowLogin] = useState(false)
 
   const getProduct = async () => {
     try {
@@ -33,6 +34,18 @@ const Home = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    Aos.init({
+      duration: 600,
+      once: true,  
+      easing: "ease-out-cubic",
+    });
+
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      setShowLogin(true);
+    }
+  }, []);
 
   useEffect(() => {
     getProduct();
@@ -52,6 +65,27 @@ const Home = () => {
       <div className="w-full pt-[60px] bg-[#EAEBEF] sm:pt-[80px] md:pt-[100px]">
         {/* Main Container with fixed width */}
         <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">
+
+          {/* Login pop-up open */}
+          {showLogin && (
+            <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+              <div
+                data-aos="fade-up"
+                data-aos-duration="600"
+                className="relative bg-white rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4"
+              >
+                <button
+                  onClick={() => setShowLogin(false)}
+                  className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
+                >
+                  <i className="ri-close-large-line"></i>
+                </button>
+
+                <Login onClose={() => setShowLogin(false)} />
+              </div>
+            </div>
+          )}
+
           {/* Top Banner */}
           <div className="w-full mt-9 sm:mt-4 md:mt-1">
             <Swiper
@@ -171,6 +205,10 @@ const Home = () => {
               </div>
             ))}
           </div>
+
+
+
+
         </div>
       </div>
     </>

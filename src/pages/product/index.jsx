@@ -161,9 +161,22 @@ const Product = () => {
                 </div>
 
                 {/* Read More */}
-                <button className="opacity-50 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md font-bold">
+
+                <button
+                  className="
+        opacity-100              
+        sm:opacity-50          
+        sm:group-hover:opacity-100 
+        cursor-pointer
+        mt-4 px-3 py-2 
+        border bg-[#251c4b] border-[#251c4b] 
+        text-white rounded-lg 
+        transition text-md
+      "
+                >
                   View Product
                 </button>
+
               </div>
             ))}
           </div>
@@ -182,7 +195,7 @@ const Product = () => {
 
               <button
                 onClick={() => navigate("/")}
-                className="mt-6 px-5 py-2 bg-[#251C4B] text-white rounded-lg shadow-md hover:bg-[#372b63] transition"
+                className="mt-6 px-5 py-2 bg-[#251C4B] text-white rounded-lg cursor-pointer shadow-md hover:bg-[#372b63] transition"
               >
                 Go Home
               </button>

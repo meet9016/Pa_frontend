@@ -53,8 +53,14 @@ const Inquiry = () => {
     }, [])
     return (
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
-            <div className="w-full max-w-[1300px] mt-8 pb-5">
-                <DataTable value={inquiryData} tableStyle={{ minWidth: '20rem' }}>
+            <div className="w-full max-w-[1300px] mt-8 pb-5 overflow-x-auto">
+                <DataTable
+                    value={inquiryData}
+                    // tableStyle={{ minWidth: '20rem' }}
+                    emptyMessage="No product found"
+                    responsiveLayout="stack"
+                    breakpoint="960px"
+                >
                     <Column sortable field='order_number' header="Inquiry Number"></Column>
                     <Column
                         sortable
@@ -65,7 +71,8 @@ const Inquiry = () => {
                             const date = new Date(rowData.order_date);
                             return date.toLocaleDateString("en-GB"); // dd/mm/yyyy format
                         }}
-                    ></Column>
+                    >
+                    </Column>
 
                     {/* <Column sortable field='product_count' header="Product Count"></Column> */}
                     <Column body={actionBodyTemplate} header="Action"></Column>

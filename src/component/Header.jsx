@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Login from "../pages/auth/Login";
 import debounce from 'lodash.debounce';
 import SupplierForm from "../pages/auth/Supplier";
+import Aos from "aos";
 
 const Header = () => {
     const navigate = useNavigate()
@@ -25,7 +26,8 @@ const Header = () => {
     const wrapperRef = useRef(null);
     const [showMobileSearch, setShowMobileSearch] = useState(false);
     const [userDropDown, setUserDropDown] = useState(false);
-
+    const [supplierButton, setSupplierButton] = useState(null);
+    const authToken = localStorage.getItem("auth_token");
 
 
     const fetchSuggestions = async (searchText) => {
@@ -52,6 +54,7 @@ const Header = () => {
 
     const handleShowAllResults = async () => {
         navigate(`/search/${query}`)
+        setShowDropdown(false)
     };
     const handleIncrement = async (cart_id, p_id) => {
         const newQuantity = (counts[cart_id] || 1) + 1;
@@ -203,7 +206,31 @@ const Header = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        Aos.init({ once: true });
+    }, []);
 
+    const onProfileClick = async () => {
+        try {
+            const res = await api.post(endPointApi.userProfile, {})
+            if (res.data && res.data.data) {
+                console.log(res.data, 'success')
+                if (res.data.data.user_type == "2") {
+                    setSupplierButton(res.data.data.button_text);
+                } else {
+                    console.log('not show')
+                }
+            } else {
+                console.log(res.data, 'error')
+            }
+        } catch (err) {
+            console.log("ERROR", err)
+        }
+    }
+
+    const Suuplier = () => {
+        window.location.href = `https://seller.progressalliance.org/?token=${authToken}`;
+    };
     return (
         <>
             <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md px-4 sm:px-6 lg:px-8">
@@ -278,7 +305,7 @@ const Header = () => {
                                 <div className="w-full text-center px-4 py-4">
                                     <button
                                         onClick={handleShowAllResults}
-                                        className="inline-flex items-center gap-3 text-base font-semibold"
+                                        className="inline-flex cursor-pointer items-center gap-3 text-base font-semibold"
                                         style={{ color: "#251C4B" }}
                                     >
                                         View more →
@@ -307,13 +334,16 @@ const Header = () => {
                                 if (alreadyLogin) {
                                     setUserDropDown((prev) => !prev);
                                 } else {
+                                    localStorage.setItem("redirectAfterLogin", location.pathname);
                                     setShowLogin(true);
                                 }
                             }}
                             className="flex items-center gap-2 px-3 py-2 md:px-4 rounded-lg text-black  cursor-pointer"
                         >
                             {alreadyLogin ? (
-                                <i className="ri-user-3-line text-2xl text-[#251c4b]"></i>
+                                <i
+                                    onClick={onProfileClick}
+                                    className="ri-user-3-line text-2xl text-[#251c4b]"></i>
                             ) : (
                                 <i className="ri-login-box-line text-2xl text-[#251c4b]"></i>
                             )}
@@ -326,15 +356,25 @@ const Header = () => {
 
 
                     {/*User Dropdown */}
-                    {userDropDown && alreadyLogin && (
-                        <div className="absolute right-3 mt-50 w-45 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    {/* {userDropDown && alreadyLogin && (
+                        <div className="absolute right-3 mt-80 w-45 bg-white border border-gray-200 rounded-lg shadow-lg z-50 hidden md:block">
                             <ul className="py-2">
                                 <li
-                                    onClick={() => navigate('/inquiry')}
-                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    onClick={() => navigate('/my-profile')}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
                                     <div className="flex gap-4">
-                                        <i class="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
-                                        Inquiry
+                                        <i className="ri-user-fill text-[#251c4b] text-[20px] font-bold"></i>
+                                        My Profile
+                                    </div>
+                                </li>
+                                <li
+                                    onClick={() => navigate('/inquiry')}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    <div className="flex gap-4">
+                                        <i className="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        My Inquiry
                                     </div>
                                 </li>
                                 <li
@@ -351,25 +391,93 @@ const Header = () => {
                                         Sign Out
                                     </div>
                                 </li>
+                                {supplierButton && (
+                                    <li className="px-4 py-2">
+                                        <button
+                                            onClick={Suuplier}
+                                            className="w-full cursor-pointer text-left bg-[#251c4b] text-white px-4 py-2 rounded-md hover:bg-[#1c1639]"
+                                        >
+                                            {supplierButton}
+                                        </button>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    )} */}
+                    {userDropDown && alreadyLogin && (
+                        <div className="absolute right-3 mt-75 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 hidden md:block">
+                            <ul className="py-2">
+                                {/* Profile */}
+                                <li
+                                    onClick={() => navigate('/my-profile')}
+                                    className="px-4 py-3 hover:bg-[#f8f7fc] cursor-pointer transition flex items-center gap-3"
+                                >
+                                    <i className="ri-user-fill text-[#251c4b] text-lg"></i>
+                                    <span className="text-gray-800 font-medium">My Profile</span>
+                                </li>
+
+                                {/* Inquiry */}
+                                <li
+                                    onClick={() => navigate('/inquiry')}
+                                    className="px-4 py-3 hover:bg-[#f8f7fc] cursor-pointer transition flex items-center gap-3"
+                                >
+                                    <i className="ri-whatsapp-line text-[#251c4b] text-lg"></i>
+                                    <span className="text-gray-800 font-medium">My Inquiry</span>
+                                </li>
+
+                                {/* Sign Out */}
+                                <li
+                                    onClick={() => {
+                                        localStorage.removeItem("auth_token");
+                                        setUserDropDown(false);
+                                        toast.success("Logged out successfully!");
+                                        navigate("/");
+                                    }}
+                                    className="px-4 py-3 hover:bg-[#f8f7fc] cursor-pointer transition flex items-center gap-3 border-t border-gray-100"
+                                >
+                                    <i className="ri-logout-box-line text-[#251c4b] text-lg"></i>
+                                    <span className="text-gray-800 font-medium">Sign Out</span>
+                                </li>
+
+                                {/* Supplier Button */}
+                                {supplierButton && (
+                                    <li className="px-4 py-3">
+                                        <button
+                                            onClick={Suuplier}
+                                            className="w-full bg-[#251c4b] text-white px-4 py-2 rounded-lg hover:bg-[#1c1639] transition text-center font-medium"
+                                        >
+                                            {supplierButton}
+                                        </button>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                     )}
-
 
 
 
 
                     {/* Mobile User Dropdown */}
+
                     {userDropDown && alreadyLogin && (
                         <div className="fixed right-2 top-[70px] w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-[9999] md:hidden">
                             <ul className="py-2">
+                                <li
+                                    onClick={() => navigate('/my-profile')}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    <div className="flex gap-4">
+                                        <i className="ri-user-fill text-[#251c4b] text-[20px] font-bold"></i>
+                                        My Profile
+                                    </div>
+                                </li>
                                 <li
                                     onClick={() => navigate('/inquiry')}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                     <div className="flex gap-4">
-                                        <i class="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
-                                        Inquiry
+                                        <i className="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
+                                        My Inquiry
                                     </div>
                                 </li>
                                 <li
@@ -386,10 +494,19 @@ const Header = () => {
                                         Sign Out
                                     </div>
                                 </li>
+                                {supplierButton && (
+                                    <li className="px-4 py-2">
+                                        <button
+                                            onClick={Suuplier}
+                                            className="w-full cursor-pointer text-left bg-[#251c4b] text-white px-4 py-2 rounded-md hover:bg-[#1c1639]"
+                                        >
+                                            {supplierButton}
+                                        </button>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                     )}
-
 
 
 
@@ -415,7 +532,7 @@ const Header = () => {
                                         {cardList.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="flex items-center justify-between border-b pb-3 last:border-none"
+                                                className="flex items-center justify-between border-b border-gray-200 pb-3 last:border-none"
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <img
@@ -515,8 +632,11 @@ const Header = () => {
                             className="p-2 rounded-md"
                         >
                             <i
-                                className={`${alreadyLogin ? "ri-user-3-line text-[#251c4b]" : "ri-login-circle-line"} text-xl text-[#251c4b]`}
-                            ></i>
+                                onClick={onProfileClick}
+                                className=
+                                {`${alreadyLogin ? "ri-user-3-line text-[#251c4b]" : "ri-login-circle-line"} text-xl text-[#251c4b]`}
+                            >
+                            </i>
                         </button>
 
 
@@ -561,7 +681,11 @@ const Header = () => {
 
                 {showLogin && (
                     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-                        <div className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+                        <div
+                            data-aos="fade-up"
+                            data-aos-duration="600"
+                            className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4"
+                        >
                             <button
                                 onClick={() => setShowLogin(false)}
                                 className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
@@ -662,7 +786,7 @@ const Header = () => {
                                 <div className="w-full text-center px-4 py-4">
                                     <button
                                         onClick={handleShowAllResults}
-                                        className="inline-flex items-center gap-3 text-base font-semibold"
+                                        className="inline-flex cursor-pointer items-center gap-3 text-base font-semibold"
                                         style={{ color: "#251C4B" }}
                                     >
                                         View more →

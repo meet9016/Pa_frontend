@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearToken } from "./tokenManager";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // Env se URL le raha hai
@@ -22,7 +23,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       console.error("Unauthorized! Redirecting to login...");
-      // Example: window.location.href = "/login";
+      // window.location.href = "/login";
+      clearToken();
     }
     return Promise.reject(error);
   }

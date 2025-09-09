@@ -12,22 +12,10 @@ import { useState } from "react";
 import Inquiry from "../home/Inquiry";
 import PrivacyPolicy from "../home/PrivacyPolicy";
 import TermsCondition from "../home/TermsCondition";
+import MyProfile from "../home/MyProfile";
+import EditProfile from "../home/EditProfile";
 
-function LayoutWithHeader() {
 
-  return (
-    <>
-      {/* <Header /> */}
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/single-product/:id" element={<ProductDetails />} />
-
-      </Routes>
-      <Footer />
-    </>
-  );
-}
 const AppRoutes = () => {
   return (
     <>
@@ -39,7 +27,7 @@ const AppRoutes = () => {
             <Route
               path="/"
               element={
-                <Home /> // ✅ Home ko state pass
+                <Home />
               }
             />
             {/* <Route path="/product/:id" element={<Product />} /> */}
@@ -49,7 +37,8 @@ const AppRoutes = () => {
             <Route path="/inquiry" element={<Inquiry />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-condition" element={<TermsCondition />} />
-
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
             {/* Public routes */}
             {/* <Route path="/" element={<Login />} /> */}
 
@@ -57,7 +46,8 @@ const AppRoutes = () => {
             {/* <Route path="*" element={<NotFound />} /> */}
             <Route path="/category/:categoryId" element={<Category />} />
 
-          </Routes></main>
+          </Routes>
+        </main>
         <Footer />
       </div>
     </>

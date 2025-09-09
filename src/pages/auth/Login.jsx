@@ -102,15 +102,15 @@
 
 
 //         const formdata = new FormData();
-        // formdata.append("number", formData.mobile);
-        // formdata.append("otp", formData.otp);
+// formdata.append("number", formData.mobile);
+// formdata.append("otp", formData.otp);
 
-        // if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
-        // if (formData.full_name) formdata.append('full_name', formData.full_name)
-        // // if (formData.businessName) formdata.append('full_name', formData.businessName)
-        // if (formData.address) formdata.append('address', formData.address)
-        // if (formData.city) formdata.append('city', formData.city)
-        // if (formData.pincode) formdata.append('pincode', formData.pincode)
+// if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
+// if (formData.full_name) formdata.append('full_name', formData.full_name)
+// // if (formData.businessName) formdata.append('full_name', formData.businessName)
+// if (formData.address) formdata.append('address', formData.address)
+// if (formData.city) formdata.append('city', formData.city)
+// if (formData.pincode) formdata.append('pincode', formData.pincode)
 
 //         const res = await api.post(`${endPointApi.loginUser}`, formdata); // Send mobile + OTP
 //         console.log("res", res.data.status);
@@ -461,9 +461,11 @@ const Login = ({ onClose }) => {
     const [error, setError] = useState({});
     const [otpSent, setOtpSent] = useState(false);
     const [newSupplier, setNewSupplier] = useState(false);
+    console.log(newSupplier, 'new');
 
     const [showButtons, setShowButtons] = useState(false); // new state
     const [userType, setUserType] = useState(false);
+    // console.log(userType, 'USERTYPE')
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -496,10 +498,10 @@ const Login = ({ onClose }) => {
                 toast.success(res.data.message);
                 setOtpSent(true);
             } else {
-                toast.error(res.data.message);
+                toast.error(res.data.message)
             }
         } catch (err) {
-            toast.error("Something went wrong while sending OTP");
+            console.log("aaa")
         }
     };
 
@@ -518,6 +520,18 @@ const Login = ({ onClose }) => {
             newErrors.otp = "OTP should be 4–6 digits";
         }
 
+        if (formData.capture_code) {
+            if (!formData.full_name) newErrors.full_name = "Full name is required"
+            // if (!formData.fubusinessNamell_name) newErrors.businessName = "Business name is required"
+            if (!formData.address) newErrors.address = "Address is required"
+            if (!formData.city) newErrors.city = "City is required"
+            if (!formData.pincode) {
+                newErrors.pincode = "Pincode is required"
+            } else if (!/^\d{6}$/.test(formData.pincode)) {
+                newErrors.pincode = "Enter a valid 6-digit pincode"
+            }
+        }
+
         if (Object.keys(newErrors).length > 0) {
             setError(newErrors);
             return;
@@ -527,7 +541,7 @@ const Login = ({ onClose }) => {
         // formdata.append("number", formData.mobile);
         // formdata.append("otp", formData.otp);
 
-         formdata.append("number", formData.mobile);
+        formdata.append("number", formData.mobile);
         formdata.append("otp", formData.otp);
 
         if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
@@ -538,18 +552,18 @@ const Login = ({ onClose }) => {
         if (formData.pincode) formdata.append('pincode', formData.pincode)
 
         const res = await api.post(`${endPointApi.loginUser}`, formdata);
+
         if (res.data.status === 200) {
-            console.log(res.data.data, 'aaa');
-            
             saveToken(res?.data?.data?.token);
-            setShowButtons(true); // 👈 only show Become & Supplier buttons
+            setShowButtons(true); //  only show Become & Supplier buttons
             if (res.data.data.user_type == 2) {
                 setUserType(true)
-                setShowButtons(true); // 👈 only show Become & Supplier buttons
-
+                setShowButtons(true); // only show Become & Supplier buttons
             } else {
+                const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+                localStorage.removeItem("redirectAfterLogin");
                 if (onClose) onClose()
-                navigate('/')
+                navigate(redirectPath);
                 toast.success(res?.data?.message || 'Logged in')
             }
         } else if (res.data.status === 203) {
@@ -561,6 +575,8 @@ const Login = ({ onClose }) => {
             toast.info(
                 res?.data?.message || "Enter the OTP / capture code sent to you"
             );
+        } else {
+            toast.error(res.data.message)
         }
     };
 
@@ -602,20 +618,41 @@ const Login = ({ onClose }) => {
 
                     {/* ✅ If showButtons true → only show 2 buttons */}
                     {showButtons ? (
-                        <div className="flex flex-col gap-7">
-                            <button
-                                className="w-full cursor-pointer bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
-                                onClick={Suuplier}
-                            >
-                                Continue as Supplier
-                            </button>
-                            <button
-                                className="w-full cursor-pointer bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
-                                onClick={onCounting}
-                            >
-                                Continue as Buyer
-                            </button>
+                        <div className="flex flex-col items-center gap-8 p-8 rounded-2xl w-full max-w-sm mx-auto bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 relative overflow-hidden">
+
+                            {/* Decorative Gradient Background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#251C4B]/10 via-transparent to-[#3b2c6e]/20 rounded-2xl pointer-events-none"></div>
+
+                            {/* Image Section */}
+                            <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden">
+                                <img
+                                    src="https://superadmin.progressalliance.org/upload/web_logo/switch-roles.png"
+                                    alt="Switch Role"
+                                    className="w-full h-full object-cover"
+                                />
+                                {/* Overlay tint color */}
+                                <div className="absolute inset-0  bg-white mix-blend-multiply"></div>
+                            </div>
+
+                            {/* Buttons */}
+                            <div className="flex flex-col gap-4 w-full z-10">
+                                <button
+                                    className="w-full cursor-pointer bg-gradient-to-r from-[#251C4B] to-[#3b2c6e] text-white py-3 rounded-lg font-semibold shadow-md hover:scale-105 transition duration-300"
+                                    onClick={Suuplier}
+                                >
+                                    Continue as Supplier
+                                </button>
+                                <button
+                                    className="w-full bg-gradient-to-r cursor-pointer from-[#3b2c6e] to-[#251C4B] text-white py-3 rounded-lg font-semibold shadow-md hover:scale-105 transition duration-300"
+                                    onClick={onCounting}
+                                >
+                                    Continue as Buyer
+                                </button>
+                            </div>
                         </div>
+
+
+
                     ) : (
                         <>
                             <div className="text-center">
@@ -638,6 +675,7 @@ const Login = ({ onClose }) => {
                                         value={formData.mobile}
                                         onChange={handleChange}
                                         maxLength={10}
+                                        disabled={newSupplier}
                                     />
                                     {error.mobile && (
                                         <p className="text-red-500 text-sm leading-tight m-1">
@@ -647,7 +685,7 @@ const Login = ({ onClose }) => {
                                 </div>
 
                                 {/* OTP */}
-                                {otpSent && (
+                                {otpSent && !newSupplier && (
                                     <div className="flex justify-center gap-10">
                                         <OtpInput
                                             value={formData.otp}
@@ -767,7 +805,8 @@ const Login = ({ onClose }) => {
                                             className="w-full cursor-pointer bg-[#251C4B] text-white py-3 rounded-md font-medium hover:bg-[#251C4B]/90 transition"
                                             onClick={onLoginClick}
                                         >
-                                            Login
+                                            {newSupplier ? "Register" : "Login"}
+
                                         </button>
                                     )}
                                 </div>
