@@ -87,14 +87,15 @@ const Inquiry = () => {
                 <DataTable
                     value={inquiryData}
                     emptyMessage="No product found"
-                    responsiveLayout="stack"
-                    breakpoint="960px"
+                    responsiveLayout="stack"   // mobile par stack view
+                    breakpoint="960px"         // 960px se neeche stack hoga
+                    className="w-full"         // table ko 100% width pe force karo
                 >
-                    <Column sortable field="order_number" header="Inquiry Number" />
+                    <Column field="order_number" header="Inquiry Number" sortable />
                     <Column
-                        sortable
                         field="order_date"
                         header="Inquiry Date"
+                        sortable
                         body={(rowData) => {
                             const date = new Date(rowData.order_date);
                             return date.toLocaleDateString("en-GB"); // dd/mm/yyyy
@@ -104,6 +105,7 @@ const Inquiry = () => {
                 </DataTable>
             </div>
         </div>
+
 
     )
 }
