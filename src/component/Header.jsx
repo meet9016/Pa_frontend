@@ -470,7 +470,10 @@ const Header = () => {
                         <div className="fixed right-2 top-[70px] w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-[9999] md:hidden">
                             <ul className="py-2">
                                 <li
-                                    onClick={() => navigate('/my-profile')}
+                                    onClick={() => {
+                                        navigate('/my-profile');
+                                        setUserDropDown(false);
+                                    }}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                     <div className="flex gap-4">
@@ -479,7 +482,10 @@ const Header = () => {
                                     </div>
                                 </li>
                                 <li
-                                    onClick={() => navigate('/inquiry')}
+                                    onClick={() => {
+                                        navigate('/inquiry');
+                                        setUserDropDown(false)
+                                    }}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                     <div className="flex gap-4">
