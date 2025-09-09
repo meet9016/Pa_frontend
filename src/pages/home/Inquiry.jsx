@@ -52,32 +52,59 @@ const Inquiry = () => {
         getProduct()
     }, [])
     return (
+        // <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
+        //     <div className="w-full max-w-[1300px] mt-8 pb-5 overflow-x-auto">
+        //         <DataTable
+        //             value={inquiryData}
+        //             tableStyle={{ minWidth: '20rem' }}
+        //             emptyMessage="No product found"
+        //             responsiveLayout="stack"
+        //         >
+        //             <Column sortable field='order_number' header="Inquiry Number"></Column>
+        //             <Column
+        //                 sortable
+        //                 field="order_date"
+        //                 header="Inquiry Date"
+        //                 body={(rowData) => {
+        //                     // ensure it's parsed as Date
+        //                     const date = new Date(rowData.order_date);
+        //                     return date.toLocaleDateString("en-GB"); // dd/mm/yyyy format
+        //                 }}
+        //             >
+        //             </Column>
+
+        //             {/* <Column sortable field='product_count' header="Product Count"></Column> */}
+        //             <Column body={actionBodyTemplate} header="Action"></Column>
+        //         </DataTable>
+        //     </div>
+        // </div>
+
+
+
+
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
-            <div className="w-full max-w-[1300px] mt-8 pb-5 overflow-x-auto">
+            <div className="w-full max-w-[1300px] mt-8 pb-5">
                 <DataTable
                     value={inquiryData}
-                    tableStyle={{ minWidth: '20rem' }}
                     emptyMessage="No product found"
                     responsiveLayout="stack"
+                    breakpoint="960px"
                 >
-                    <Column sortable field='order_number' header="Inquiry Number"></Column>
+                    <Column sortable field="order_number" header="Inquiry Number" />
                     <Column
                         sortable
                         field="order_date"
                         header="Inquiry Date"
                         body={(rowData) => {
-                            // ensure it's parsed as Date
                             const date = new Date(rowData.order_date);
-                            return date.toLocaleDateString("en-GB"); // dd/mm/yyyy format
+                            return date.toLocaleDateString("en-GB"); // dd/mm/yyyy
                         }}
-                    >
-                    </Column>
-
-                    {/* <Column sortable field='product_count' header="Product Count"></Column> */}
-                    {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
+                    />
+                    <Column body={actionBodyTemplate} header="Action" />
                 </DataTable>
             </div>
         </div>
+
     )
 }
 
