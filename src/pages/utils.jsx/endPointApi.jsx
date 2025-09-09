@@ -14,6 +14,7 @@ const endPointApi = {
     viewSubcategoryList: 'view-sub-category-list',
     userProfile: 'profile',
     editProfile: 'edit-profile',
+    inquiryPopup: 'add-to-direct-inquiry'
 };
 
 export default endPointApi;

@@ -22,6 +22,8 @@ const ProductDetails = () => {
   const [showLogin, setShowLogin] = useState(false)
   const auth_token = localStorage.getItem("auth_token");
   const [inquiryPopup, setInquiryPopup] = useState(false)
+  const [remarkData, setRemarkData] = useState("");
+
 
   const getSingleProductData = async () => {
     try {
@@ -84,6 +86,29 @@ const ProductDetails = () => {
       // setLoading(false)
     }
   };
+
+  const sendInquiry = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("product_id", id);
+      formData.append("quantity", count);
+      formData.append("remark", remarkData); 
+
+      const res = await api.post(endPointApi.inquiryPopup, formData);
+
+      if (res.data && res.data.data) {
+        setInquiryPopup(false);
+        setRemarkData(""); 
+        toast.success(res.data.message)
+      } else {
+        toast.error(res.data.message)
+      }
+    } catch (err) {
+      console.log("Error Fetch data", err);
+    }
+  };
+
+
   return (
     <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
       <div className="w-full mt-4 max-w-[1300px]">
@@ -230,11 +255,7 @@ const ProductDetails = () => {
                 </button>
 
                 <button className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
-                  onClick={() => {
-                    // if (singleProductData?.whatsapp_inquiry_url) {
-                    //   window.open(singleProductData.whatsapp_inquiry_url, "_blank");
-                    // }
-                  }}
+                  onClick={() => setInquiryPopup(true)}
                 >
                   <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
                 </button>
@@ -417,6 +438,53 @@ const ProductDetails = () => {
         </div>
       </div>
 
+      {inquiryPopup && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+          <div
+            data-aos="fade-up"
+            data-aos-duration="600"
+            data-aos-easing="ease-out-cubic"
+            className="relative bg-white rounded-lg 
+                 w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] 
+                 max-h-[90vh] overflow-y-auto p-6"
+          >
+            {/* Title */}
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 text-center">
+              Send Inquiry
+            </h2>
+
+            {/* Remark field */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Remark
+              </label>
+              <textarea
+                rows={5}
+                placeholder="Write your remark here..."
+                value={remarkData}
+                onChange={(e) => setRemarkData(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#251c4b]"
+              />
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setInquiryPopup(false)}
+                className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition text-sm sm:text-base"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={sendInquiry}
+                className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg bg-[#251c4b] text-white hover:bg-[#1c1536] transition text-sm sm:text-base"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
 
 
