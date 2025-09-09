@@ -74,7 +74,7 @@ const Inquiry = () => {
                     </Column>
 
                     {/* <Column sortable field='product_count' header="Product Count"></Column> */}
-                    <Column body={actionBodyTemplate} header="Action"></Column>
+                    {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
                 </DataTable>
             </div>
         </div>
