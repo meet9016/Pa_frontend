@@ -207,7 +207,7 @@ const Inquiry = () => {
             <div className="w-full max-w-[1300px] mt-8 pb-5">
                 {/* MOBILE: card/list layout to avoid horizontal scroll */}
                 {isMobile ? (
-                    <div className="flex flex-col mt-2 gap-4">
+                    <div className="flex flex-col gap-4">
                         {loading ? (
                             <div className="text-center py-6">Loading...</div>
                         ) : inquiryData.length === 0 ? (
