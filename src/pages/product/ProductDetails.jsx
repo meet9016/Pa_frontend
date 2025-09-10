@@ -16,6 +16,7 @@ const ProductDetails = () => {
   const location = useLocation();
 
   const [singleProductData, setSingleProductData] = useState([]);
+  const [supplierData, setSupplierData] = useState([]);
   const [count, setCount] = useState(1);
   const [selectedImage, setSelectedImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
@@ -25,12 +26,11 @@ const ProductDetails = () => {
   const [remarkData, setRemarkData] = useState("");
 
 
+
   const getSingleProductData = async () => {
     try {
       const formdata = new FormData();
       formdata.append("product_id", id);
-
-
       // setLoading(true);
       const res = await api.post(endPointApi.postSingleProduct, formdata);
 
@@ -38,6 +38,9 @@ const ProductDetails = () => {
         setSingleProductData(res?.data?.data || []);
         if (res?.data?.data?.images?.length > 0) {
           setSelectedImage(res.data.data.images[0].image);
+        }
+        if (res?.data?.data?.supplier_details) {
+          setSupplierData(res.data.data.supplier_details)
         }
       }
     } catch (err) {
@@ -108,6 +111,11 @@ const ProductDetails = () => {
     }
   };
 
+  const handleViewShop = () => {
+    if (supplierData?.supplier_details_id) {
+      navigate(`/view-shop/${supplierData.supplier_details_id}`)
+    }
+  }
 
   return (
     <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
@@ -124,11 +132,11 @@ const ProductDetails = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-8">
           {/* LEFT PART */}
-          <div className="flex gap-4">
+          <div className="flex mt-4 gap-4">
             {/* Thumbnails - Left side */}
-            <div className="flex mt-5 flex-col gap-2 justify-start">
+            <div className="flex  flex-col gap-2 justify-start">
               {singleProductData?.images?.map((img) => (
                 <img
                   key={img.id}
@@ -137,8 +145,8 @@ const ProductDetails = () => {
                   onClick={() => setSelectedImage(img.image)}
                   className={`w-16 h-16 sm:w-20 sm:h-20 border rounded-md object-contain cursor-pointer 
                                      ${selectedImage === img.image
-                      ? "border-[#251c4b] border-2"
-                      : "border-gray-300"
+                      ? "border-white bg-white rounded-2xl p-1"
+                      : "border-white bg-white rounded-2xl p-1"
                     }`}
                 />
               ))}
@@ -154,12 +162,12 @@ const ProductDetails = () => {
                     : "/src/Image/No image.jpg")
                 }
                 alt={singleProductData?.product_name || "Product"}
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain bg-white rounded-2xl p-10"
               />
             </div>
           </div>
 
-          <div className="mt-6 sm:mt-0 px-2 sm:px-4 lg:px-0 space-y-5">
+          <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-7">
             {/* Title */}
             <h2 className="text-2xl sm:text-3xl font-bold">
               {singleProductData?.product_name}
@@ -184,17 +192,23 @@ const ProductDetails = () => {
             </p>
 
             {/* Price */}
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-5 flex-wrap">
               <span className="text-black text-3xl sm:text-4xl font-bold">
                 ₹{singleProductData?.price}
               </span>
-              {/* <span className="line-through text-red-500 text-base sm:text-lg font-medium">
-                                ₹{singleProductData?.cancle_price}
-                            </span> */}
+              <span className="line-through text-red-500 text-base sm:text-[21px] font-bold">
+                ₹{singleProductData?.cancle_price}
+              </span>
+              <span className="inline-block bg-gradient-to-r from-green-500 cursor-pointer to-green-700 text-white text-sm sm:text-[21px] font-bold px-4 py-1 rounded-lg shadow-md">
+                {singleProductData?.off_per}% OFF
+              </span>
+
+
+
             </div>
 
             {/* SKU Details Section (instead of hr line) */}
-            <div className="mt-6 bg-white rounded-xl border border-gray-200 p-6">
+            <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4">
               <h3 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                 Product Details
               </h3>
@@ -226,8 +240,11 @@ const ProductDetails = () => {
               </ul>
             </div>
 
+
+
+
             <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center border border-gray-300 rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
+              <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
                 <button
                   onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
                   className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
@@ -274,7 +291,56 @@ const ProductDetails = () => {
             </div>
 
 
-            
+
+            <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4">
+              {/* Heading */}
+              <h2 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
+                Sold By
+              </h2>
+
+              {/* Shop Content */}
+              <div className="flex flex-col sm:flex-row items-stretch gap-4 p-2 rounded-lg bg-white">
+                {/* Left: Shop Logo */}
+                <div className="w-28 h-28 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
+                  <img
+                    src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
+                    alt="Shop Logo"
+                    className="w-full h-full object-contain rounded-md"
+                  />
+                </div>
+
+                {/* Right: Company Info */}
+                <div className="flex flex-col justify-between h-auto sm:h-28 flex-1 text-center sm:text-left">
+                  {/* Top row: Company Name + View Shop */}
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <h4 className="text-xl sm:text-2xl font-bold text-gray-900 truncate max-w-[200px] sm:max-w-full">
+                      {supplierData.company_name}
+                    </h4>
+                    <button
+                      onClick={handleViewShop}
+                      className="px-4 sm:px-6 py-2 flex items-center justify-center rounded-lg border-2 border-[#1d163e] hover:text-white text-black font-medium shadow-md hover:bg-[#1d163e] transition w-full sm:w-auto"
+                    >
+                      View Shop
+                    </button>
+                  </div>
+
+                  {/* Middle row: Chapter Short Name */}
+                  <p className="text-base sm:text-lg font-medium text-[#7d7186] mt-2 sm:mt-0">
+                    {supplierData.full_name} ({supplierData.chapter_short_name})
+                  </p>
+
+                  {/* Bottom row: Total Products */}
+                  <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 sm:mt-0">
+                    <h4 className="text-lg sm:text-xl font-bold text-[#7d7186]">
+                      {supplierData.total_products}
+                    </h4>
+                    <p className="text-base sm:text-lg text-[#7d7186] font-medium">Products</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
 
@@ -372,6 +438,19 @@ const ProductDetails = () => {
                           className="w-full h-full object-contain"
                         />
                       </div>
+
+                      {/* <div className="absolute inset-0 backface-hidden transform group-hover:scale-105 transition-all duration-500">
+                        <img
+                          src={
+                            item.product_image && item.product_image !== ""
+                              ? item.product_image
+                              : "/src/Image/No image.jpg"
+                          }
+                          alt={item.name}
+                          className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+                        />
+                      </div> */}
+
 
                       {/* Back Image (same as front) */}
                       {/* <div className="absolute inset-0 backface-hidden transform rotate-y-180 transition-transform duration-700 group-hover:rotate-y-360">

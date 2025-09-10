@@ -14,6 +14,7 @@ import PrivacyPolicy from "../home/PrivacyPolicy";
 import TermsCondition from "../home/TermsCondition";
 import MyProfile from "../home/MyProfile";
 import EditProfile from "../home/EditProfile";
+import ViewShop from "../product/ViewShop";
 
 
 const AppRoutes = () => {
@@ -39,6 +40,7 @@ const AppRoutes = () => {
             <Route path="/terms-condition" element={<TermsCondition />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/view-shop/:id" element={<ViewShop />} />
             {/* Public routes */}
             {/* <Route path="/" element={<Login />} /> */}
 
