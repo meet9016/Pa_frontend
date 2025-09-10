@@ -461,9 +461,9 @@ const Login = ({ onClose }) => {
     const [error, setError] = useState({});
     const [otpSent, setOtpSent] = useState(false);
     const [newSupplier, setNewSupplier] = useState(false);
-    console.log(newSupplier, 'new');
 
     const [showButtons, setShowButtons] = useState(false); // new state
+    console.log(showButtons, 'new');
     const [userType, setUserType] = useState(false);
     // console.log(userType, 'USERTYPE')
 
@@ -605,7 +605,7 @@ const Login = ({ onClose }) => {
 
                 {/* RIGHT */}
                 <div className="flex flex-col justify-center px-4 sm:px-5 py-6">
-                    {!showButtons && (
+                    {!showButtons && !newSupplier && (
                         <div className="flex justify-center mb-6">
                             <img
                                 src="https://superadmin.progressalliance.org/upload/web_logo/login_popup.png"
@@ -618,24 +618,20 @@ const Login = ({ onClose }) => {
 
                     {/* ✅ If showButtons true → only show 2 buttons */}
                     {showButtons ? (
-                        <div className="flex flex-col items-center gap-8 p-8 rounded-2xl w-full max-w-sm mx-auto bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 relative overflow-hidden">
-
-                            {/* Decorative Gradient Background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#251C4B]/10 via-transparent to-[#3b2c6e]/20 rounded-2xl pointer-events-none"></div>
-
+                        <div className="flex flex-col items-center gap-8 p-0 w-full max-w-sm mx-auto">
                             {/* Image Section */}
-                            <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden">
+                            <div className="relative w-32 h-32 sm:w-40 sm:h-40 overflow-hidden">
                                 <img
                                     src="https://superadmin.progressalliance.org/upload/web_logo/switch-roles.png"
                                     alt="Switch Role"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover "
                                 />
-                                {/* Overlay tint color */}
-                                <div className="absolute inset-0  bg-white mix-blend-multiply"></div>
+                                {/* Overlay tint color if needed */}
+                                <div className="absolute inset-0 bg-white mix-blend-multiply"></div>
                             </div>
 
                             {/* Buttons */}
-                            <div className="flex flex-col gap-4 w-full z-10">
+                            <div className="flex flex-col gap-4 w-full">
                                 <button
                                     className="w-full cursor-pointer bg-gradient-to-r from-[#251C4B] to-[#3b2c6e] text-white py-3 rounded-lg font-semibold shadow-md hover:scale-105 transition duration-300"
                                     onClick={Suuplier}
@@ -643,26 +639,36 @@ const Login = ({ onClose }) => {
                                     Continue as Supplier
                                 </button>
                                 <button
-                                    className="w-full bg-gradient-to-r cursor-pointer from-[#3b2c6e] to-[#251C4B] text-white py-3 rounded-lg font-semibold shadow-md hover:scale-105 transition duration-300"
+                                    className="w-full cursor-pointer bg-gradient-to-r from-[#3b2c6e] to-[#251C4B] text-white py-3 rounded-lg font-semibold shadow-md hover:scale-105 transition duration-300"
                                     onClick={onCounting}
                                 >
                                     Continue as Buyer
                                 </button>
                             </div>
                         </div>
-
-
-
                     ) : (
                         <>
-                            <div className="text-center">
-                                <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900">
-                                    Welcome Back
-                                </h3>
-                                <p className="mt-1 font-normal text-black text-[18px]">
-                                    Please login to your account
-                                </p>
-                            </div>
+                            {
+                                newSupplier ? (
+                                    <div className="text-center">
+                                        <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900">
+                                            Welcome
+                                        </h3>
+                                        <p className="mt-1 font-normal text-black text-[18px]">
+                                            Add details to create your account
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="text-center">
+                                        <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900">
+                                            Welcome Back
+                                        </h3>
+                                        <p className="mt-1 font-normal text-black text-[18px]">
+                                            Please login to your account
+                                        </p>
+                                    </div>
+                                )
+                            }
 
                             <div className="mt-6 space-y-4">
                                 {/* Mobile */}
@@ -743,7 +749,7 @@ const Login = ({ onClose }) => {
                                     </div> */}
 
                                             {/* Address */}
-                                            <div>
+                                            {/* <div>
                                                 <textarea
                                                     name="address"
                                                     placeholder="Full Address"
@@ -755,7 +761,7 @@ const Login = ({ onClose }) => {
                                                 {error.address && (
                                                     <p className="text-red-500 text-sm">{error.address}</p>
                                                 )}
-                                            </div>
+                                            </div> */}
 
                                             {/* City */}
                                             <div>

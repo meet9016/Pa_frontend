@@ -58,11 +58,11 @@ const Category = () => {
   const { categories_id, categories_name, sub_categories } = categoryData;
 
   return (
-    <div className="w-full max-w-[1300px] mx-auto px-4 py-12 flex flex-col items-center">
-      <div className="w-full mt-18">
+    <div className="w-full max-w-[1300px] mx-auto px-4 py-2 flex flex-col items-center">
+      <div className="w-full mt-19">
 
         {/* Breadcrumb */}
-        <div className="text-sm text-gray-500 mb-4 flex items-center gap-1">
+        {/* <div className="text-sm text-gray-500 mb-4 flex items-center gap-1">
           <span
             className="cursor-pointer hover:underline"
             onClick={() => navigate("/")}
@@ -71,7 +71,7 @@ const Category = () => {
           </span>
           <i className="ri-arrow-right-s-line" />
           <span className="font-medium">{categories_name || "Category"}</span>
-        </div>
+        </div> */}
 
         {/* Title */}
         <div className="text-center mt-5 mb-8">

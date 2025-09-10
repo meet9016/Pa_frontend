@@ -226,8 +226,8 @@ const ProductDetails = () => {
             </p>
 
             {/* Price */}
-            <div className="flex items-center gap-5 flex-wrap">
-              {/* <span className="text-black text-3xl sm:text-4xl font-bold">
+            {/* <div className="flex items-center gap-5 flex-wrap">
+               <span className="text-black text-3xl sm:text-4xl font-bold">
                 ₹{singleProductData?.price}
               </span>
               <span className="line-through text-red-500 text-base sm:text-[21px] font-bold">
@@ -235,14 +235,16 @@ const ProductDetails = () => {
               </span>
               <span className="inline-block bg-gradient-to-r from-green-500 cursor-pointer to-green-700 text-white text-sm sm:text-[21px] font-bold px-4 py-1 rounded-lg shadow-md">
                 {singleProductData?.off_per}% OFF
-              </span> */}
-
+              </span> 
+            </div> */}
+            <div className="flex items-center gap-5 flex-wrap">
               {loading ? (
-                <>
-                  <Skeleton width={80} height={30} />
-                  <Skeleton width={60} height={20} />
-                  <Skeleton width={60} height={20} />
-                </>
+                // Skeleton Container
+                <div className="flex items-center gap-5 flex-wrap w-full">
+                  <div className="h-10 sm:h-12 w-20 sm:w-24 bg-gray-200 rounded animate-pulse"></div> {/* Price */}
+                  <div className="h-6 sm:h-7 w-16 sm:w-20 bg-gray-200 rounded animate-pulse"></div> {/* Cancel Price */}
+                  <div className="h-6 sm:h-7 w-16 sm:w-20 bg-gray-200 rounded animate-pulse"></div> {/* Off % */}
+                </div>
               ) : (
                 <>
                   <span className="text-black text-3xl sm:text-4xl font-bold">
@@ -256,19 +258,15 @@ const ProductDetails = () => {
                   </span>
                 </>
               )}
-
-
-
             </div>
 
+
             {/* SKU Details Section (instead of hr line) */}
-            <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4">
+            {/* <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4">
               <h3 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                 Product Details
               </h3>
-
-
-              {/* <ul className="space-y-2 text-gray-700 text-sm">
+              <ul className="space-y-2 text-gray-700 text-sm">
                 <li className="flex">
                   <span className="w-32 font-medium text-gray-900">SKU</span>
                   <span className="text-gray-600">
@@ -291,32 +289,52 @@ const ProductDetails = () => {
                     {singleProductData?.sub_category_name}
                   </span>
                 </li>
-              </ul> */}
+              </ul>
+            </div> */}
 
+            <div className="mt-6 rounded-xl border border-gray-200 p-0">
               {loading ? (
-                <Skeleton count={3} height={20} />
+                <div className="animate-pulse space-y-4 w-full h-full">
+                  {/* Title Skeleton */}
+                  <div className="h-6 w-1/3 bg-gray-300 rounded"></div>
+
+                  {/* Line Skeletons */}
+                  <div className="space-y-2 mt-4">
+                    <div className="h-4 w-full bg-gray-300 rounded"></div>
+                    <div className="h-4 w-full bg-gray-300 rounded"></div>
+                    <div className="h-4 w-full bg-gray-300 rounded"></div>
+                  </div>
+                </div>
               ) : (
-                <ul className="space-y-2 text-gray-700 text-sm">
-                  <li className="flex">
-                    <span className="w-32 font-medium text-gray-900">SKU</span>
-                    <span className="text-gray-600">{singleProductData?.sku}</span>
-                  </li>
-                  <li className="flex">
-                    <span className="w-32 font-medium text-gray-900">Category</span>
-                    <span className="text-gray-600">{singleProductData?.category_name}</span>
-                  </li>
-                  <li className="flex">
-                    <span className="w-32 font-medium text-gray-900">Sub Category</span>
-                    <span className="text-gray-600">{singleProductData?.sub_category_name}</span>
-                  </li>
-                </ul>
+                <div className="bg-white rounded-xl p-4">
+                  <h3 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
+                    Product Details
+                  </h3>
+
+                  <ul className="space-y-2 text-gray-700 text-sm">
+                    <li className="flex">
+                      <span className="w-32 font-medium text-gray-900">SKU</span>
+                      <span className="text-gray-600">{singleProductData?.sku}</span>
+                    </li>
+                    <li className="flex">
+                      <span className="w-32 font-medium text-gray-900">Category</span>
+                      <span className="text-gray-600">{singleProductData?.category_name}</span>
+                    </li>
+                    <li className="flex">
+                      <span className="w-32 font-medium text-gray-900">Sub Category</span>
+                      <span className="text-gray-600">{singleProductData?.sub_category_name}</span>
+                    </li>
+                  </ul>
+                </div>
               )}
             </div>
 
 
 
 
-            <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
+
+
+            <div className="w-full flex mt-10 flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
                 <button
                   onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
@@ -366,18 +384,15 @@ const ProductDetails = () => {
 
 
             <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4">
-              {/* Heading */}
               <h2 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                 Sold By
               </h2>
 
-              {/* Shop Content */}
               {
                 loading ? (
                   <Skeleton height={80} />
                 ) : (
                   <div className="flex flex-col sm:flex-row items-stretch gap-4 p-2 rounded-lg bg-white">
-                    {/* Left: Shop Logo */}
                     <div className="w-28 h-28 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
                       <img
                         src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
@@ -386,38 +401,38 @@ const ProductDetails = () => {
                       />
                     </div>
 
-                    {/* Right: Company Info */}
-                    <div className="flex flex-col justify-between h-auto sm:h-28 flex-1 text-center sm:text-left">
-                      {/* Top row: Company Name + View Shop */}
+                    <div className="flex flex-col justify-between h-auto sm:h-20 flex-1 text-center sm:text-left">
                       <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-                        <h4 className="text-xl sm:text-2xl font-bold text-gray-900 truncate max-w-[200px] sm:max-w-full">
+                        <h4 className="text-xl sm:text-[16px] font-bold text-gray-900 truncate max-w-[200px] sm:max-w-full">
                           {supplierData.company_name}
                         </h4>
                         <button
                           onClick={handleViewShop}
-                          className="px-4 cursor-pointer sm:px-6 py-0 flex items-center justify-center rounded-lg border-2 border-[#1d163e] hover:text-white text-black font-medium shadow-md hover:bg-[#1d163e] transition w-full sm:w-auto"
+                          className="px-4 cursor-pointer sm:px-6 py-2 flex items-center justify-center rounded-lg border-2 bg-[#251c4b] border-[#1d163e]  text-white font-medium shadow-md hover:bg-[#1d163e] transition w-full sm:w-auto"
                         >
                           View Shop
                         </button>
                       </div>
 
-                      {/* Middle row: Chapter Short Name */}
-                      <p className="text-base sm:text-lg font-medium text-gray-600 mt-2 sm:mt-0">
+                      <p className="text-base sm:text-[14px] font-bold text-black mt-2 sm:mt-0">
                         {supplierData.full_name} ({supplierData.chapter_short_name})
                       </p>
 
-                      {/* Bottom row: Total Products */}
-                      <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 sm:mt-0">
-                        <h4 className="text-lg sm:text-xl font-bold text-gray-600">
+                      <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 sm:mt-2.5">
+                        <h4 className="text-lg sm:text-[14px] font-bold text-black">
                           {supplierData.total_products}
                         </h4>
-                        <p className="text-base sm:text-lg text-gray-600 font-medium">Products</p>
+                        <p className="text-base sm:text-[14px]  font-bold">Products</p>
                       </div>
                     </div>
                   </div>
                 )
               }
             </div>
+
+
+
+
 
 
           </div>
@@ -430,7 +445,7 @@ const ProductDetails = () => {
             <button
               onClick={() => setActiveTab("description")}
               className={`transition pb-2 ${activeTab === "description"
-                ? "border-b-2 border-black text-black"
+                ? "border-b-2 border-black cursor-pointer text-black"
                 : "text-gray-500 hover:text-black"
                 }`}
             >
@@ -439,7 +454,7 @@ const ProductDetails = () => {
             <button
               onClick={() => setActiveTab("additional")}
               className={`transition pb-2 ${activeTab === "additional"
-                ? "border-b-2 border-black text-black"
+                ? "border-b-2 cursor-pointer border-black text-black"
                 : "text-gray-500 hover:text-black"
                 }`}
             >
@@ -450,7 +465,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Bottom Content */}
-          <div className="px-6 py-6 bg-white h-[200px]">
+          <div className="px-6 py-6 bg-white h-[220px]">
             {/* {activeTab === "description" && (
               <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
                 <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
@@ -472,6 +487,18 @@ const ProductDetails = () => {
             )} */}
 
 
+            {/* {loading ? (
+              <Skeleton count={5} />
+            ) : activeTab === "description" ? (
+              <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
+            ) : singleProductData?.additional ? (
+              <p>{singleProductData.additional}</p>
+            ) : (
+              <div className="flex flex-col items-center justify-center">
+                <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
+              </div>
+            )} */}
+
             {loading ? (
               <Skeleton count={5} />
             ) : activeTab === "description" ? (
@@ -479,10 +506,61 @@ const ProductDetails = () => {
             ) : singleProductData?.additional ? (
               <p>{singleProductData.additional}</p>
             ) : (
-              <div className="flex flex-col items-center justify-center py-8">
-                <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
+              <div className="flex flex-col items-center justify-center w-full">
+                <div className="w-full max-w-7xl bg-white rounded-xl shadow-md border border-gray-200">
+                  {/* Table Wrapper with Scrollbar */}
+                  <div
+                    className="max-h-42 overflow-y-auto w-full
+        [scrollbar-width:thin] [scrollbar-color:#251C4B_#f1f1f1]"
+                  >
+                    <table className="w-full text-sm md:text-base border-collapse">
+                      {/* Table Header */}
+                      <thead className="bg-[#251c4b] sticky top-0 z-10">
+                        <tr>
+                          <th className="px-3 py-2 md:px-4 md:py-2 text-left font-semibold text-white w-1/2">
+                            Specification
+                          </th>
+                          <th className="px-3 py-2 md:px-4 md:py-2 text-left font-semibold text-white w-1/2">
+                            Detail
+                          </th>
+                        </tr>
+                      </thead>
+
+                      {/* Table Body */}
+                      <tbody className="divide-y divide-gray-200">
+                        {singleProductData?.product_details?.length > 0 ? (
+                          singleProductData.product_details.map((item, index) => (
+                            <tr
+                              key={item.specification_id || index}
+                              className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition"
+                            >
+                              <td className="px-3 py-2 md:px-4 md:py-2 text-gray-600">
+                                {item.specification}
+                              </td>
+                              <td className="px-3 py-2 md:px-4 md:py-2 font-medium text-gray-900">
+                                {item.detail}
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan="2"
+                              className="px-4 py-3 text-center text-gray-500 italic"
+                            >
+                              No specifications available
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             )}
+
+
+
           </div>
         </div>
 
@@ -671,77 +749,81 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      {inquiryPopup && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-          <div
-            data-aos="fade-up"
-            data-aos-duration="600"
-            data-aos-easing="ease-out-cubic"
-            className="relative bg-white rounded-lg 
+      {
+        inquiryPopup && (
+          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+            <div
+              data-aos="fade-up"
+              data-aos-duration="600"
+              data-aos-easing="ease-out-cubic"
+              className="relative bg-white rounded-lg 
                  w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] 
                  max-h-[90vh] overflow-y-auto p-6"
-          >
-            {/* Title */}
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 text-center">
-              Send Inquiry
-            </h2>
-
-            {/* Remark field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message
-              </label>
-              <textarea
-                rows={5}
-                placeholder="Write your message here..."
-                value={remarkData}
-                onChange={(e) => setRemarkData(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#251c4b]"
-              />
-            </div>
-
-            {/* Buttons */}
-            {/* Buttons */}
-            <div className="flex justify-between items-center mt-4">
-              <button
-                onClick={sendInquiry}
-                className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg bg-[#251c4b] text-white hover:bg-[#1c1536] transition text-sm sm:text-base"
-              >
-                Send
-              </button>
-              <button
-                onClick={() => setInquiryPopup(false)}
-                className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition text-sm sm:text-base"
-              >
-                Cancel
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-
-
-      {showLogin && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-          <div
-            data-aos="fade-up"
-            data-aos-duration="600"
-            data-aos-easing="ease-out-cubic"
-            className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
-            <button
-              onClick={() => setShowLogin(false)}
-              className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
             >
-              <i class="ri-close-large-line"></i>
-            </button>
+              {/* Title */}
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 text-center">
+                Send Inquiry
+              </h2>
 
-            {/* Login Form */}
-            <Login onClose={() => setShowLogin(false)} />
+              {/* Remark field */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea
+                  rows={5}
+                  placeholder="Write your message here..."
+                  value={remarkData}
+                  onChange={(e) => setRemarkData(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#251c4b]"
+                />
+              </div>
+
+              {/* Buttons */}
+              {/* Buttons */}
+              <div className="flex justify-between items-center mt-4">
+                <button
+                  onClick={sendInquiry}
+                  className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg bg-[#251c4b] text-white hover:bg-[#1c1536] transition text-sm sm:text-base"
+                >
+                  Send
+                </button>
+                <button
+                  onClick={() => setInquiryPopup(false)}
+                  className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition text-sm sm:text-base"
+                >
+                  Cancel
+                </button>
+              </div>
+
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
+
+
+
+      {
+        showLogin && (
+          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+            <div
+              data-aos="fade-up"
+              data-aos-duration="600"
+              data-aos-easing="ease-out-cubic"
+              className="relative  rounded-lg w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] max-h-[90vh] overflow-y-auto p-4">
+              <button
+                onClick={() => setShowLogin(false)}
+                className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
+              >
+                <i class="ri-close-large-line"></i>
+              </button>
+
+              {/* Login Form */}
+              <Login onClose={() => setShowLogin(false)} />
+            </div>
+          </div>
+        )
+      }
 
     </div >
   );

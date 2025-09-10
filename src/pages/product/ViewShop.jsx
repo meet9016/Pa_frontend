@@ -10,6 +10,9 @@ const ViewShop = () => {
     const [supplierData, setSupplierData] = useState({})
     const [loading, setLoading] = useState(false)
 
+    useEffect(() => {
+        window.scroll({ top: 0, behavior: 'smooth' })
+    }, [])
 
     const getData = async () => {
         try {
@@ -57,16 +60,16 @@ const ViewShop = () => {
                         </h4>
 
                         {/* Short Name */}
-                        <p className="text-base sm:text-lg font-medium text-gray-600">
+                        <p className="text-base sm:text-lg font-bold text-black">
                             {supplierData.full_name} ({supplierData.chapter_short_name})
                         </p>
 
                         {/* Total Products */}
                         <div className="flex items-center gap-2">
-                            <h4 className="text-lg sm:text-xl font-bold text-[#251c4b]">
+                            <h4 className="text-lg sm:text-xl font-bold text-black">
                                 {supplierData.total_products}
                             </h4>
-                            <p className="text-base sm:text-lg text-gray-600 font-medium">Products</p>
+                            <p className="text-base sm:text-lg text-black font-bold">Products</p>
                         </div>
                     </div>
 

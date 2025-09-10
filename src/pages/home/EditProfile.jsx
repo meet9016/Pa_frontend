@@ -164,7 +164,7 @@ const EditProfile = () => {
                             </div>
 
                             {/* Address */}
-                            <div className="sm:col-span-2">
+                            {/* <div className="sm:col-span-2">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Full Address
                                 </label>
@@ -175,7 +175,7 @@ const EditProfile = () => {
                                     placeholder="Enter full address"
                                     className="w-full border border-gray-300 rounded-lg px-4 py-3 h-28 resize-none focus:outline-none focus:ring-2 focus:ring-[#251c4b] shadow-sm"
                                 />
-                            </div>
+                            </div> */}
 
                             {/* City */}
                             <div>

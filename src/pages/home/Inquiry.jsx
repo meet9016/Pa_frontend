@@ -210,7 +210,14 @@ const Inquiry = () => {
                         {loading ? (
                             <div className="text-center py-6">Loading...</div>
                         ) : inquiryData.length === 0 ? (
-                            <div className="text-center py-6">No product found</div>
+                            <div className="flex flex-col items-center justify-center py-10">
+                                <img
+                                    src="https://superadmin.progressalliance.org/upload/web_logo/not-found.png"
+                                    alt="No Data Found"
+                                    className="w-40 h-40 sm:w-52 sm:h-52 object-contain one-time-bounce"
+                                />
+                                <p className="mt-4 text-gray-600 font-medium text-lg">No product found</p>
+                            </div>
                         ) : (
                             inquiryData.map((row, idx) => (
                                 <div
@@ -236,7 +243,16 @@ const Inquiry = () => {
                     // DESKTOP / TABLET: DataTable
                     <DataTable
                         value={inquiryData}
-                        emptyMessage="No product found"
+                        emptyMessage={
+                            <div className="flex flex-col items-center justify-center py-10">
+                                <img
+                                    src="https://superadmin.progressalliance.org/upload/web_logo/not-found.png"
+                                    alt="No Data Found"
+                                    className="w-40 h-40 sm:w-40 sm:h-40 object-contain one-time-bounce"
+                                />
+                                <p className="mt-4 text-gray-600 font-medium text-lg">No product found</p>
+                            </div>
+                        }
                         responsiveLayout="stack"
                         breakpoint="960px"
                         className="w-full"

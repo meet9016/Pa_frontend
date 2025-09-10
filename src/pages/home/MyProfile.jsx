@@ -76,12 +76,12 @@ const MyProfile = () => {
                                     </p>
                                 </div>
 
-                                <div className="flex items-center gap-3">
+                                {/* <div className="flex items-center gap-3">
                                     <i className="ri-map-2-fill text-[#251c4b]/60 text-lg"></i>
                                     <p>
                                         <span className="font-bold">Address:</span> {profileData.address}
                                     </p>
-                                </div>
+                                </div> */}
 
 
                                 <div className="flex items-center gap-3">

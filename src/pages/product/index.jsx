@@ -153,11 +153,11 @@ const Product = () => {
                   <span className="text-lg font-bold text-black">
                     ₹{item.price}
                   </span>
-                  {/* {item.cancle_price && (
-                                        <span className="text-sm text-red-500 line-through">
-                                            ₹{item.cancle_price}
-                                        </span>
-                                    )} */}
+                  {item.cancle_price && (
+                    <span className="text-sm font-bold text-red-500 line-through">
+                      ₹{item.cancle_price}
+                    </span>
+                  )}
                 </div>
 
                 {/* Read More */}
