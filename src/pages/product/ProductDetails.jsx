@@ -9,6 +9,7 @@ import "aos/dist/aos.css";
 import { toast } from "react-toastify";
 import Login from "../auth/Login";
 import Product from ".";
+import { classNames } from "primereact/utils";
 
 
 
@@ -130,10 +131,32 @@ const ProductDetails = () => {
             <Skeleton width={200} />
           ) : (
             <>
-              Home <i className="ri-arrow-right-s-line"></i>{" "}
-              {singleProductData?.category_name}{" "}
+              <span
+                onClick={() =>
+                  navigate('/')
+                }
+                className="cursor-pointer hover:text-black"
+              >
+                Home
+              </span>
               <i className="ri-arrow-right-s-line"></i>{" "}
-              {singleProductData?.sub_category_name}{" "}
+              <span
+                className="cursor-pointer hover:text-black "
+                onClick={() =>
+                  navigate(`/category/${singleProductData?.category_id}`)
+                }
+              >
+                {singleProductData?.category_name}
+              </span>{" "}
+              <i className="ri-arrow-right-s-line"></i>{" "}
+              <span
+                className="cursor-pointer hover:text-black "
+                onClick={() =>
+                  navigate(`/product/${singleProductData?.category_id}/${singleProductData?.sub_category_id}`)
+                }
+              >
+                {singleProductData?.sub_category_name}
+              </span>{" "}
               <i className="ri-arrow-right-s-line"></i>{" "}
               {singleProductData?.product_name}{" "}
             </>
@@ -329,11 +352,6 @@ const ProductDetails = () => {
               )}
             </div>
 
-
-
-
-
-
             <div className="w-full flex mt-10 flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
                 <button
@@ -360,13 +378,19 @@ const ProductDetails = () => {
                 </button>
 
                 <button className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
-                  onClick={() => setInquiryPopup(true)}
+                  onClick={() => {
+                    if (!auth_token) {
+                      localStorage.setItem("redirectAfterLogin", location.pathname);
+                      setShowLogin(true);
+                      return;
+                    }
+                    setInquiryPopup(true);
+                  }}
                 >
                   <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
                 </button>
               </div>
             </div>
-
 
 
             {/* Wishlist, Share */}
@@ -508,55 +532,57 @@ const ProductDetails = () => {
             ) : (
               <div className="flex flex-col items-center justify-center w-full">
                 <div className="w-full max-w-7xl bg-white rounded-xl shadow-md border border-gray-200">
-                  {/* Table Wrapper with Scrollbar */}
-                  <div
-                    className="max-h-42 overflow-y-auto w-full
-        [scrollbar-width:thin] [scrollbar-color:#251C4B_#f1f1f1]"
-                  >
-                    <table className="w-full text-sm md:text-base border-collapse">
-                      {/* Table Header */}
-                      <thead className="bg-[#251c4b] sticky top-0 z-10">
-                        <tr>
-                          <th className="px-3 py-2 md:px-4 md:py-2 text-left font-semibold text-white w-1/2">
-                            Specification
-                          </th>
-                          <th className="px-3 py-2 md:px-4 md:py-2 text-left font-semibold text-white w-1/2">
-                            Detail
-                          </th>
-                        </tr>
-                      </thead>
+                  {/* Make table scrollable on mobile */}
+                  <div className="overflow-x-auto">
+                    <div
+                      className="max-h-42 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#251C4B_#f1f1f1]"
+                    >
+                      <table className="w-full text-sm md:text-base border-collapse min-w-full">
+                        {/* Table Header */}
+                        <thead className="bg-[#251c4b] sticky top-0 z-10">
+                          <tr>
+                            <th className="px-3 py-2 md:px-4 md:py-2 text-left font-semibold text-white w-1/2">
+                              Specification
+                            </th>
+                            <th className="px-3 py-2 md:px-4 md:py-2 text-left font-semibold text-white w-1/2">
+                              Detail
+                            </th>
+                          </tr>
+                        </thead>
 
-                      {/* Table Body */}
-                      <tbody className="divide-y divide-gray-200">
-                        {singleProductData?.product_details?.length > 0 ? (
-                          singleProductData.product_details.map((item, index) => (
-                            <tr
-                              key={item.specification_id || index}
-                              className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition"
-                            >
-                              <td className="px-3 py-2 md:px-4 md:py-2 text-gray-600">
-                                {item.specification}
-                              </td>
-                              <td className="px-3 py-2 md:px-4 md:py-2 font-medium text-gray-900">
-                                {item.detail}
+                        {/* Table Body */}
+                        <tbody className="divide-y divide-gray-200">
+                          {singleProductData?.product_details?.length > 0 ? (
+                            singleProductData.product_details.map((item, index) => (
+                              <tr
+                                key={item.specification_id || index}
+                                className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition"
+                              >
+                                <td className="px-3 py-2 md:px-4 md:py-2 text-gray-600">
+                                  {item.specification}
+                                </td>
+                                <td className="px-3 py-2 md:px-4 md:py-2 font-medium text-gray-900">
+                                  {item.detail}
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-3 text-center text-gray-500 italic"
+                              >
+                                No specifications available
                               </td>
                             </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td
-                              colSpan="2"
-                              className="px-4 py-3 text-center text-gray-500 italic"
-                            >
-                              No specifications available
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
+
             )}
 
 

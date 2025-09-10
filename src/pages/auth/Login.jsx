@@ -463,7 +463,7 @@ const Login = ({ onClose }) => {
     const [newSupplier, setNewSupplier] = useState(false);
 
     const [showButtons, setShowButtons] = useState(false); // new state
-    console.log(showButtons, 'new');
+
     const [userType, setUserType] = useState(false);
     // console.log(userType, 'USERTYPE')
 
@@ -523,7 +523,7 @@ const Login = ({ onClose }) => {
         if (formData.capture_code) {
             if (!formData.full_name) newErrors.full_name = "Full name is required"
             // if (!formData.fubusinessNamell_name) newErrors.businessName = "Business name is required"
-            if (!formData.address) newErrors.address = "Address is required"
+            // if (!formData.address) newErrors.address = "Address is required"
             if (!formData.city) newErrors.city = "City is required"
             if (!formData.pincode) {
                 newErrors.pincode = "Pincode is required"
@@ -547,7 +547,7 @@ const Login = ({ onClose }) => {
         if (formData.capture_code) formdata.append('capture_code', formData.capture_code)
         if (formData.full_name) formdata.append('full_name', formData.full_name)
         // if (formData.businessName) formdata.append('full_name', formData.businessName)
-        if (formData.address) formdata.append('address', formData.address)
+        // if (formData.address) formdata.append('address', formData.address)
         if (formData.city) formdata.append('city', formData.city)
         if (formData.pincode) formdata.append('pincode', formData.pincode)
 
