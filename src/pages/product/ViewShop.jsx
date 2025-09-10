@@ -39,39 +39,39 @@ const ViewShop = () => {
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
             <div className="w-full max-w-[1300px] mt-4 pb-5">
 
-                <div className="flex items-center mt-[20px] gap-6 p-6 bg-white  rounded-lg shadow-md flex-wrap">
-                    {/* Icon */}
-                    <div className="w-20 h-20 flex items-center justify-center rounded-full bg-[#251c4b]/10 text-[#251c4b] text-5xl shadow-sm">
-                        <i className="ri-store-3-line"></i>
+                <div className="flex items-stretch mt-[20px] gap-6 p-6 bg-white rounded-lg shadow-md flex-wrap">
+                    {/* Left: Image */}
+                    <div className="w-32 h-32 flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 shadow-sm">
+                        <img
+                            src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
+                            alt="Shop Logo"
+                            className="w-full h-full object-contain rounded-lg"
+                        />
                     </div>
 
-                    {/* Info */}
-                    <div className="flex-1 min-w-[200px]">
+                    {/* Right: Info */}
+                    <div className="flex flex-col flex-1 min-w-[200px] gap-2">
                         {/* Company Name */}
-                        <h4 className="text-xl sm:text-2xl font-bold text-gray-900 whitespace-nowrap">
-                            {supplierData.company_name} {/* "PA 22 SANKALP" */}
+                        <h4 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
+                            {supplierData.company_name}
                         </h4>
 
-                        {/* Short Name + Stats in one row */}
-                        <div className="flex items-center gap-6 mt-2 text-gray-700 flex-wrap">
-                            {/* Short Name */}
-                            <p className="text-base sm:text-lg font-medium whitespace-nowrap">
-                                {supplierData.chapter_short_name}
-                            </p>
+                        {/* Short Name */}
+                        <p className="text-base sm:text-lg font-medium text-gray-600">
+                            {supplierData.full_name} ({supplierData.chapter_short_name})
+                        </p>
 
-                            {/* Stats */}
-                            <span className="flex items-center gap-1 text-gray-600 whitespace-nowrap">
-                                <span className="font-bold text-2xl text-[#251c4b]">{supplierData.total_products}</span> Products
-                            </span>
+                        {/* Total Products */}
+                        <div className="flex items-center gap-2">
+                            <h4 className="text-lg sm:text-xl font-bold text-[#251c4b]">
+                                {supplierData.total_products}
+                            </h4>
+                            <p className="text-base sm:text-lg text-gray-600 font-medium">Products</p>
                         </div>
-
                     </div>
 
-                    {/* Follow Button */}
-                    {/* <button className="bg-[#251c4b] cursor-pointer text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-[#251c4b] transition">
-                        Contact
-                    </button> */}
                 </div>
+
 
 
 

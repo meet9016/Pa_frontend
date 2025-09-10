@@ -58,35 +58,33 @@ const Category = () => {
   const { categories_id, categories_name, sub_categories } = categoryData;
 
   return (
-    <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center mt-8">
-      <div className="w-full mt-8">
+    <div className="w-full max-w-[1300px] mx-auto px-4 py-12 flex flex-col items-center">
+      <div className="w-full mt-18">
+
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-4 flex items-center gap-1">
-          <span className="cursor-pointer hover:underline" onClick={() => navigate("/")}>
+          <span
+            className="cursor-pointer hover:underline"
+            onClick={() => navigate("/")}
+          >
             Home
           </span>
           <i className="ri-arrow-right-s-line" />
           <span className="font-medium">{categories_name || "Category"}</span>
         </div>
 
+        {/* Title */}
         <div className="text-center mt-5 mb-8">
           <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
             {categories_name}
-           
+            {/* Optional underline */}
             {/* <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-indigo-500 rounded-full"></span> */}
           </h2>
-          {/* <p className="mt-2 text-gray-500 text-base sm:text-lg">
-            Explore our latest collection in
-            <span className="text-black font-semibold">
-              {" "}
-              {name?.data?.categories_name}
-              sdfsdfsdfsf
-            </span>
-          </p> */}
         </div>
-        {/* Loading */}
+
+        {/* Loading Skeleton */}
         {loading && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 mb-12">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="p-4 bg-white rounded-2xl">
                 <div className="h-[120px] bg-gray-100 rounded-xl animate-pulse" />
@@ -96,9 +94,9 @@ const Category = () => {
           </div>
         )}
 
-        {/* Error / Empty */}
+        {/* Error / Empty State */}
         {!loading && (error || sub_categories.length === 0) && (
-          <div className="bg-white rounded-2xl p-8 text-center text-gray-600">
+          <div className="bg-white rounded-2xl p-8 text-center text-gray-600 mb-12">
             {error ? (
               <p>{error}</p>
             ) : (
@@ -110,14 +108,16 @@ const Category = () => {
           </div>
         )}
 
-        {/* Grid */}
+        {/* Sub-category Grid */}
         {!loading && !error && sub_categories.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-6 mb-12">
             {sub_categories.map((sub, i) => (
               <div
                 key={String(sub?.sub_category_id ?? i)}
                 className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
-                onClick={() => navigate(`/product/${categories_id}/${sub.sub_category_id}`)}
+                onClick={() =>
+                  navigate(`/product/${categories_id}/${sub.sub_category_id}`)
+                }
               >
                 <div className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center">
                   <img
@@ -127,7 +127,7 @@ const Category = () => {
                     loading={i < 6 ? "eager" : "lazy"}
                   />
                 </div>
-                <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-2 text-center text-sm font-medium">
+                <p className="mt-3 text-center text-sm font-medium">
                   {sub.sub_category_name}
                 </p>
               </div>
@@ -136,6 +136,7 @@ const Category = () => {
         )}
       </div>
     </div>
+
   );
 };
 

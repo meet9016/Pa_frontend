@@ -37,7 +37,7 @@ const Home = () => {
   useEffect(() => {
     Aos.init({
       duration: 600,
-      once: true,  
+      once: true,
       easing: "ease-out-cubic",
     });
 
@@ -166,7 +166,7 @@ const Home = () => {
                         onClick={() =>
                           navigate(`/category/${cat.categories_id}`)
                         }
-                        className="px-5 py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
+                        className="px-5 cursor-pointer py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
                       >
                         View Mores →
                       </button>

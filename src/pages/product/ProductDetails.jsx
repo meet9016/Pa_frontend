@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast } from "react-toastify";
 import Login from "../auth/Login";
+import Product from ".";
 
 
 
@@ -24,10 +26,12 @@ const ProductDetails = () => {
   const auth_token = localStorage.getItem("auth_token");
   const [inquiryPopup, setInquiryPopup] = useState(false)
   const [remarkData, setRemarkData] = useState("");
+  const [loading, setLoading] = useState(false);
 
 
 
   const getSingleProductData = async () => {
+    setLoading(true)
     try {
       const formdata = new FormData();
       formdata.append("product_id", id);
@@ -46,7 +50,7 @@ const ProductDetails = () => {
     } catch (err) {
       console.log("Error Fetch data", err);
     } finally {
-      // setLoading(false)
+      setLoading(false)
     }
   };
 
@@ -122,13 +126,18 @@ const ProductDetails = () => {
       <div className="w-full mt-4 max-w-[1300px]">
         {/* Breadcrumb */}
         <div className="text-sm sm:text-base text-gray-500 mb-4 flex flex-wrap gap-1">
-          {" "}
-          Home <i className="ri-arrow-right-s-line"></i>{" "}
-          {singleProductData?.category_name}{" "}
-          <i className="ri-arrow-right-s-line"></i>{" "}
-          {singleProductData?.sub_category_name}{" "}
-          <i className="ri-arrow-right-s-line"></i>{" "}
-          {singleProductData?.product_name}{" "}
+          {loading ? (
+            <Skeleton width={200} />
+          ) : (
+            <>
+              Home <i className="ri-arrow-right-s-line"></i>{" "}
+              {singleProductData?.category_name}{" "}
+              <i className="ri-arrow-right-s-line"></i>{" "}
+              {singleProductData?.sub_category_name}{" "}
+              <i className="ri-arrow-right-s-line"></i>{" "}
+              {singleProductData?.product_name}{" "}
+            </>
+          )}
         </div>
 
         {/* Main Content */}
@@ -137,7 +146,25 @@ const ProductDetails = () => {
           <div className="flex mt-4 gap-4">
             {/* Thumbnails - Left side */}
             <div className="flex  flex-col gap-2 justify-start">
-              {singleProductData?.images?.map((img) => (
+              {loading
+                ? Array.from({ length: 3 }).map((_, i) => (
+                  <Skeleton key={i} width={80} height={80} />
+                ))
+                : singleProductData?.images?.map((img) => (
+                  <img
+                    key={img.id}
+                    src={img.image}
+                    alt="No Image"
+                    onClick={() => setSelectedImage(img.image)}
+                    className={`w-16 h-16 sm:w-20 sm:h-20 border rounded-md object-contain cursor-pointer ${selectedImage === img.image
+                      ? "border-white bg-white rounded-2xl p-1"
+                      : "border-white bg-white rounded-2xl p-1"
+                      }`}
+                  />
+                ))}
+
+
+              {/* {singleProductData?.images?.map((img) => (
                 <img
                   key={img.id}
                   src={img.image}
@@ -149,11 +176,11 @@ const ProductDetails = () => {
                       : "border-white bg-white rounded-2xl p-1"
                     }`}
                 />
-              ))}
+              ))} */}
             </div>
 
             {/* Main Image - Right side */}
-            <div className="overflow-hidden rounded-lg flex-1">
+            {/* <div className="overflow-hidden rounded-lg flex-1">
               <img
                 src={
                   selectedImage ||
@@ -164,36 +191,43 @@ const ProductDetails = () => {
                 alt={singleProductData?.product_name || "Product"}
                 className="w-full h-auto object-contain bg-white rounded-2xl p-10"
               />
+            </div> */}
+            <div className="overflow-hidden rounded-lg flex-1">
+              {loading ? (
+                <Skeleton height={400} />
+              ) : (
+                <img
+                  src={
+                    selectedImage ||
+                    (singleProductData?.images?.length > 0
+                      ? singleProductData.images[0].image
+                      : "/src/Image/No image.jpg")
+                  }
+                  alt={singleProductData?.product_name || "Product"}
+                  className="w-full h-auto object-contain bg-white rounded-2xl p-10"
+                />
+              )}
             </div>
           </div>
 
-          <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-7">
+          <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-5">
             {/* Title */}
             <h2 className="text-2xl sm:text-3xl font-bold">
-              {singleProductData?.product_name}
+              {/* {singleProductData?.product_name} */}
+              {loading ? <Skeleton width={250} /> : singleProductData?.product_name}
             </h2>
 
-            {/* Rating */}
-            {/* <div className="flex items-center gap-2 flex-wrap">
-                            <div className="flex text-yellow-400">
-                                {[...Array(5)].map((_, i) => (
-                                    <i key={i} className="ri-star-fill"></i>
-                                ))}
-                            </div>
-                            <button className="border border-gray-300 text-black text-xs sm:text-sm px-2 py-0.5 rounded">
-                                3.00
-                            </button>
-                            <p className="text-gray-500 text-xs sm:text-sm">2 Reviews</p>
-                        </div> */}
+
 
             {/* Description (short) */}
             <p className="text-sm sm:text-base text-gray-600">
-              {singleProductData?.description}
+              {/* {singleProductData?.description} */}
+              {loading ? <Skeleton count={3} /> : singleProductData?.description}
             </p>
 
             {/* Price */}
             <div className="flex items-center gap-5 flex-wrap">
-              <span className="text-black text-3xl sm:text-4xl font-bold">
+              {/* <span className="text-black text-3xl sm:text-4xl font-bold">
                 ₹{singleProductData?.price}
               </span>
               <span className="line-through text-red-500 text-base sm:text-[21px] font-bold">
@@ -201,7 +235,27 @@ const ProductDetails = () => {
               </span>
               <span className="inline-block bg-gradient-to-r from-green-500 cursor-pointer to-green-700 text-white text-sm sm:text-[21px] font-bold px-4 py-1 rounded-lg shadow-md">
                 {singleProductData?.off_per}% OFF
-              </span>
+              </span> */}
+
+              {loading ? (
+                <>
+                  <Skeleton width={80} height={30} />
+                  <Skeleton width={60} height={20} />
+                  <Skeleton width={60} height={20} />
+                </>
+              ) : (
+                <>
+                  <span className="text-black text-3xl sm:text-4xl font-bold">
+                    ₹{singleProductData?.price}
+                  </span>
+                  <span className="line-through text-red-500 text-base sm:text-[21px] font-bold">
+                    ₹{singleProductData?.cancle_price}
+                  </span>
+                  <span className="inline-block bg-gradient-to-r from-green-500 to-green-700 text-white text-sm sm:text-[21px] font-bold px-4 py-1 rounded-lg shadow-md">
+                    {singleProductData?.off_per}% OFF
+                  </span>
+                </>
+              )}
 
 
 
@@ -214,7 +268,7 @@ const ProductDetails = () => {
               </h3>
 
 
-              <ul className="space-y-2 text-gray-700 text-sm">
+              {/* <ul className="space-y-2 text-gray-700 text-sm">
                 <li className="flex">
                   <span className="w-32 font-medium text-gray-900">SKU</span>
                   <span className="text-gray-600">
@@ -237,7 +291,26 @@ const ProductDetails = () => {
                     {singleProductData?.sub_category_name}
                   </span>
                 </li>
-              </ul>
+              </ul> */}
+
+              {loading ? (
+                <Skeleton count={3} height={20} />
+              ) : (
+                <ul className="space-y-2 text-gray-700 text-sm">
+                  <li className="flex">
+                    <span className="w-32 font-medium text-gray-900">SKU</span>
+                    <span className="text-gray-600">{singleProductData?.sku}</span>
+                  </li>
+                  <li className="flex">
+                    <span className="w-32 font-medium text-gray-900">Category</span>
+                    <span className="text-gray-600">{singleProductData?.category_name}</span>
+                  </li>
+                  <li className="flex">
+                    <span className="w-32 font-medium text-gray-900">Sub Category</span>
+                    <span className="text-gray-600">{singleProductData?.sub_category_name}</span>
+                  </li>
+                </ul>
+              )}
             </div>
 
 
@@ -299,45 +372,51 @@ const ProductDetails = () => {
               </h2>
 
               {/* Shop Content */}
-              <div className="flex flex-col sm:flex-row items-stretch gap-4 p-2 rounded-lg bg-white">
-                {/* Left: Shop Logo */}
-                <div className="w-28 h-28 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
-                  <img
-                    src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
-                    alt="Shop Logo"
-                    className="w-full h-full object-contain rounded-md"
-                  />
-                </div>
+              {
+                loading ? (
+                  <Skeleton height={80} />
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-stretch gap-4 p-2 rounded-lg bg-white">
+                    {/* Left: Shop Logo */}
+                    <div className="w-28 h-28 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
+                      <img
+                        src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
+                        alt="Shop Logo"
+                        className="w-full h-full object-contain rounded-md"
+                      />
+                    </div>
 
-                {/* Right: Company Info */}
-                <div className="flex flex-col justify-between h-auto sm:h-28 flex-1 text-center sm:text-left">
-                  {/* Top row: Company Name + View Shop */}
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <h4 className="text-xl sm:text-2xl font-bold text-gray-900 truncate max-w-[200px] sm:max-w-full">
-                      {supplierData.company_name}
-                    </h4>
-                    <button
-                      onClick={handleViewShop}
-                      className="px-4 sm:px-6 py-2 flex items-center justify-center rounded-lg border-2 border-[#1d163e] hover:text-white text-black font-medium shadow-md hover:bg-[#1d163e] transition w-full sm:w-auto"
-                    >
-                      View Shop
-                    </button>
+                    {/* Right: Company Info */}
+                    <div className="flex flex-col justify-between h-auto sm:h-28 flex-1 text-center sm:text-left">
+                      {/* Top row: Company Name + View Shop */}
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                        <h4 className="text-xl sm:text-2xl font-bold text-gray-900 truncate max-w-[200px] sm:max-w-full">
+                          {supplierData.company_name}
+                        </h4>
+                        <button
+                          onClick={handleViewShop}
+                          className="px-4 cursor-pointer sm:px-6 py-0 flex items-center justify-center rounded-lg border-2 border-[#1d163e] hover:text-white text-black font-medium shadow-md hover:bg-[#1d163e] transition w-full sm:w-auto"
+                        >
+                          View Shop
+                        </button>
+                      </div>
+
+                      {/* Middle row: Chapter Short Name */}
+                      <p className="text-base sm:text-lg font-medium text-gray-600 mt-2 sm:mt-0">
+                        {supplierData.full_name} ({supplierData.chapter_short_name})
+                      </p>
+
+                      {/* Bottom row: Total Products */}
+                      <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 sm:mt-0">
+                        <h4 className="text-lg sm:text-xl font-bold text-gray-600">
+                          {supplierData.total_products}
+                        </h4>
+                        <p className="text-base sm:text-lg text-gray-600 font-medium">Products</p>
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Middle row: Chapter Short Name */}
-                  <p className="text-base sm:text-lg font-medium text-[#7d7186] mt-2 sm:mt-0">
-                    {supplierData.full_name} ({supplierData.chapter_short_name})
-                  </p>
-
-                  {/* Bottom row: Total Products */}
-                  <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 sm:mt-0">
-                    <h4 className="text-lg sm:text-xl font-bold text-[#7d7186]">
-                      {supplierData.total_products}
-                    </h4>
-                    <p className="text-base sm:text-lg text-[#7d7186] font-medium">Products</p>
-                  </div>
-                </div>
-              </div>
+                )
+              }
             </div>
 
 
@@ -372,7 +451,7 @@ const ProductDetails = () => {
 
           {/* Bottom Content */}
           <div className="px-6 py-6 bg-white h-[200px]">
-            {activeTab === "description" && (
+            {/* {activeTab === "description" && (
               <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed">
                 <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
               </div>
@@ -386,21 +465,29 @@ const ProductDetails = () => {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8">
-                    {/* <img
-                      src="https://superadmin.progressalliance.org/upload/web_logo/cat_product_no_found.jpeg"
-                      alt="No Data Found"
-                      className="w-64 h-64 sm:w-72 sm:h-72 opacity-80"
-                    /> */}
                     <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
                   </div>
                 )}
               </>
+            )} */}
+
+
+            {loading ? (
+              <Skeleton count={5} />
+            ) : activeTab === "description" ? (
+              <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
+            ) : singleProductData?.additional ? (
+              <p>{singleProductData.additional}</p>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8">
+                <p className="mt-4 text-gray-500 text-sm">No additional information available.</p>
+              </div>
             )}
           </div>
         </div>
 
 
-        <div className="mt-16 w-full">
+        <div className="mt-12 w-full">
           <div className="flex items-center justify-center pt-5 pb-5 mb-5">
             <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#251C4B] relative">
               Related Products
@@ -408,7 +495,7 @@ const ProductDetails = () => {
             </h2>
           </div>
 
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10 hover: cursor-pointer">
+          {/* <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10 hover: cursor-pointer">
             {singleProductData?.related_products?.length > 0 ? (
               singleProductData.related_products.map((item, index) => (
                 <div
@@ -426,7 +513,6 @@ const ProductDetails = () => {
                       }}
                     >
 
-                      {/* Front Image */}
                       <div className="absolute inset-0 backface-hidden transform  group-hover:scale-105 transition-all duration-500">
                         <img
                           src={
@@ -439,35 +525,11 @@ const ProductDetails = () => {
                         />
                       </div>
 
-                      {/* <div className="absolute inset-0 backface-hidden transform group-hover:scale-105 transition-all duration-500">
-                        <img
-                          src={
-                            item.product_image && item.product_image !== ""
-                              ? item.product_image
-                              : "/src/Image/No image.jpg"
-                          }
-                          alt={item.name}
-                          className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
-                        />
-                      </div> */}
 
-
-                      {/* Back Image (same as front) */}
-                      {/* <div className="absolute inset-0 backface-hidden transform rotate-y-180 transition-transform duration-700 group-hover:rotate-y-360">
-                        <img
-                          src={
-                            item.product_image && item.product_image !== ""
-                              ? item.product_image
-                              : "/src/Image/No image.jpg"
-                          }
-                          alt={item.name}
-                          className="w-full h-full object-contain"
-                        />
-                      </div> */}
+                  
                     </div>
                   </div>
 
-                  {/* Product Info */}
                   <h4 className="font-semibold text-sm sm:text-base text-gray-800 line-clamp-1">
                     {item.product_name}
                   </h4>
@@ -476,22 +538,18 @@ const ProductDetails = () => {
                     {item.description}
                   </p>
 
-                  {/* Price Section */}
-                  <div className="flex items-center gap-5 mt-3">
+                  <div className="flex items-center gap-4 mt-3">
                     <span className="text-lg font-bold text-black">
                       ₹{item.price}
                     </span>
-                    {/* {item.cancle_price && (
-                      <span className="text-sm text-red-500 line-through">
+                    {item.cancle_price && (
+                      <span className="text-sm font-bold text-red-500 line-through">
                         ₹{item.cancle_price}
                       </span>
-                    )} */}
+                    )}
                   </div>
 
-                  {/* Button (Hidden until hover) */}
-                  {/* <button className="opacity-50 cursor-pointer group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg hover:bg-[#251c4b] transition text-md  font-bold">
-                    View Product
-                  </button> */}
+                 
                   <button
                     className="
         opacity-100             
@@ -513,7 +571,103 @@ const ProductDetails = () => {
                 No related products available
               </p>
             )}
+          </div> */}
+
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10 cursor-pointer">
+            {loading ? (
+              // Skeleton for related products
+              Array.from({ length: 8 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-xl p-4 bg-white animate-pulse flex flex-col justify-between"
+                >
+                  {/* Image Skeleton */}
+                  <div className="w-full h-[150px] sm:h-[160px] bg-gray-300 rounded-lg mb-3"></div>
+
+                  {/* Title Skeleton */}
+                  <div className="h-5 bg-gray-300 rounded w-3/4 mb-2"></div>
+
+                  {/* Description Skeleton */}
+                  <div className="h-3 bg-gray-300 rounded w-full mb-2"></div>
+                  <div className="h-3 bg-gray-300 rounded w-5/6 mb-2"></div>
+
+                  {/* Price Skeleton */}
+                  <div className="flex gap-4 mt-3">
+                    <div className="h-5 w-16 bg-gray-300 rounded"></div>
+                    <div className="h-5 w-12 bg-gray-300 rounded"></div>
+                  </div>
+
+                  {/* Button Skeleton */}
+                  <div className="h-8 w-full bg-gray-300 rounded mt-4"></div>
+                </div>
+              ))
+            ) : singleProductData?.related_products?.length > 0 ? (
+              singleProductData.related_products.map((item, index) => (
+                <div
+                  key={index}
+                  data-aos="fade-up"
+                  className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
+                >
+                  <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
+                    <div
+                      className="w-full h-full relative group preserve-3d"
+                      onClick={() => {
+                        navigate(`/single-product/${item.product_id}`);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                    >
+                      <div className="absolute inset-0 backface-hidden transform group-hover:scale-105 transition-all duration-500">
+                        <img
+                          src={
+                            item.product_image && item.product_image !== ""
+                              ? item.product_image
+                              : "/src/Image/No image.jpg"
+                          }
+                          alt={item.name}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4 className="font-semibold text-sm sm:text-base text-gray-800 line-clamp-1">
+                    {item.product_name}
+                  </h4>
+
+                  <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-2">
+                    {item.description}
+                  </p>
+
+                  <div className="flex items-center gap-4 mt-3">
+                    <span className="text-lg font-bold text-black">₹{item.price}</span>
+                    {item.cancle_price && (
+                      <span className="text-sm font-bold text-red-500 line-through">
+                        ₹{item.cancle_price}
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    className="
+            opacity-100
+            sm:opacity-50
+            sm:group-hover:opacity-100
+            cursor-pointer
+            mt-4 px-3 py-2
+            border bg-[#251c4b] border-[#251c4b]
+            text-white rounded-lg
+            transition text-md
+          "
+                  >
+                    View Product
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 text-sm">No related products available</p>
+            )}
           </div>
+
         </div>
       </div>
 
@@ -535,11 +689,11 @@ const ProductDetails = () => {
             {/* Remark field */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Remark
+                Message
               </label>
               <textarea
                 rows={5}
-                placeholder="Write your remark here..."
+                placeholder="Write your message here..."
                 value={remarkData}
                 onChange={(e) => setRemarkData(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#251c4b]"
@@ -547,20 +701,22 @@ const ProductDetails = () => {
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setInquiryPopup(false)}
-                className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition text-sm sm:text-base"
-              >
-                Cancel
-              </button>
+            {/* Buttons */}
+            <div className="flex justify-between items-center mt-4">
               <button
                 onClick={sendInquiry}
                 className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg bg-[#251c4b] text-white hover:bg-[#1c1536] transition text-sm sm:text-base"
               >
                 Send
               </button>
+              <button
+                onClick={() => setInquiryPopup(false)}
+                className="px-4 cursor-pointer sm:px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition text-sm sm:text-base"
+              >
+                Cancel
+              </button>
             </div>
+
           </div>
         </div>
       )}
