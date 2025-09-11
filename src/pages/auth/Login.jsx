@@ -438,7 +438,7 @@
 
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import api from "../utils.jsx/axiosInstance";
 import endPointApi from "../utils.jsx/endPointApi";
 import { saveToken } from "../utils.jsx/tokenManager";
@@ -447,6 +447,9 @@ import OtpInput from "react-otp-input";
 
 const Login = ({ onClose }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const param = location.pathname;
+
     const authToken = localStorage.getItem("auth_token");
     const [formData, setFormData] = useState({
         mobile: "",
@@ -586,7 +589,11 @@ const Login = ({ onClose }) => {
 
     const onCounting = () => {
         if (onClose) onClose();
-        navigate("/");
+        if (param) {
+            navigate(param)
+        } else {
+            navigate("/");
+        }
     };
 
     return (
@@ -620,7 +627,7 @@ const Login = ({ onClose }) => {
                     {showButtons ? (
                         <div className="flex flex-col items-center gap-8 p-0 w-full max-w-sm mx-auto">
                             {/* Image Section */}
-                            <div className="relative w-32 h-32 sm:w-40 sm:h-40 overflow-hidden">
+                            <div className="relative w-32 h-32 sm:w-40 sm:h-40 border border-white p-5 rounded-2xl bg-white overflow-hidden">
                                 <img
                                     src="https://superadmin.progressalliance.org/upload/web_logo/switch-roles.png"
                                     alt="Switch Role"

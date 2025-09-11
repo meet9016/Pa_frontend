@@ -14,6 +14,7 @@ import Login from "../auth/Login";
 import Aos from "aos";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import PageMeta from "../utils.jsx/PageMeta";
 
 const Home = () => {
 
@@ -63,7 +64,7 @@ const Home = () => {
   return (
     <>
       <Header />
-
+      <PageMeta title="Home" description="This is the Dashboard page" />
       <div className="w-full pt-[60px] bg-[#EAEBEF] sm:pt-[80px] md:pt-[100px]">
         {/* Main Container with fixed width */}
         <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">

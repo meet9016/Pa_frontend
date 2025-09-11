@@ -216,7 +216,7 @@ const Inquiry = () => {
                                     alt="No Data Found"
                                     className="w-40 h-40 sm:w-52 sm:h-52 object-contain one-time-bounce"
                                 />
-                                <p className="mt-4 text-gray-600 font-medium text-lg">No product found</p>
+                                <p className="mt-4 text-gray-600 font-medium text-lg">No inquiry found</p>
                             </div>
                         ) : (
                             inquiryData.map((row, idx) => (
@@ -250,7 +250,7 @@ const Inquiry = () => {
                                     alt="No Data Found"
                                     className="w-40 h-40 sm:w-40 sm:h-40 object-contain one-time-bounce"
                                 />
-                                <p className="mt-4 text-gray-600 font-medium text-lg">No product found</p>
+                                <p className="mt-4 text-gray-600 font-medium text-lg">No inquiry found</p>
                             </div>
                         }
                         responsiveLayout="stack"
