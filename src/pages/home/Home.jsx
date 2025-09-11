@@ -12,9 +12,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import Login from "../auth/Login";
 import Aos from "aos";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 import PageMeta from "../utils.jsx/PageMeta";
+import Skeleton from "react-loading-skeleton";
 
 const Home = () => {
 
