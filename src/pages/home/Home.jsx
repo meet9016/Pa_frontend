@@ -93,7 +93,13 @@ const Home = () => {
           <div className="w-full mt-9 sm:mt-4 md:mt-1">
             {
               loading ? (
-                <Skeleton className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl" />
+                <Skeleton
+                  className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl"
+                  baseColor="#D1D5DB"
+                  highlightColor="#E5E7EB"
+                />
+
+
               ) : (
                 <Swiper
                   modules={[Navigation, Pagination, Autoplay]}
@@ -112,11 +118,11 @@ const Home = () => {
                           src={slide.image}
                           alt="Slider"
                           className="
-              w-full 
-              h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
-              rounded-2xl 
-              object-cover
-            "
+                w-full 
+                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
+                rounded-2xl 
+                object-cover
+              "
                         />
                       </a>
                     </SwiperSlide>
@@ -124,6 +130,7 @@ const Home = () => {
                 </Swiper>
               )
             }
+
           </div>
 
 
@@ -134,9 +141,15 @@ const Home = () => {
               loading ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
                   {Array.from({ length: 3 }).map((_, idx) => (
-                    <Skeleton key={idx} className="w-full h-36 sm:h-44 rounded-2xl" />
+                    <Skeleton
+                      key={idx}
+                      className="w-full h-52 sm:h-60 rounded-full"
+                      baseColor="#D1D5DB"      
+                      highlightColor="#E5E7EB"
+                    />
                   ))}
                 </div>
+
               ) : (
                 <Swiper
                   spaceBetween={20}

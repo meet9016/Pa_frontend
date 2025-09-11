@@ -84,13 +84,14 @@ const ViewShop = () => {
                         <a href="#" className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-2xl">
                             <i className="ri-youtube-line"></i>
                         </a>
+                        <a href="#" className="text-gray-500 hover:text-[#0A66C2] transition transform hover:scale-110 text-2xl">
+                            <i className="ri-linkedin-line"></i>
+                        </a>
+                        <a href="#" className="text-gray-500 hover:text-[#25D366] transition transform hover:scale-110 text-2xl">
+                            <i className="ri-global-line"></i>
+                        </a>
                     </div>
                 </div>
-
-
-
-
-
 
                 {loading ? (
                     <div className="w-full mt-20 flex justify-center items-center h-[300px]">

@@ -16,6 +16,7 @@ const endPointApi = {
     editProfile: 'edit-profile',
     inquiryPopup: 'add-to-direct-inquiry',
     supplierProductList: 'supplier-web-product-list',
+    footerSocialMedia: 'policy_and_social_media',
 };
 
 export default endPointApi;

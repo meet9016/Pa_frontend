@@ -91,7 +91,7 @@ const Search = () => {
                                 </p>
 
                                 {/* Price */}
-                                <div className="flex items-center gap-5 mt-3">
+                                <div className="flex items-center gap-3 mt-3">
                                     <span className="text-lg font-bold text-black">₹{item.price}</span>
                                     <span className="text-sm font-bold text-red-500 line-through">{item.cancle_price}</span>
                                 </div>
