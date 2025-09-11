@@ -42,30 +42,27 @@ const ViewShop = () => {
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
             <div className="w-full max-w-[1300px] mt-4 pb-5">
 
-                <div className="flex items-stretch mt-[20px] gap-6 p-6 bg-white rounded-lg shadow-md flex-wrap">
+                <div className="flex flex-col sm:flex-row items-start sm:items-stretch mt-[20px] gap-6 p-6 bg-white rounded-lg shadow-md flex-wrap">
                     {/* Left: Image */}
-                    <div className="w-32 h-32 flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 shadow-sm">
+                    <div className="w-32 h-32 flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 shadow-sm mx-auto sm:mx-0">
                         <img
-                            src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
+                            src={supplierData.business_logo}
                             alt="Shop Logo"
                             className="w-full h-full object-contain rounded-lg"
                         />
                     </div>
 
                     {/* Right: Info */}
-                    <div className="flex flex-col flex-1 min-w-[200px] gap-2">
-                        {/* Company Name */}
+                    <div className="flex flex-col flex-1 min-w-[200px] gap-2 mt-4 sm:mt-0 text-center sm:text-left">
                         <h4 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
                             {supplierData.company_name}
                         </h4>
 
-                        {/* Short Name */}
                         <p className="text-base sm:text-lg font-bold text-black">
                             {supplierData.full_name} ({supplierData.chapter_short_name})
                         </p>
 
-                        {/* Total Products */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center sm:justify-start gap-2">
                             <h4 className="text-lg sm:text-xl font-bold text-black">
                                 {supplierData.total_products}
                             </h4>
@@ -73,7 +70,23 @@ const ViewShop = () => {
                         </div>
                     </div>
 
+                    {/* Social Icons */}
+                    <div className="flex justify-center sm:justify-start flex-wrap gap-4 mt-3 sm:mt-0">
+                        <a href="#" className="text-gray-500 hover:text-blue-600 transition transform hover:scale-110 text-2xl">
+                            <i className="ri-facebook-circle-line"></i>
+                        </a>
+                        <a href="#" className="text-gray-500 hover:text-pink-500 transition transform hover:scale-110 text-2xl">
+                            <i className="ri-instagram-line"></i>
+                        </a>
+                        <a href="#" className="text-gray-500 hover:text-blue-400 transition transform hover:scale-110 text-2xl">
+                            <i className="ri-twitter-line"></i>
+                        </a>
+                        <a href="#" className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-2xl">
+                            <i className="ri-youtube-line"></i>
+                        </a>
+                    </div>
                 </div>
+
 
 
 
