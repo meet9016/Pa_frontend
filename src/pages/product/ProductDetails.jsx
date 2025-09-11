@@ -422,7 +422,7 @@ const ProductDetails = () => {
                     <div className="flex flex-col sm:flex-row items-stretch gap-4 p-2 rounded-lg bg-white">
                       <div className="w-28 h-28 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
                         <img
-                          src="https://superadmin.progressalliance.org/upload/business_logo/20250906153025_4590.jpg"
+                          src={supplierData.business_logo}
                           alt="Shop Logo"
                           className="w-full h-full object-contain rounded-md"
                         />
@@ -534,13 +534,13 @@ const ProductDetails = () => {
                 <p>{singleProductData.additional}</p>
               ) : (
                 <div className="flex flex-col items-center justify-center w-full">
-                  <div className="w-full max-w-7xl bg-white rounded-xl shadow-md border border-gray-200">
+                  <div className="w-full max-w-7xl bg-white rounded-xl p-1">
                     {/* Make table scrollable on mobile */}
                     <div className="overflow-x-auto">
                       <div
                         className="max-h-42 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#251C4B_#f1f1f1]"
                       >
-                        <table className="w-full text-sm md:text-base border-collapse min-w-full">
+                        <table className="w-full text-sm md:text-base border-collapse border border-gray-300 min-w-full">
                           {/* Table Header */}
                           <thead className="bg-[#251c4b] sticky top-0 z-10">
                             <tr>
