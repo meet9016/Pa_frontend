@@ -470,7 +470,7 @@ const ProductDetails = () => {
               onClick={() => setActiveTab("description")}
               className={`transition pb-2 ${activeTab === "description"
                 ? "border-b-2 border-black cursor-pointer text-black"
-                : "text-gray-500 hover:text-black"
+                : "text-gray-500 cursor-pointer hover:text-black"
                 }`}
             >
               Description
@@ -479,7 +479,7 @@ const ProductDetails = () => {
               onClick={() => setActiveTab("additional")}
               className={`transition pb-2 ${activeTab === "additional"
                 ? "border-b-2 cursor-pointer border-black text-black"
-                : "text-gray-500 hover:text-black"
+                : "text-gray-500 cursor-pointer hover:text-black"
                 }`}
             >
               Additional Information
