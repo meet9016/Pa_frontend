@@ -130,7 +130,7 @@ const Home = () => {
                   {product?.slider?.map((slide) => (
                     <SwiperSlide key={slide.slider_id}>
                       <a href="#" rel="noopener noreferrer">
-                        {/* <img
+                        <img
                           src={slide.image}
                           alt="Slider"
                           className="
@@ -139,17 +139,7 @@ const Home = () => {
                 rounded-2xl 
                 object-cover
               "
-                        /> */}
-
-
-                        <div className="aspect-[16/9] w-full">
-                          <img
-                            src={slide.image}
-                            alt="Slider"
-                            className="w-full h-full rounded-2xl object-contain sm:object-cover"
-                          />
-                        </div>
-
+                        />
                       </a>
                     </SwiperSlide>
                   ))}
