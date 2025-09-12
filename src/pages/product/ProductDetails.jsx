@@ -525,7 +525,7 @@ const ProductDetails = () => {
               </h2>
             </div>
 
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10 hover: cursor-pointer">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-1 hover: cursor-pointer">
               {singleProductData?.related_products?.length > 0 && (
                 singleProductData.related_products.map((item, index) => (
                   <div

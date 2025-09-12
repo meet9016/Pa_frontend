@@ -77,7 +77,7 @@ const Category = () => {
         </div> */}
 
           {/* Title */}
-          <div className="text-center mt-5 mb-8">
+          <div className="text-center mt-3 sm:mt-5 mb-3 sm:mb-8">
             <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
               {categories_name}
               {/* Optional underline */}
