@@ -127,7 +127,7 @@ const ViewShop = () => {
                         <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#251C4B] border-t-transparent"></div>
                     </div>
                 ) : alldata?.product_details && alldata?.product_details.length > 0 ? (
-                    <div className="w-full p-0 sm:p-0 grid grid-cols-1 mt-0 sm:mt-7 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="w-full p-0 sm:p-0 grid grid-cols-1 mt-5 sm:mt-7 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {alldata?.product_details?.map((item, index) => (
                             <div
                                 key={index}
