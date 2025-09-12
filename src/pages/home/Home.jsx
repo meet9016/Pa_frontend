@@ -106,7 +106,7 @@ const Home = () => {
           )}
 
           {/* Top Banner */}
-          <div className="w-full mt-4 sm:mt-4 md:mt-9">
+          <div className="w-full mt-4 sm:mt-4 md:mt-4">
             {
               loading ? (
                 <Skeleton
