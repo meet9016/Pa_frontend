@@ -103,6 +103,7 @@ const ViewShop = () => {
                         )}
                         {supplierData?.youtube_link && (
                             <a
+                            
                                 href={supplierData?.youtube_link}
                                 target="_blank"
                                 className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-xl sm:text-2xl"

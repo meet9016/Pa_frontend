@@ -134,12 +134,14 @@ const Home = () => {
                           src={slide.image}
                           alt="Slider"
                           className="
-                w-full 
-                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
-              rounded-md sm:rounded-2xl
-                object-cover
-              "
+    w-full
+    h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px]
+    rounded-md sm:rounded-2xl
+    object-contain sm:object-cover  
+    mx-auto
+  "
                         />
+
                       </a>
                     </SwiperSlide>
                   ))}
