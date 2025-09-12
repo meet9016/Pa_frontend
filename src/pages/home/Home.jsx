@@ -63,10 +63,12 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div className="w-full pt-[60px] sm:pt-[80px] md:pt-[100px] bg-[#EAEBEF]">
-        <div className="w-full max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 flex flex-col items-center">
+      {/* <PageMeta title="Home" description="This is the Dashboard page" /> */}
+      <div className="w-full pt-[60px] bg-[#EAEBEF] sm:pt-[80px] md:pt-[100px]">
+        {/* Main Container with fixed width */}
+        <div className="w-full max-w-[1300px] mx-auto px-4 flex flex-col items-center">
 
-          {/* Login Modal */}
+          {/* Login pop-up open */}
           {showLogin && (
             <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
               <div
@@ -76,151 +78,191 @@ const Home = () => {
               >
                 <button
                   onClick={() => setShowLogin(false)}
-                  className="absolute top-4 right-4 text-black text-xl"
+                  className="absolute cursor-pointer top-5 right-10 translate-x-[-4px] translate-y-[4px] text-black text-xl"
                 >
                   <i className="ri-close-large-line"></i>
                 </button>
+
                 <Login onClose={() => setShowLogin(false)} />
               </div>
             </div>
           )}
 
-          {/* Banner */}
-          <div className="w-full mt-6 sm:mt-8">
-            {loading ? (
-              <Skeleton
-                className="w-full h-[200px] sm:h-[280px] md:h-[380px] lg:h-[480px] rounded-2xl"
-                baseColor="#D1D5DB"
-                highlightColor="#E5E7EB"
-              />
-            ) : (
-              <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
-                spaceBetween={15}
-                slidesPerView={1}
-                navigation
-                pagination={{ clickable: true }}
-                autoplay={{ delay: 4000, disableOnInteraction: false }}
-                loop
-                className="rounded-2xl"
-              >
-                {product?.slider?.map((slide) => (
-                  <SwiperSlide key={slide.slider_id}>
-                    <img
-                      src={slide.image}
-                      alt="Slider"
-                      className="w-full h-[200px] sm:h-[280px] md:h-[380px] lg:h-[480px] rounded-2xl object-cover"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            )}
+          {/* Top Banner */}
+          <div className="w-full mt-9 sm:mt-4 md:mt-1">
+            {
+              !loading ? (
+                <Skeleton
+                  className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl"
+                  baseColor="#D1D5DB"
+                  highlightColor="#E5E7EB"
+                />
+
+
+              ) : (
+                <Swiper
+                  modules={[Navigation, Pagination, Autoplay]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  navigation
+                  pagination={{ clickable: true }}
+                  autoplay={{ delay: 4000, disableOnInteraction: false }}
+                  loop={true}
+                  className="rounded-2xl"
+                >
+                  {product?.slider?.map((slide) => (
+                    <SwiperSlide key={slide.slider_id}>
+                      <a href="#" rel="noopener noreferrer">
+                        <img
+                          src={slide.image}
+                          alt="Slider"
+                          className="
+                w-full 
+                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
+                rounded-2xl 
+                object-cover
+              "
+                        />
+                      </a>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )
+            }
+
           </div>
 
-          {/* Category Banners */}
-          <div className="w-full mt-8 sm:mt-10">
-            {loading ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                {Array.from({ length: 3 }).map((_, idx) => (
-                  <Skeleton
-                    key={idx}
-                    className="w-full h-40 sm:h-52 rounded-2xl"
-                    baseColor="#D1D5DB"
-                    highlightColor="#E5E7EB"
-                  />
-                ))}
-              </div>
-            ) : (
-              <Swiper
-                spaceBetween={15}
-                slidesPerView={3}
-                loop
-                autoplay={{ delay: 2000, disableOnInteraction: false }}
-                breakpoints={{
-                  200: { slidesPerView: 2 },
-                  640: { slidesPerView: 2 },
-                  768: { slidesPerView: 3 },
-                  1024: { slidesPerView: 3 },
-                }}
-                modules={[Autoplay]}
-              >
-                {product?.banner?.map((banners) => (
-                  <SwiperSlide key={banners.banner_id}>
-                    <img
-                      src={banners.image}
-                      alt="banner"
-                      className="w-full h-40 sm:h-52 rounded-2xl object-cover"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            )}
-          </div>
 
-          {/* All Categories */}
-          <div className="w-full mt-8 sm:mt-10">
-            {loading ? (
-              Array.from({ length: 2 }).map((_, catIdx) => (
-                <div key={catIdx} className="mb-8 flex flex-col">
-                  <Skeleton className="w-1/3 h-6 sm:h-8 mb-3" />
-                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 sm:gap-4 bg-white rounded-2xl p-3 sm:p-4">
-                    {Array.from({ length: 8 }).map((_, idx) => (
-                      <div key={idx} className="flex flex-col items-center">
-                        <Skeleton className="w-[100px] h-[100px] rounded-xl" />
-                        <Skeleton className="w-16 h-4 mt-2" />
-                      </div>
-                    ))}
-                  </div>
+
+          {/* Three Category Cards */}
+          <div className="w-full mt-9">
+            {
+              !loading ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
+                  {Array.from({ length: 3 }).map((_, idx) => (
+                    <Skeleton
+                      key={idx}
+                      className="w-full h-52 sm:h-60 rounded-full"
+                      baseColor="#D1D5DB"      
+                      highlightColor="#E5E7EB"
+                    />
+                  ))}
                 </div>
-              ))
-            ) : (
-              product?.all_categories?.map((cat) => (
-                <div key={cat.categories_id} className="mb-8 flex flex-col">
-                  <div className="flex items-center justify-between mb-3">
-                    <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-                      {cat.categories_name}
-                    </h2>
-                    {cat?.view_button && (
-                      <button
-                        onClick={() =>
-                          navigate(`/category/${cat.categories_id}`)
-                        }
-                        className="px-4 py-2 rounded-lg bg-[#251c4b] text-white text-sm sm:text-base shadow hover:bg-[#3a2d6f] transition"
-                      >
-                        View More →
-                      </button>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 sm:gap-4 bg-white rounded-2xl p-3 sm:p-4">
-                    {cat.sub_categories?.map((sub) => (
-                      <div
-                        key={sub.sub_category_id}
-                        className="flex flex-col items-center cursor-pointer hover:scale-105 transition"
-                        onClick={() =>
-                          navigate(`/product/${cat.categories_id}/${sub.sub_category_id}`)
-                        }
-                      >
-                        <div className="p-3 sm:p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center">
-                          <img
-                            src={sub.image}
-                            alt={sub.sub_category_name}
-                            className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] object-contain"
-                          />
+
+              ) : (
+                <Swiper
+                  spaceBetween={20}
+                  slidesPerView={3}
+                  loop={true}
+                  autoplay={{
+                    delay: 2000,
+                    disableOnInteraction: false,
+                  }}
+                  breakpoints={{
+                    200: { slidesPerView: 2 },
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 3 },
+                  }}
+                  modules={[Autoplay]}
+                >
+                  {product?.banner?.map((banners) => (
+                    <SwiperSlide key={banners.banner_id}>
+                      <a href="#" rel="noopener noreferrer">
+                        <img
+                          src={banners.image}
+                          alt="banner"
+                          className="w-full rounded-2xl object-cover"
+                        />
+                      </a>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )
+            }
+          </div>
+
+          {/* All Categories with Subcategories */}
+          <div className="w-full mt-9">
+            {
+              loading ? (
+                Array.from({ length: 2 }).map((_, catIdx) => (
+                  <div key={catIdx} className="mb-9 flex flex-col w-full">
+                    <Skeleton className="w-1/3 h-6 sm:h-8 mb-4" />
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">
+                      {Array.from({ length: 8 }).map((_, idx) => (
+                        <div key={idx} className="flex flex-col items-center">
+                          <Skeleton className="w-[120px] h-[120px] rounded-xl" />
+                          <Skeleton className="w-16 h-4 mt-2" />
                         </div>
-                        <p className="mt-2 text-center text-sm font-medium">
-                          {sub.sub_category_name}
-                        </p>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              ) : (
+
+                product?.all_categories?.map((cat) => (
+                  <div key={cat.categories_id} className="mb-9 flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        {cat.categories_name}
+                      </h2>
+
+                      <div className="flex items-center gap-4">
+                        {cat?.view_button && (
+                          <button
+                            onClick={() =>
+                              navigate(`/category/${cat.categories_id}`)
+                            }
+                            className="px-5 cursor-pointer py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
+                          >
+                            View Mores →
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Subcategories Grid */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">
+                      {cat.sub_categories?.map((sub) => (
+                        <div
+                          key={sub.sub_category_id}
+                          className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+                        >
+                          <div
+                            className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center"
+                            onClick={() => {
+                              navigate(`/product/${cat.categories_id}/${sub.sub_category_id}`);
+                            }}
+                          >
+                            <img
+                              src={sub.image}
+                              alt={sub.sub_category_name}
+                              className="w-[120px] h-[120px] object-contain"
+                            />
+                          </div>
+
+                          {/* sub_category_name fix */}
+                          <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-2 text-center text-sm font-medium">
+                            {sub.sub_category_name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                  </div>
+                ))
+              )
+            }
+
           </div>
+
+
+
+
         </div>
       </div>
     </>
-
   );
 };
 
