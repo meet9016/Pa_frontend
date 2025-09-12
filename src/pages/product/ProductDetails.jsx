@@ -190,36 +190,9 @@ const ProductDetails = () => {
                         }`}
                     />
                   ))}
-
-
-                {/* {singleProductData?.images?.map((img) => (
-                <img
-                  key={img.id}
-                  src={img.image}
-                  alt="No Image"
-                  onClick={() => setSelectedImage(img.image)}
-                  className={`w-16 h-16 sm:w-20 sm:h-20 border rounded-md object-contain cursor-pointer 
-                                     ${selectedImage === img.image
-                      ? "border-white bg-white rounded-2xl p-1"
-                      : "border-white bg-white rounded-2xl p-1"
-                    }`}
-                />
-              ))} */}
               </div>
 
               {/* Main Image - Right side */}
-              {/* <div className="overflow-hidden rounded-lg flex-1">
-              <img
-                src={
-                  selectedImage ||
-                  (singleProductData?.images?.length > 0
-                    ? singleProductData.images[0].image
-                    : "/src/Image/No image.jpg")
-                }
-                alt={singleProductData?.product_name || "Product"}
-                className="w-full h-auto object-contain bg-white rounded-2xl p-10"
-              />
-            </div> */}
               <div className="overflow-hidden rounded-lg flex-1">
                 {loading ? (
                   <Skeleton height={500} baseColor="#D1D5DB"
@@ -239,7 +212,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-5">
+            <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-2 sm:space-y-5">
               {loading ? (
                 <div className="w-full">
                   <Skeleton
@@ -340,7 +313,6 @@ const ProductDetails = () => {
 
               <div className="w-full flex mt-10 flex-col sm:flex-row items-center justify-between gap-4">
                 {loading ? (
-                  // 🔹 Ek hi skeleton block for full section
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
                   <>
@@ -562,7 +534,7 @@ const ProductDetails = () => {
 
 
           <div className="mt-12 w-full">
-            <div className="flex items-center justify-center pt-5 pb-5 mb-5">
+            <div className="flex items-center justify-center pb-5 mb-5">
               <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#251C4B] relative">
                 Related Products
                 <span className="absolute left-1/2 -bottom-2 w-16 sm:w-20 h-0.5 bg-gradient-to-r from-[#251C4B] to-[#5D4D9E] rounded transform -translate-x-1/2"></span>
