@@ -390,12 +390,14 @@ const ProductDetails = () => {
                         </p>
 
                         {/* Total Products */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-1">
+                        {/* Total Products */}
+                        <div className="flex flex-row items-center justify-center sm:justify-start gap-2 mt-1">
                           <h4 className="text-base sm:text-lg font-medium text-black">
                             {supplierData.total_products}
                           </h4>
                           <p className="text-sm sm:text-base font-medium">Products</p>
                         </div>
+
                       </div>
 
                       {/* Right Part - Button */}
