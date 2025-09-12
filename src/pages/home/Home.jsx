@@ -125,32 +125,27 @@ const Home = () => {
                   pagination={{ clickable: true }}
                   autoplay={{ delay: 4000, disableOnInteraction: false }}
                   loop={true}
-                  autoHeight={true}            // <-- important: lets each slide size to its content (mobile will grow/shrink to image)
                   className="rounded-2xl"
                 >
                   {product?.slider?.map((slide) => (
                     <SwiperSlide key={slide.slider_id}>
                       <a href="#" rel="noopener noreferrer">
-                        {/* wrapper ensures no extra overflow / spacing */}
-                        <div className="w-full overflow-hidden">
-                          <img
-                            src={slide.image}
-                            alt="Slider"
-                            className="
-              w-full
-              h-auto                /* MOBILE: natural height so full image shown, no top/bottom blank space */
-              sm:h-[300px] md:h-[400px] lg:h-[500px]  /* TABLET+ : fixed heights as before */
-              rounded-2xl
-              object-contain sm:object-cover  /* MOBILE = contain (full image), SM+ = cover (desktop unchanged) */
-              block
-            "
-                          />
-                        </div>
+                        <img
+                          src={slide.image}
+                          alt="Slider"
+                          className="
+                w-full 
+                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
+              rounded-md sm:rounded-2xl
+                object-cover
+              "
+                        />
+
+
                       </a>
                     </SwiperSlide>
                   ))}
                 </Swiper>
-
               )
             }
 
