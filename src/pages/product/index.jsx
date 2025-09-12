@@ -57,7 +57,7 @@ const Product = () => {
       {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
       <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
         <div className="w-full max-w-[1300px] mt-4 pb-5">
-          <div className="w-full mb-0 sm:mb-12 flex justify-center">
+          <div className="w-full mb-0 sm:mb-6 md:mb-12 flex justify-center">
             {loading ? (
               <Skeleton
                 height={70}
@@ -67,7 +67,7 @@ const Product = () => {
                 className="mx-auto rounded"
               />
             ) : (
-              <div className="text-center mt-0 sm:mt-5">
+              <div className="text-center mt-3 sm:mt-5">
                 <h2 className="inline-block relative text-lg sm:text-3xl font-bold text-gray-900 tracking-tight">
                   {name?.data?.categories_name}
                 </h2>
@@ -81,6 +81,7 @@ const Product = () => {
               </div>
             )}
           </div>
+
 
 
 
