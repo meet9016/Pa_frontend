@@ -55,7 +55,7 @@ const Product = () => {
   return (
     <>
       {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
-      <div className="w-full px-4 bg-[#EAEBEF] flex mt-[30px] sm:mt-[80px] justify-center">
+      <div className="w-full px-4 bg-[#EAEBEF] flex mt-[50px] sm:mt-[80px] justify-center">
         <div className="w-full max-w-[1300px] mt-2 md:mt-4 pb-6">
           <div className="w-full mt-0 mb-0 sm:mt-1 sm:mb-2 md:mb-12 flex justify-center">
             {loading ? (
@@ -104,7 +104,7 @@ const Product = () => {
             </div>
           ) : singleProductData && singleProductData.length > 0 ? (
             // Actual Products Grid
-            <div className="w-full p-2 grid grid-cols-1 mt-[40px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="w-full p-2 grid grid-cols-1 mt-[20px] sm:mt-[40px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {singleProductData?.map((item, index) => (
                 <div
                   key={index}
