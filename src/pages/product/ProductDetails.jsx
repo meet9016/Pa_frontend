@@ -170,7 +170,7 @@ const ProductDetails = () => {
           {/* Main Content */}
           <div className="grid grid-cols-1  lg:grid-cols-2 gap-8">
             {/* LEFT PART */}
-            <div className="flex mt-3 sm:mt-4 gap-4">
+            <div className="flex mt-0 sm:mt-4 gap-4">
               {/* Thumbnails - Left side */}
               <div className="flex  flex-col gap-2 justify-start">
                 {loading
