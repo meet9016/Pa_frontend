@@ -241,10 +241,9 @@ const ProductDetails = () => {
 
             <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-5">
               {loading ? (
-                // ek hi skeleton block
                 <div className="w-full">
                   <Skeleton
-                    height={200} // jitna area cover karna hai
+                    height={200}
                     width={"100%"}
                     baseColor="#D1D5DB"
                     highlightColor="#E5E7EB"
@@ -418,9 +417,10 @@ const ProductDetails = () => {
                     <h2 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                       Sold By
                     </h2>
-                    <div className="flex items-start gap-4 p-1 rounded-lg bg-white">
+
+                    <div className="flex flex-col sm:flex-row items-start gap-4 p-2 rounded-lg bg-white">
                       {/* Logo */}
-                      <div className="w-24 h-26 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
+                      <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2 mx-auto sm:mx-0">
                         <img
                           src={supplierData.business_logo}
                           alt="Shop Logo"
@@ -429,38 +429,38 @@ const ProductDetails = () => {
                       </div>
 
                       {/* Right Content */}
-                      <div className="flex flex-col flex-1">
+                      <div className="flex flex-col flex-1 w-full">
                         {/* Company + Button in one row */}
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                          <h4 className="text-xl font-medium text-gray-900 truncate">
+                          <h4 className="text-lg sm:text-xl font-medium text-gray-900 truncate text-center sm:text-left">
                             {supplierData.company_name}
                           </h4>
                           <button
                             onClick={handleViewShop}
                             className="px-5 py-1 cursor-pointer rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
-            text-white font-medium shadow-md hover:bg-[#1d163e] transition 
-            w-full sm:w-auto"
+          text-white font-medium shadow-md hover:bg-[#1d163e] transition 
+          w-full sm:w-auto"
                           >
                             View Shop
                           </button>
                         </div>
 
                         {/* Short Name */}
-                        <p className="text-base font-medium text-black mt-0">
+                        <p className="text-sm sm:text-base font-medium text-black mt-1 text-center sm:text-left">
                           {supplierData.full_name} ({supplierData.chapter_short_name})
                         </p>
 
                         {/* Total Products */}
-                        <div className="flex items-center gap-2 mt-2">
-                          <h4 className="text-lg font-medium text-black">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-2 text-center sm:text-left">
+                          <h4 className="text-base sm:text-lg font-medium text-black">
                             {supplierData.total_products}
                           </h4>
-                          <p className="text-base font-medium">Products</p>
+                          <p className="text-sm sm:text-base font-medium">Products</p>
                         </div>
                       </div>
                     </div>
-
                   </div>
+
                 )}
               </div>
             </div>
