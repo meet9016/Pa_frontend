@@ -285,7 +285,7 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="w-full flex mt-3  flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="w-full flex mt-3 flex-col sm:flex-row items-center justify-between gap-4">
                 {loading ? (
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
@@ -364,10 +364,12 @@ const ProductDetails = () => {
                       Sold By
                     </h2>
 
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 rounded-lg bg-white">
+                    {/* Parent Container */}
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-2 rounded-lg bg-white">
 
-                      {/* Logo */}
-                      <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2 mx-auto sm:mx-0 order-1">
+                      {/* Left Part - Image */}
+                      <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2 
+      mx-auto sm:mx-0 order-1 sm:order-1">
                         <img
                           src={supplierData.business_logo}
                           alt="Shop Logo"
@@ -375,40 +377,41 @@ const ProductDetails = () => {
                         />
                       </div>
 
-                      {/* Right Content */}
-                      <div className="flex flex-col sm:flex-1 w-full items-center sm:items-start order-2">
-
-                        {/* Desktop: Company + Button in one row */}
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between w-full gap-2">
-                          <h4 className="text-lg sm:text-xl font-medium text-gray-900 truncate text-center sm:text-left order-1">
-                            {supplierData.company_name}
-                          </h4>
-                          <button
-                            onClick={handleViewShop}
-                            className="px-5 py-1 cursor-pointer rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
-                         text-white font-medium shadow-md hover:bg-[#1d163e] transition 
-                         w-full sm:w-auto mt-2 sm:mt-0 order-5 sm:order-2"
-                          >
-                            View Shop
-                          </button>
-                        </div>
+                      {/* Center Part - Company + Details */}
+                      <div className="flex flex-col flex-1 items-center sm:items-start text-center sm:text-left order-2 sm:order-2">
+                        {/* Company Name */}
+                        <h4 className="text-lg sm:text-xl font-medium text-gray-900 truncate">
+                          {supplierData.company_name}
+                        </h4>
 
                         {/* Full Name */}
-                        <p className="text-sm sm:text-base font-medium text-black mt-1 text-center sm:text-left order-3">
+                        <p className="text-sm sm:text-base font-medium text-black mt-1">
                           {supplierData.full_name} ({supplierData.chapter_short_name})
                         </p>
 
                         {/* Total Products */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-1 text-center sm:text-left order-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-1">
                           <h4 className="text-base sm:text-lg font-medium text-black">
                             {supplierData.total_products}
                           </h4>
                           <p className="text-sm sm:text-base font-medium">Products</p>
                         </div>
+                      </div>
 
+                      {/* Right Part - Button */}
+                      <div className="w-full sm:w-auto flex justify-center sm:justify-end order-3 sm:order-3 mt-3 sm:mt-0">
+                        <button
+                          onClick={handleViewShop}
+                          className="px-5 py-1 rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
+        text-white font-medium shadow-md hover:bg-[#1d163e] transition 
+        w-full sm:w-auto"
+                        >
+                          View Shop
+                        </button>
                       </div>
                     </div>
                   </div>
+
                 )}
               </div>
 
