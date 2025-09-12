@@ -5,13 +5,15 @@ import endPointApi from "../utils.jsx/endPointApi";
 import api from "../utils.jsx/axiosInstance";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Search = () => {
     const { id } = useParams();
 
     const navigate = useNavigate();
     const [singleProductData, setSingleProductData] = useState([])
-    const [loading, setLoading] = useState(false);// add loading
+    const [loading, setLoading] = useState(false);
 
     console.log("id", id);
 
@@ -52,16 +54,27 @@ const Search = () => {
     return (
         <div className="w-full mt-9 md:mt-[80px] bg-[#EAEBEF] flex justify-center">
             <div className="w-full max-w-[1300px] pb-5">
-                {/* Show Loader First */}
                 {loading ? (
-                    <div className="w-full mt-20 flex justify-center items-center h-[300px]">
-                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#251C4B] border-t-transparent"></div>
+                    // Skeleton Grid
+                    <div className="w-full p-2 grid grid-cols-1 mt-[40px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {Array(8)
+                            .fill(0)
+                            .map((_, index) => (
+                                <Skeleton
+                                    key={index}
+                                    baseColor="#D1D5DB"
+                                    highlightColor="#E5E7EB"
+                                    height={350} // approximate card height
+                                    className="rounded-xl"
+                                />
+                            ))}
                     </div>
                 ) : singleProductData && singleProductData.length > 0 ? (
-                    //  Products Grid
+                    // Actual Products Grid
                     <div
                         data-aos="fade-up"
-                        className="w-full p-2 grid grid-cols-1  mt-[40px] rounded-md  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        className="w-full p-2 grid grid-cols-1 mt-[40px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                    >
                         {singleProductData?.map((item, index) => (
                             <div
                                 key={index}
@@ -96,29 +109,15 @@ const Search = () => {
                                     <span className="text-sm font-bold text-red-500 line-through">{item.cancle_price}</span>
                                 </div>
 
-                                {/* view more */}
-                                {/* <button className="opacity-50 group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg cursor-pointer hover:bg-[#251c4b] transition text-md  font-bold">
-                                    View Product
-                                </button> */}
-                                <button
-                                    className="
-        opacity-100            
-        sm:opacity-50            
-        sm:group-hover:opacity-100 
-        cursor-pointer
-        mt-4 px-3 py-2 
-        border bg-[#251c4b] border-[#251c4b] 
-        text-white rounded-lg 
-        transition text-md
-      "
-                                >
+                                {/* Button */}
+                                <button className="opacity-100 sm:opacity-50 sm:group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg transition text-md">
                                     View Product
                                 </button>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    //  No Data
+                    // No Data
                     <div className="w-full mt-10 flex justify-center items-center h-[400px]">
                         <div className="flex flex-col items-center justify-center text-center">
                             <img
@@ -127,7 +126,9 @@ const Search = () => {
                                 className="w-48 h-48 sm:w-60 sm:h-60 object-contain one-time-bounce"
                             />
                             <h2 className="mt-4 text-xl font-semibold text-gray-700">No Data Found</h2>
-                            <p className="text-gray-500 text-sm mt-1">Try adjusting your filters or check back later</p>
+                            <p className="text-gray-500 text-sm mt-1">
+                                Try adjusting your filters or check back later
+                            </p>
                             <button
                                 onClick={() => navigate("/")}
                                 className="mt-6 px-5 py-2 bg-[#251C4B] cursor-pointer text-white rounded-lg shadow-md hover:bg-[#372b63] transition"
@@ -138,7 +139,6 @@ const Search = () => {
                     </div>
                 )}
             </div>
-
         </div>
     );
 };

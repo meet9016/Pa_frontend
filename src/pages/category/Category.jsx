@@ -3,7 +3,7 @@ import "remixicon/fonts/remixicon.css";
 import { useParams, useNavigate } from "react-router";
 import endPointApi from "../utils.jsx/endPointApi";
 import api from "../utils.jsx/axiosInstance";
-import PageMeta from "../utils.jsx/PageMeta";
+// import PageMeta from "../utils.jsx/PageMeta";
 
 const Category = () => {
   const { categoryId } = useParams();
@@ -60,7 +60,7 @@ const Category = () => {
 
   return (
     <>
-      <PageMeta title="Category" description="This is Category Page" />
+      {/* <PageMeta title="Category" description="This is Category Page" /> */}
       <div className="w-full max-w-[1300px] mx-auto px-4 py-2 flex flex-col items-center">
         <div className="w-full mt-19">
 

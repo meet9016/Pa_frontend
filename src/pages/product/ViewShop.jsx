@@ -69,27 +69,52 @@ const ViewShop = () => {
                             <p className="text-base sm:text-lg text-black font-bold">Products</p>
                         </div>
                     </div>
-
+                    {console.log(supplierData, "supplierData")}
                     {/* Social Icons */}
                     <div className="flex justify-center sm:justify-start flex-wrap gap-4 mt-3 sm:mt-0">
-                        <a href="#" className="text-gray-500 hover:text-blue-600 transition transform hover:scale-110 text-2xl">
-                            <i className="ri-facebook-circle-line"></i>
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-pink-500 transition transform hover:scale-110 text-2xl">
-                            <i className="ri-instagram-line"></i>
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-blue-400 transition transform hover:scale-110 text-2xl">
-                            <i className="ri-twitter-line"></i>
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-2xl">
-                            <i className="ri-youtube-line"></i>
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-[#0A66C2] transition transform hover:scale-110 text-2xl">
-                            <i className="ri-linkedin-line"></i>
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-[#25D366] transition transform hover:scale-110 text-2xl">
-                            <i className="ri-global-line"></i>
-                        </a>
+                        {supplierData?.website_link ?
+                            <a href={supplierData?.website_link}
+                                target="_blank"
+                                className="text-gray-500 hover:text-[#25D366] transition transform hover:scale-110 text-2xl">
+                                <i className="ri-global-line"></i>
+                            </a>
+                            : ''
+                        }
+                        {supplierData?.facebook_link ?
+                            <a href={supplierData?.facebook_link}
+                                target="_blank"
+                                className="text-gray-500 hover:text-blue-600 transition transform hover:scale-110 text-2xl">
+                                <i className="ri-facebook-circle-line"></i>
+                            </a>
+                            : ''
+                        }
+                        {supplierData?.instagram_link ?
+                            <a href={supplierData?.instagram_link}
+                                target="_blank"
+                                className="text-gray-500 hover:text-pink-500 transition transform hover:scale-110 text-2xl">
+                                <i className="ri-instagram-line"></i>
+                            </a>
+                            : ''
+                        }
+                        {
+                            supplierData?.youtube_link ?
+                                <a
+                                    href={supplierData?.youtube_link}
+                                    target="_blank"
+                                    className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-2xl">
+                                    <i className="ri-youtube-line"></i>
+                                </a>
+                                : ''
+                        }
+                        {
+                            supplierData?.linkdin_link ?
+                                <a href={supplierData?.linkdin_link}
+                                    target="_blank"
+                                    className="text-gray-500 hover:text-[#0A66C2] transition transform hover:scale-110 text-2xl">
+                                    <i className="ri-linkedin-line"></i>
+                                </a>
+                                : ''
+                        }
                     </div>
                 </div>
 
@@ -175,7 +200,7 @@ const ViewShop = () => {
                 )}
 
             </div>
-        </div>
+        </div >
     )
 }
 

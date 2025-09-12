@@ -5,7 +5,7 @@ import endPointApi from "../utils.jsx/endPointApi";
 import api from "../utils.jsx/axiosInstance";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import PageMeta from "../utils.jsx/PageMeta";
+// import PageMeta from "../utils.jsx/PageMeta";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -54,7 +54,7 @@ const Product = () => {
 
   return (
     <>
-      <PageMeta title="Sub-Category" description="This is sub-category-page" />
+      {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
       <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
         <div className="w-full max-w-[1300px] mt-4 pb-5">
           <div className="w-full mb-12 flex justify-center">
@@ -88,7 +88,7 @@ const Product = () => {
           {loading ? (
             // Skeleton Grid
             <div className="w-full p-2 grid grid-cols-1 mt-[40px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {Array(8) // 8 skeleton cards
+              {Array(4) // 8 skeleton cards
                 .fill(0)
                 .map((_, index) => (
                   <Skeleton

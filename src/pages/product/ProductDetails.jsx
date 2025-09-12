@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import Login from "../auth/Login";
 import Product from ".";
 import { classNames } from "primereact/utils";
-import PageMeta from "../utils.jsx/PageMeta";
+// import PageMeta from "../utils.jsx/PageMeta";
 
 
 
@@ -125,7 +125,7 @@ const ProductDetails = () => {
 
   return (
     <>
-      <PageMeta title="ProductDetail" description="This is Product detail page" />
+      {/* <PageMeta title="ProductDetail" description="This is Product detail page" /> */}
       <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
         <div className="w-full mt-4 max-w-[1300px]">
           {/* Breadcrumb */}
@@ -405,7 +405,6 @@ const ProductDetails = () => {
 
               <div className="mt-6">
                 {loading ? (
-                  // 🔹 Pure Sold By ka skeleton (box ki jagah ek bada skeleton)
                   <div className="w-full h-40 rounded-xl">
                     <Skeleton
                       height={160}
@@ -419,10 +418,9 @@ const ProductDetails = () => {
                     <h2 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
                       Sold By
                     </h2>
-
-                    <div className="flex items-center gap-4 p-1 rounded-lg bg-white">
+                    <div className="flex items-start gap-4 p-1 rounded-lg bg-white">
                       {/* Logo */}
-                      <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
+                      <div className="w-24 h-26 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2">
                         <img
                           src={supplierData.business_logo}
                           alt="Shop Logo"
@@ -433,15 +431,15 @@ const ProductDetails = () => {
                       {/* Right Content */}
                       <div className="flex flex-col flex-1">
                         {/* Company + Button in one row */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                           <h4 className="text-xl font-medium text-gray-900 truncate">
                             {supplierData.company_name}
                           </h4>
                           <button
                             onClick={handleViewShop}
-                            className="px-5 py-2 rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
-                text-white font-medium shadow-md hover:bg-[#1d163e] transition 
-                w-full sm:w-auto"
+                            className="px-5 py-1 cursor-pointer rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
+            text-white font-medium shadow-md hover:bg-[#1d163e] transition 
+            w-full sm:w-auto"
                           >
                             View Shop
                           </button>
@@ -461,6 +459,7 @@ const ProductDetails = () => {
                         </div>
                       </div>
                     </div>
+
                   </div>
                 )}
               </div>
