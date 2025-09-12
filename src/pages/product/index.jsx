@@ -57,21 +57,21 @@ const Product = () => {
       {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
       <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
         <div className="w-full max-w-[1300px] mt-4 pb-5">
-          <div className="w-full mb-12 flex justify-center">
+          <div className="w-full mb-6 sm:mb-12 flex justify-center">
             {loading ? (
               <Skeleton
-                height={70}          
-                width={300}           
+                height={70}
+                width={300}
                 baseColor="#D1D5DB"
                 highlightColor="#E5E7EB"
                 className="mx-auto rounded"
               />
             ) : (
-              <div className="text-center mt-5">
-                <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+              <div className="text-center mt-3 sm:mt-5">
+                <h2 className="inline-block relative text-lg sm:text-3xl font-bold text-gray-900 tracking-tight">
                   {name?.data?.categories_name}
                 </h2>
-                <p className="mt-2 text-gray-500 text-base sm:text-lg">
+                <p className="mt-1 sm:mt-2 text-gray-500 text-sm sm:text-lg">
                   Explore our latest collection in
                   <span className="text-black font-semibold">
                     {" "}
@@ -81,6 +81,7 @@ const Product = () => {
               </div>
             )}
           </div>
+
 
 
 
