@@ -284,51 +284,53 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="w-full flex mt-3 flex-row items-center justify-between gap-4">
+              <div className="w-full flex mt-3 flex-col sm:flex-row items-center justify-between gap-4">
                 {loading ? (
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
                   <>
-                    {/* Quantity Box */}
-                    <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-auto justify-between">
-                      <button
-                        onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
-                        className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
-                      >
-                        -
-                      </button>
-                      <span className="px-6 text-xl font-semibold">{count}</span>
-                      <button
-                        onClick={() => setCount((prev) => prev + 1)}
-                        className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
-                      >
-                        +
-                      </button>
-                    </div>
+                    {/* Quantity Box + Add to Cart */}
+                    <div className="flex flex-row w-full sm:w-auto gap-4">
+                      {/* Quantity Box */}
+                      <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 flex-shrink-0">
+                        <button
+                          onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
+                          className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
+                        >
+                          -
+                        </button>
+                        <span className="px-6 text-xl font-semibold">{count}</span>
+                        <button
+                          onClick={() => setCount((prev) => prev + 1)}
+                          className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
+                        >
+                          +
+                        </button>
+                      </div>
 
-                    {/* Buttons */}
-                    <div className="flex flex-row w-full gap-4">
+                      {/* Add to Cart */}
                       <button
                         className="flex-1 bg-[#251C4B] hover:bg-[#1a1335] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
                         onClick={() => addToCart()}
                       >
                         <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
                       </button>
-
-                      <button
-                        className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
-                        onClick={() => {
-                          if (!auth_token) {
-                            localStorage.setItem("redirectAfterLogin", location.pathname);
-                            setShowLogin(true);
-                            return;
-                          }
-                          setInquiryPopup(true);
-                        }}
-                      >
-                        <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
-                      </button>
                     </div>
+
+                    {/* Inquiry Button */}
+                    <button
+                      className="w-full sm:flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
+                      onClick={() => {
+                        if (!auth_token) {
+                          localStorage.setItem("redirectAfterLogin", location.pathname);
+                          setShowLogin(true);
+                          return;
+                        }
+                        setInquiryPopup(true);
+                      }}
+                    >
+                      <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
+                    </button>
                   </>
                 )}
               </div>
