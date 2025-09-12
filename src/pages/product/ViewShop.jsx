@@ -40,7 +40,7 @@ const ViewShop = () => {
 
     return (
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
-            <div className="w-full max-w-[1300px] mt-2 sm:mt-4 pb-5">
+            <div className="w-full max-w-[1300px] mt-0 sm:mt-4 pb-5">
 
                 <div className="flex flex-col sm:flex-row items-center sm:items-stretch mt-[20px] gap-6 p-6 bg-white rounded-lg shadow-md flex-wrap">
 
