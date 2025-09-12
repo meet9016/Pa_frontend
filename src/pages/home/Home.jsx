@@ -130,17 +130,27 @@ const Home = () => {
                   {product?.slider?.map((slide) => (
                     <SwiperSlide key={slide.slider_id}>
                       <a href="#" rel="noopener noreferrer">
+                        {/* <img
+                          src={slide.image}
+                          alt="Slider"
+                          className="
+                w-full 
+                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
+              rounded-md sm:rounded-2xl
+                object-cover
+              "
+                        /> */}
                         <img
                           src={slide.image}
                           alt="Slider"
                           className="
     w-full
     h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px]
-    rounded-md sm:rounded-2xl
-    object-contain sm:object-cover  
-    mx-auto
+    rounded-2xl sm:rounded-2xl
+    object-cover   /* mobile aur desktop dono pe cover */
   "
                         />
+
 
                       </a>
                     </SwiperSlide>
