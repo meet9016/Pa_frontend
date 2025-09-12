@@ -425,7 +425,7 @@ const ProductDetails = () => {
 
 
           {/* Description Section */}
-          <div className="mt-1 sm:mt-12">
+          <div className="mt-4 sm:mt-12">
             {loading ? (
               // Pure box ke jagah sirf skeleton dikhayega
               <Skeleton height={220} baseColor="#D1D5DB"
@@ -517,7 +517,7 @@ const ProductDetails = () => {
 
 
 
-          <div className="mt-6 sm:mt-12 w-full">
+          <div className="mt-4 sm:mt-12 w-full">
             <div className="flex items-center justify-center pb-5 mb-5">
               <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#251C4B] relative">
                 Related Products
