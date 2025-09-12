@@ -194,7 +194,7 @@ const ProductDetails = () => {
 
               {/* Main Image - Right side */}
               <div className="overflow-hidden rounded-lg flex-1">
-                {!loading ? (
+                {loading ? (
                   <div className="h-[200px] sm:h-[500px]">
                     <Skeleton
                       baseColor="#D1D5DB"
@@ -218,7 +218,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <div className="mt-6 sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-2 sm:space-y-5">
+            <div className=" sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-2 sm:space-y-5">
               {loading ? (
                 <div className="w-full">
                   <Skeleton
