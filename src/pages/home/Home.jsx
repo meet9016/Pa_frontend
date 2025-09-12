@@ -22,6 +22,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showLogin, setShowLogin] = useState(false)
+  const [skeletonCount, setSkeletonCount] = useState(2);
 
   const getProduct = async () => {
     try {
@@ -59,6 +60,22 @@ const Home = () => {
   //         once: true,
   //     });
   // }, []);
+
+  useEffect(() => {
+    const updateSkeletonCount = () => {
+      if (window.innerWidth < 640) {
+        setSkeletonCount(2);
+      } else {
+        setSkeletonCount(3);
+      }
+    };
+
+    updateSkeletonCount();
+    window.addEventListener("resize", updateSkeletonCount);
+
+    return () => window.removeEventListener("resize", updateSkeletonCount);
+  }, []);
+
 
   return (
     <>
@@ -137,13 +154,13 @@ const Home = () => {
           {/* Three Category Cards */}
           <div className="w-full mt-9">
             {
-              loading ? (
+              !loading ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
-                  {Array.from({ length: 3 }).map((_, idx) => (
+                  {Array.from({ length: skeletonCount }).map((_, idx) => (
                     <Skeleton
                       key={idx}
                       className="w-full h-52 sm:h-60 rounded-full"
-                      baseColor="#D1D5DB"      
+                      baseColor="#D1D5DB"
                       highlightColor="#E5E7EB"
                     />
                   ))}
