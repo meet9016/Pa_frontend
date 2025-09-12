@@ -255,7 +255,7 @@ const ProductDetails = () => {
                 </>
               )}
 
-              <div className=" rounded-xl border border-gray-200 p-0">
+              <div className=" rounded-xl border border-gray-200 mt-3 p-0">
                 {loading ? (
 
                   <div className="animate-pulse w-full h-40 bg-gray-300 rounded-xl"></div>
@@ -284,12 +284,13 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="w-full flex mt-3  flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="w-full flex mt-3 flex-row items-center justify-between gap-4">
                 {loading ? (
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
                   <>
-                    <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
+                    {/* Quantity Box */}
+                    <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-auto justify-between">
                       <button
                         onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
                         className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
@@ -305,7 +306,8 @@ const ProductDetails = () => {
                       </button>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row w-full gap-4">
+                    {/* Buttons */}
+                    <div className="flex flex-row w-full gap-4">
                       <button
                         className="flex-1 bg-[#251C4B] hover:bg-[#1a1335] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
                         onClick={() => addToCart()}
@@ -330,6 +332,7 @@ const ProductDetails = () => {
                   </>
                 )}
               </div>
+
 
 
 
