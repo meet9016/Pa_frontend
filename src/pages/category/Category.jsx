@@ -62,7 +62,7 @@ const Category = () => {
     <>
       {/* <PageMeta title="Category" description="This is Category Page" /> */}
       <div className="w-full max-w-[1300px] mx-auto px-4 py-2 flex flex-col items-center">
-        <div className="w-full mt-19">
+        <div className="w-full mt-10 sm:mt-19">
 
           {/* Breadcrumb */}
           {/* <div className="text-sm text-gray-500 mb-4 flex items-center gap-1">
@@ -80,8 +80,6 @@ const Category = () => {
           <div className="text-center mt-3 sm:mt-5 mb-3 sm:mb-8">
             <h2 className="inline-block relative text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">
               {categories_name}
-              {/* Optional underline */}
-              {/* <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-indigo-500 rounded-full"></span> */}
             </h2>
           </div>
 
