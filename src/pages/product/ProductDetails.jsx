@@ -195,7 +195,7 @@ const ProductDetails = () => {
               {/* Main Image - Right side */}
               <div className="overflow-hidden rounded-lg flex-1">
                 {loading ? (
-                  <div className="h-[200px] sm:h-[500px]">
+                  <div className="h-[280px] sm:h-[500px]">
                     <Skeleton
                       baseColor="#D1D5DB"
                       highlightColor="#E5E7EB"
@@ -255,40 +255,7 @@ const ProductDetails = () => {
                 </>
               )}
 
-
-
-              {/* SKU Details Section (instead of hr line) */}
-              {/* <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4">
-              <h3 className="text-lg font-bold text-gray-900 border-b border-gray-300 pb-2 mb-4">
-                Product Details
-              </h3>
-              <ul className="space-y-2 text-gray-700 text-sm">
-                <li className="flex">
-                  <span className="w-32 font-medium text-gray-900">SKU</span>
-                  <span className="text-gray-600">
-                    {singleProductData?.sku}
-                  </span>
-                </li>
-                <li className="flex">
-                  <span className="w-32 font-medium text-gray-900">
-                    Category
-                  </span>
-                  <span className="text-gray-600">
-                    {singleProductData?.category_name}
-                  </span>
-                </li>
-                <li className="flex">
-                  <span className="w-32 font-medium text-gray-900">
-                    Sub Category
-                  </span>
-                  <span className="text-gray-600">
-                    {singleProductData?.sub_category_name}
-                  </span>
-                </li>
-              </ul>
-            </div> */}
-
-              <div className="mt-6 rounded-xl border border-gray-200 p-0">
+              <div className=" rounded-xl border border-gray-200 p-0">
                 {loading ? (
 
                   <div className="animate-pulse w-full h-40 bg-gray-300 rounded-xl"></div>
@@ -317,7 +284,7 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="w-full flex mt-10 flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="w-full flex  flex-col sm:flex-row items-center justify-between gap-4">
                 {loading ? (
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
