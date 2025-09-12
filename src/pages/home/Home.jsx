@@ -229,7 +229,7 @@ const Home = () => {
                             onClick={() =>
                               navigate(`/category/${cat.categories_id}`)
                             }
-                            className="px-8 cursor-pointer py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
+                            className="w-40 sm:w-auto px-5 cursor-pointer py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
                           >
                             View Mores →
                           </button>
