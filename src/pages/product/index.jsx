@@ -55,7 +55,7 @@ const Product = () => {
   return (
     <>
       {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
-      <div className="w-full px-4 bg-[#EAEBEF] flex mt-[70px] sm:mt-[80px] justify-center">
+      <div className="w-full px-4 bg-[#EAEBEF] flex mt-[65px] sm:mt-[80px] justify-center">
         <div className="w-full max-w-[1300px] mt-2 md:mt-4 pb-6">
           <div className="w-full mt-0 mb-0 sm:mt-1 sm:mb-2 md:mb-12 flex justify-center">
             {loading ? (
