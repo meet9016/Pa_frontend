@@ -106,7 +106,7 @@ const Home = () => {
           )}
 
           {/* Top Banner */}
-          <div className="w-full mt-9 sm:mt-4 md:mt-1">
+          <div className="w-full mt-2 sm:mt-4 md:mt-9">
             {
               loading ? (
                 <Skeleton
@@ -150,7 +150,7 @@ const Home = () => {
           </div>
 
           {/* Three Category Cards */}
-          <div className="w-full mt-9">
+          <div className="w-full mt-4 sm:mt-9">
             {
               loading ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
@@ -202,7 +202,7 @@ const Home = () => {
             {
               loading ? (
                 Array.from({ length: 2 }).map((_, catIdx) => (
-                  <div key={catIdx} className="mb-9 flex flex-col w-full">
+                  <div key={catIdx} className="mb-4 sm:mb-1 flex flex-col w-full">
                     <Skeleton className="w-1/3 h-6 sm:h-8 mb-4" />
                     <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-4">
                       {Array.from({ length: 8 }).map((_, idx) => (
@@ -217,7 +217,7 @@ const Home = () => {
               ) : (
 
                 product?.all_categories?.map((cat) => (
-                  <div key={cat.categories_id} className="mb-9 flex flex-col">
+                  <div key={cat.categories_id} className="mb-4 sm:mb-9 flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
                         {cat.categories_name}
@@ -271,10 +271,6 @@ const Home = () => {
             }
 
           </div>
-
-
-
-
         </div>
       </div>
     </>
