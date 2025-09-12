@@ -126,7 +126,7 @@ const ProductDetails = () => {
   return (
     <>
       {/* <PageMeta title="ProductDetail" description="This is Product detail page" /> */}
-      <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[40px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
+      <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[50px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
         <div className="w-full mt-4 max-w-[1300px]">
           {/* Breadcrumb */}
           <div className="text-sm sm:text-base text-gray-500 mb-4 flex flex-wrap gap-1">
