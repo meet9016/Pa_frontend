@@ -284,45 +284,37 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="w-full flex mt-3 flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="w-full flex mt-3  flex-col sm:flex-row items-center justify-between gap-4">
                 {loading ? (
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
                   <>
-                    {/* Quantity Box */}
-                    <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-0 
-                      w-2/5 sm:w-auto justify-between">
+                    <div className="flex items-center border border-gray-300 bg-white rounded-lg py-2 px-4 w-full sm:w-auto justify-between">
                       <button
                         onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
-                        className="h-10 w-8 sm:w-10 flex items-center justify-center text-xl sm:text-2xl font-bold cursor-pointer"
+                        className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
                       >
                         -
                       </button>
-                      <span className="px-3 sm:px-6 text-lg sm:text-xl font-semibold">{count}</span>
+                      <span className="px-6 text-xl font-semibold">{count}</span>
                       <button
                         onClick={() => setCount((prev) => prev + 1)}
-                        className="h-10 w-8 sm:w-10 flex items-center justify-center text-xl sm:text-2xl font-bold cursor-pointer"
+                        className="h-10 w-10 flex items-center justify-center text-2xl font-bold cursor-pointer"
                       >
                         +
                       </button>
                     </div>
 
-                    {/* Buttons */}
                     <div className="flex flex-col sm:flex-row w-full gap-4">
-                      {/* Add to Cart */}
                       <button
-                        className="flex-1 sm:flex-none bg-[#251C4B] hover:bg-[#1a1335] text-white px-2 py-3 rounded-lg 
-                     flex items-center justify-center gap-3 text-base sm:text-lg 
-                     w-4/5 sm:w-auto"
+                        className="flex-1 bg-[#251C4B] hover:bg-[#1a1335] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
                         onClick={() => addToCart()}
                       >
-                        <i className="ri-shopping-cart-fill text-xl sm:text-2xl"></i> Add to Cart
+                        <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
                       </button>
 
-                      {/* Inquiry */}
                       <button
-                        className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg 
-                     flex items-center justify-center gap-3 text-base sm:text-lg"
+                        className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
                         onClick={() => {
                           if (!auth_token) {
                             localStorage.setItem("redirectAfterLogin", location.pathname);
@@ -332,13 +324,12 @@ const ProductDetails = () => {
                           setInquiryPopup(true);
                         }}
                       >
-                        <i className="ri-whatsapp-fill text-xl sm:text-2xl"></i> Inquiry
+                        <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
                       </button>
                     </div>
                   </>
                 )}
               </div>
-
 
 
 
