@@ -134,12 +134,14 @@ const Home = () => {
                           src={slide.image}
                           alt="Slider"
                           className="
-                w-full 
-                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
-                rounded-2xl 
-                object-cover
-              "
+    w-full
+    h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px]
+    rounded-2xl
+    object-contain sm:object-cover
+    bg-[#EAEBEF]
+  "
                         />
+
                       </a>
                     </SwiperSlide>
                   ))}
@@ -159,7 +161,7 @@ const Home = () => {
                   {Array.from({ length: skeletonCount }).map((_, idx) => (
                     <Skeleton
                       key={idx}
-                      className="w-full h-38 sm:h-60 rounded-full"
+                      className="w-full h-30 sm:h-60 rounded-full"
                       baseColor="#D1D5DB"
                       highlightColor="#E5E7EB"
                     />
