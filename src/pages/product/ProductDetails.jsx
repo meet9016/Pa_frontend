@@ -242,7 +242,7 @@ const ProductDetails = () => {
 
                   {/* Price, discount, etc. */}
                   <div className="flex items-center gap-2 sm:gap-5 flex-nowrap sm:flex-wrap">
-                    <span className="text-black text-xl sm:text-4xl font-bold">
+                    <span className="text-black text-2xl sm:text-4xl font-bold">
                       ₹{singleProductData?.price}
                     </span>
                     <span className="line-through text-red-500 text-sm sm:text-[21px] font-bold">
