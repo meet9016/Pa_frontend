@@ -106,7 +106,7 @@ const Home = () => {
           )}
 
           {/* Top Banner */}
-          <div className="w-full mt-2 sm:mt-4 md:mt-9">
+          <div className="w-full mt-4 sm:mt-4 md:mt-9">
             {
               loading ? (
                 <Skeleton
@@ -198,7 +198,7 @@ const Home = () => {
           </div>
 
           {/* All Categories with Subcategories */}
-          <div className="w-full mt-9">
+          <div className="w-full mt-4 sm:mt-6 md:mt-9">
             {
               loading ? (
                 Array.from({ length: 2 }).map((_, catIdx) => (
