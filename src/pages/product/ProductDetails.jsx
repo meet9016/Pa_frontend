@@ -334,16 +334,16 @@ const ProductDetails = () => {
 
 
               {/* Wishlist, Share */}
-              <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
-                {/* <div className="flex items-center gap-1 cursor-pointer">
+              {/* <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
+                <div className="flex items-center gap-1 cursor-pointer">
                                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
                                 Add to wishlist
-                            </div> */}
-                {/* <div className="flex items-center gap-1 cursor-pointer">
+                            </div>
+                <div className="flex items-center gap-1 cursor-pointer">
                 <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
                 Share this Product
-              </div> */}
               </div>
+              </div> */}
 
 
 
@@ -363,9 +363,10 @@ const ProductDetails = () => {
                       Sold By
                     </h2>
 
-                    <div className="flex flex-col sm:flex-row items-start gap-4 p-2 rounded-lg bg-white">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 rounded-lg bg-white">
+
                       {/* Logo */}
-                      <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2 mx-auto sm:mx-0">
+                      <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center rounded-md border shadow-md border-gray-200 bg-white p-2 mx-auto sm:mx-0 order-1">
                         <img
                           src={supplierData.business_logo}
                           alt="Shop Logo"
@@ -374,40 +375,44 @@ const ProductDetails = () => {
                       </div>
 
                       {/* Right Content */}
-                      <div className="flex flex-col flex-1 w-full">
-                        {/* Company + Button in one row */}
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                          <h4 className="text-lg sm:text-xl font-medium text-gray-900 truncate text-center sm:text-left">
+                      <div className="flex flex-col sm:flex-1 w-full items-center sm:items-start order-2">
+
+                        {/* Desktop: Company + Button in one row */}
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between w-full gap-2">
+                          <h4 className="text-lg sm:text-xl font-medium text-gray-900 truncate text-center sm:text-left order-1">
                             {supplierData.company_name}
                           </h4>
                           <button
                             onClick={handleViewShop}
                             className="px-5 py-1 cursor-pointer rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
-          text-white font-medium shadow-md hover:bg-[#1d163e] transition 
-          w-full sm:w-auto"
+                         text-white font-medium shadow-md hover:bg-[#1d163e] transition 
+                         w-full sm:w-auto mt-2 sm:mt-0 order-5 sm:order-2"
                           >
                             View Shop
                           </button>
                         </div>
 
-                        {/* Short Name */}
-                        <p className="text-sm sm:text-base font-medium text-black mt-1 text-center sm:text-left">
+                        {/* Full Name */}
+                        <p className="text-sm sm:text-base font-medium text-black mt-1 text-center sm:text-left order-3">
                           {supplierData.full_name} ({supplierData.chapter_short_name})
                         </p>
 
                         {/* Total Products */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-2 text-center sm:text-left">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-1 text-center sm:text-left order-4">
                           <h4 className="text-base sm:text-lg font-medium text-black">
                             {supplierData.total_products}
                           </h4>
                           <p className="text-sm sm:text-base font-medium">Products</p>
                         </div>
+
                       </div>
                     </div>
                   </div>
-
                 )}
               </div>
+
+
+
             </div>
           </div>
 
