@@ -194,9 +194,14 @@ const ProductDetails = () => {
 
               {/* Main Image - Right side */}
               <div className="overflow-hidden rounded-lg flex-1">
-                {loading ? (
-                  <Skeleton height={500} baseColor="#D1D5DB"
-                    highlightColor="#E5E7EB" />
+                {!loading ? (
+                  <Skeleton
+                    height={500} 
+                    baseColor="#D1D5DB"
+                    highlightColor="#E5E7EB"
+                    className="sm:h-[200px]"
+                  />
+
                 ) : (
                   <img
                     src={
