@@ -284,7 +284,7 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="w-full flex  flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="w-full flex mt-3  flex-col sm:flex-row items-center justify-between gap-4">
                 {loading ? (
                   <div className="animate-pulse w-full h-24 bg-gray-300 rounded-lg"></div>
                 ) : (
