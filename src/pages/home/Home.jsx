@@ -91,7 +91,7 @@ const Home = () => {
           {/* Top Banner */}
           <div className="w-full mt-9 sm:mt-4 md:mt-1">
             {
-              !loading ? (
+              loading ? (
                 <Skeleton
                   className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl"
                   baseColor="#D1D5DB"
@@ -137,7 +137,7 @@ const Home = () => {
           {/* Three Category Cards */}
           <div className="w-full mt-9">
             {
-              !loading ? (
+              loading ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
                   {Array.from({ length: 3 }).map((_, idx) => (
                     <Skeleton
