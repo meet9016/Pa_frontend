@@ -40,9 +40,10 @@ const ViewShop = () => {
 
     return (
         <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
-            <div className="w-full max-w-[1300px] mt-4 pb-5">
+            <div className="w-full max-w-[1300px] mt-2 sm:mt-4 pb-5">
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-stretch mt-[20px] gap-6 p-6 bg-white rounded-lg shadow-md flex-wrap">
+                <div className="flex flex-col sm:flex-row items-center sm:items-stretch mt-[20px] gap-6 p-6 bg-white rounded-lg shadow-md flex-wrap">
+
                     {/* Left: Image */}
                     <div className="w-32 h-32 flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 shadow-sm mx-auto sm:mx-0">
                         <img
@@ -62,59 +63,62 @@ const ViewShop = () => {
                             {supplierData.full_name} ({supplierData.chapter_short_name})
                         </p>
 
-                        <div className="flex items-center justify-center sm:justify-start gap-2">
+                        {/* Total Products */}
+                        <div className="flex flex-row justify-center sm:justify-start items-center gap-2">
                             <h4 className="text-lg sm:text-xl font-bold text-black">
                                 {supplierData.total_products}
                             </h4>
                             <p className="text-base sm:text-lg text-black font-bold">Products</p>
                         </div>
                     </div>
-                    {console.log(supplierData, "supplierData")}
+
                     {/* Social Icons */}
-                    <div className="flex justify-center sm:justify-start flex-wrap gap-4 mt-3 sm:mt-0">
-                        {supplierData?.website_link ?
-                            <a href={supplierData?.website_link}
+                    <div className="flex justify-center sm:justify-start flex-wrap gap-4 mt-4 sm:mt-0">
+                        {supplierData?.website_link && (
+                            <a
+                                href={supplierData?.website_link}
                                 target="_blank"
-                                className="text-gray-500 hover:text-[#25D366] transition transform hover:scale-110 text-2xl">
+                                className="text-gray-500 hover:text-[#25D366] transition transform hover:scale-110 text-2xl"
+                            >
                                 <i className="ri-global-line"></i>
                             </a>
-                            : ''
-                        }
-                        {supplierData?.facebook_link ?
-                            <a href={supplierData?.facebook_link}
+                        )}
+                        {supplierData?.facebook_link && (
+                            <a
+                                href={supplierData?.facebook_link}
                                 target="_blank"
-                                className="text-gray-500 hover:text-blue-600 transition transform hover:scale-110 text-2xl">
+                                className="text-gray-500 hover:text-blue-600 transition transform hover:scale-110 text-2xl"
+                            >
                                 <i className="ri-facebook-circle-line"></i>
                             </a>
-                            : ''
-                        }
-                        {supplierData?.instagram_link ?
-                            <a href={supplierData?.instagram_link}
+                        )}
+                        {supplierData?.instagram_link && (
+                            <a
+                                href={supplierData?.instagram_link}
                                 target="_blank"
-                                className="text-gray-500 hover:text-pink-500 transition transform hover:scale-110 text-2xl">
+                                className="text-gray-500 hover:text-pink-500 transition transform hover:scale-110 text-2xl"
+                            >
                                 <i className="ri-instagram-line"></i>
                             </a>
-                            : ''
-                        }
-                        {
-                            supplierData?.youtube_link ?
-                                <a
-                                    href={supplierData?.youtube_link}
-                                    target="_blank"
-                                    className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-2xl">
-                                    <i className="ri-youtube-line"></i>
-                                </a>
-                                : ''
-                        }
-                        {
-                            supplierData?.linkdin_link ?
-                                <a href={supplierData?.linkdin_link}
-                                    target="_blank"
-                                    className="text-gray-500 hover:text-[#0A66C2] transition transform hover:scale-110 text-2xl">
-                                    <i className="ri-linkedin-line"></i>
-                                </a>
-                                : ''
-                        }
+                        )}
+                        {supplierData?.youtube_link && (
+                            <a
+                                href={supplierData?.youtube_link}
+                                target="_blank"
+                                className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-2xl"
+                            >
+                                <i className="ri-youtube-line"></i>
+                            </a>
+                        )}
+                        {supplierData?.linkdin_link && (
+                            <a
+                                href={supplierData?.linkdin_link}
+                                target="_blank"
+                                className="text-gray-500 hover:text-[#0A66C2] transition transform hover:scale-110 text-2xl"
+                            >
+                                <i className="ri-linkedin-line"></i>
+                            </a>
+                        )}
                     </div>
                 </div>
 
