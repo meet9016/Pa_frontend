@@ -159,7 +159,7 @@ const Home = () => {
                   {Array.from({ length: skeletonCount }).map((_, idx) => (
                     <Skeleton
                       key={idx}
-                      className="w-full h-52 sm:h-60 rounded-full"
+                      className="w-full h-38 sm:h-60 rounded-full"
                       baseColor="#D1D5DB"
                       highlightColor="#E5E7EB"
                     />
