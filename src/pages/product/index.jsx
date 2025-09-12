@@ -57,7 +57,7 @@ const Product = () => {
       {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
       <div className="w-full px-4 bg-[#EAEBEF] flex mt-[80px] justify-center">
         <div className="w-full max-w-[1300px] mt-4 pb-5">
-          <div className="w-full mb-0 sm:mb-6 md:mb-12 flex justify-center">
+          <div className="w-full mb-0 sm:mb-12 flex justify-center">
             {loading ? (
               <Skeleton
                 height={70}
@@ -71,7 +71,7 @@ const Product = () => {
                 <h2 className="inline-block relative text-lg sm:text-3xl font-bold text-gray-900 tracking-tight">
                   {name?.data?.categories_name}
                 </h2>
-                <p className="mt-0 sm:mt-2 text-gray-500 text-sm sm:text-lg">
+                <p className="mt-1 sm:mt-2 text-gray-500 text-sm sm:text-lg">
                   Explore our latest collection in
                   <span className="text-black font-semibold">
                     {" "}
