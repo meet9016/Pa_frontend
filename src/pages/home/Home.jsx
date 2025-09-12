@@ -130,7 +130,7 @@ const Home = () => {
                   {product?.slider?.map((slide) => (
                     <SwiperSlide key={slide.slider_id}>
                       <a href="#" rel="noopener noreferrer">
-                        <img
+                        {/* <img
                           src={slide.image}
                           alt="Slider"
                           className="
@@ -139,6 +139,18 @@ const Home = () => {
               rounded-md sm:rounded-2xl
                 object-cover
               "
+                        /> */}
+                        <img
+                          src={slide.image}
+                          alt="Slider"
+                          className="
+    w-full
+    h-auto                  /* Mobile: apni natural height me full image */
+    sm:h-[300px] md:h-[400px] lg:h-[500px]  
+    object-contain sm:object-cover           
+    rounded-md sm:rounded-2xl
+    mx-auto
+  "
                         />
 
 
