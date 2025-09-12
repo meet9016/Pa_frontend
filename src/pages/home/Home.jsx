@@ -136,7 +136,7 @@ const Home = () => {
                           className="
                 w-full 
                 h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
-              rounded-md sm:rounded-2xl
+              rounded-md sm:rounded-2xl 
                 object-cover
               "
                         /> */}
@@ -145,10 +145,10 @@ const Home = () => {
                           alt="Slider"
                           className="
     w-full
-    h-auto                  /* Mobile: apni natural height me full image */
+    h-auto 
     sm:h-[300px] md:h-[400px] lg:h-[500px]  
     object-contain sm:object-cover           
-    rounded-md sm:rounded-2xl
+    rounded-sm sm:rounded-2xl
     mx-auto
   "
                         />
