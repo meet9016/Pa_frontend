@@ -136,7 +136,7 @@ const Home = () => {
                           className="
                 w-full 
                 h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px] 
-                rounded-2xl 
+              rounded-md sm:rounded-2xl
                 object-cover
               "
                         />
@@ -187,7 +187,7 @@ const Home = () => {
                         <img
                           src={banners.image}
                           alt="banner"
-                          className="w-full rounded-2xl object-cover"
+                          className="w-full rounded-md sm:rounded-2xl object-cover"
                         />
                       </a>
                     </SwiperSlide>
