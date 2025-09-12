@@ -218,7 +218,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <div className=" sm:mt-4 px-2 sm:px-4 lg:px-0 space-y-2 sm:space-y-5">
+            <div className=" sm:mt-4 px-2 mt-0 sm:px-4 lg:px-0 space-y-2 sm:space-y-5">
               {loading ? (
                 <div className="w-full">
                   <Skeleton
