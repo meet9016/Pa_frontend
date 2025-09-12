@@ -241,17 +241,18 @@ const ProductDetails = () => {
                   </p>
 
                   {/* Price, discount, etc. */}
-                  <div className="flex items-center gap-5 flex-wrap">
-                    <span className="text-black text-3xl sm:text-4xl font-bold">
+                  <div className="flex items-center gap-2 sm:gap-5 flex-nowrap sm:flex-wrap">
+                    <span className="text-black text-xl sm:text-4xl font-bold">
                       ₹{singleProductData?.price}
                     </span>
-                    <span className="line-through text-red-500 text-base sm:text-[21px] font-bold">
+                    <span className="line-through text-red-500 text-sm sm:text-[21px] font-bold">
                       ₹{singleProductData?.cancle_price}
                     </span>
-                    <span className="inline-block bg-gradient-to-r from-green-500 to-green-700 text-white text-sm sm:text-[21px] font-bold px-4 py-1 rounded-lg shadow-md">
+                    <span className="inline-block bg-gradient-to-r from-green-500 to-green-700 text-white text-xs sm:text-[21px] font-bold px-2 sm:px-4 py-1 rounded-lg shadow-md">
                       {singleProductData?.off_per}% OFF
                     </span>
                   </div>
+
                 </>
               )}
 
