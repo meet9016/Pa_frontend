@@ -62,7 +62,7 @@ const Category = () => {
     <>
       {/* <PageMeta title="Category" description="This is Category Page" /> */}
       <div className="w-full max-w-[1300px] mx-auto px-4 py-2 flex flex-col items-center">
-        <div className="w-full mt-16 sm:mt-19">
+        <div className="w-full mt-15 sm:mt-19">
 
           {/* Breadcrumb */}
           {/* <div className="text-sm text-gray-500 mb-4 flex items-center gap-1">
@@ -111,7 +111,7 @@ const Category = () => {
 
           {/* Sub-category Grid */}
           {!loading && !error && sub_categories.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-6 mb-12">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 bg-white rounded-2xl p-6 mb-8 sm:mb-12">
               {sub_categories.map((sub, i) => (
                 <div
                   key={String(sub?.sub_category_id ?? i)}
