@@ -472,9 +472,18 @@ const Login = ({ onClose }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        let newValue = value;
+
+
+        if (name === 'mobile') {
+            newValue = value.replace(/[^0-9]/g, "");
+            if (newValue.length > 10) {
+                newValue = newValue.slice(0, 10);
+            }
+        }
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: newValue,
         }));
         setError((prev) => ({
             ...prev,
