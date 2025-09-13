@@ -29,6 +29,8 @@ const Header = () => {
     const [supplierButton, setSupplierButton] = useState(null);
     const authToken = localStorage.getItem("auth_token");
 
+    console.log(cardList, 'cardList');
+
 
     const fetchSuggestions = async (searchText) => {
         if (!searchText) {
@@ -56,6 +58,7 @@ const Header = () => {
         navigate(`/search/${query}`)
         setShowDropdown(false)
     };
+
     const handleIncrement = async (cart_id, p_id) => {
         const newQuantity = (counts[cart_id] || 1) + 1;
 
@@ -82,66 +85,39 @@ const Header = () => {
     };
 
 
-    // const handleDecrement = async (cart_id, p_id) => {
-    //     const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
-
-    //     setCounts((prev) => ({
-    //         ...prev,
-    //         [cart_id]: newQuantity,
-    //     }));
-
-    //     try {
-    //         const formdata = new FormData();
-    //         formdata.append("product_id", p_id);
-    //         formdata.append("quantity", newQuantity);
-    //         formdata.append("type", 2);
-
-    //         const res = await api.post(endPointApi.postAddToCart, formdata);
-
-    //         if (res.data.status === 200) {
-    //             // toast.success(res?.data?.message);
-    //         }
-    //     } catch (err) {
-    //         console.log("Error Fetch data", err);
-    //     }
-    // };
-
-
-
     const handleDecrement = async (cart_id, p_id) => {
-        const currentQty = counts[cart_id] ?? 1;
+        const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
 
-        if (currentQty <= 1) {
+        setCounts((prev) => ({
+            ...prev,
+            [cart_id]: newQuantity,
+        }));
 
-            setCardList((prev) => prev.filter((item) => item.cart_id !== cart_id));
+        try {
+            const formdata = new FormData();
+            formdata.append("product_id", p_id);
+            formdata.append("quantity", newQuantity);
+            formdata.append("type", 2);
 
-            try {
-                const formdata = new FormData();
-                formdata.append("product_id", p_id);
-                formdata.append("quantity", 0);
-                formdata.append("type", 2);
+            const res = await api.post(endPointApi.postAddToCart, formdata);
 
-                await api.post(endPointApi.postAddToCart, formdata);
-            } catch (err) {
-                console.log("Error removing item", err);
+            if (res.data.status === 200) {
+                // toast.success(res?.data?.message);
             }
-        } else {
-            // Decrease quantity
-            const newQuantity = currentQty - 1;
-            setCounts((prev) => ({ ...prev, [cart_id]: newQuantity }));
-
-            try {
-                const formdata = new FormData();
-                formdata.append("product_id", p_id);
-                formdata.append("quantity", newQuantity);
-                formdata.append("type", 2);
-
-                await api.post(endPointApi.postAddToCart, formdata);
-            } catch (err) {
-                console.log("Error updating item", err);
-            }
+        } catch (err) {
+            console.log("Error Fetch data", err);
         }
     };
+
+
+
+
+
+
+
+
+
+
 
 
     const handleAddcart = async () => {
@@ -600,7 +576,7 @@ const Header = () => {
                                                 {/* Quantity Controls */}
                                                 <div className="flex items-center bg-green-600 text-white rounded">
                                                     <button
-                                                        className="px-2 py-1"
+                                                        className="px-2 py-1 cursor-pointer"
                                                         onClick={() => handleDecrement(item.cart_id, item.product_id)}
                                                     >
                                                         -
@@ -609,7 +585,7 @@ const Header = () => {
                                                         {counts[item.cart_id] ?? item.quantity ?? 1}
                                                     </span>
                                                     <button
-                                                        className="px-2 py-1"
+                                                        className="px-2 py-1 cursor-pointer"
                                                         onClick={() => handleIncrement(item.cart_id, item.product_id)}
                                                     >
                                                         +
