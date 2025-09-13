@@ -82,29 +82,67 @@ const Header = () => {
     };
 
 
+    // const handleDecrement = async (cart_id, p_id) => {
+    //     const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+
+    //     setCounts((prev) => ({
+    //         ...prev,
+    //         [cart_id]: newQuantity,
+    //     }));
+
+    //     try {
+    //         const formdata = new FormData();
+    //         formdata.append("product_id", p_id);
+    //         formdata.append("quantity", newQuantity);
+    //         formdata.append("type", 2);
+
+    //         const res = await api.post(endPointApi.postAddToCart, formdata);
+
+    //         if (res.data.status === 200) {
+    //             // toast.success(res?.data?.message);
+    //         }
+    //     } catch (err) {
+    //         console.log("Error Fetch data", err);
+    //     }
+    // };
+
+
+
     const handleDecrement = async (cart_id, p_id) => {
-        const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+        const currentQty = counts[cart_id] ?? 1;
 
-        setCounts((prev) => ({
-            ...prev,
-            [cart_id]: newQuantity,
-        }));
+        if (currentQty <= 1) {
 
-        try {
-            const formdata = new FormData();
-            formdata.append("product_id", p_id);
-            formdata.append("quantity", newQuantity);
-            formdata.append("type", 2);
+            setCardList((prev) => prev.filter((item) => item.cart_id !== cart_id));
 
-            const res = await api.post(endPointApi.postAddToCart, formdata);
+            try {
+                const formdata = new FormData();
+                formdata.append("product_id", p_id);
+                formdata.append("quantity", 0);
+                formdata.append("type", 2);
 
-            if (res.data.status === 200) {
-                // toast.success(res?.data?.message);
+                await api.post(endPointApi.postAddToCart, formdata);
+            } catch (err) {
+                console.log("Error removing item", err);
             }
-        } catch (err) {
-            console.log("Error Fetch data", err);
+        } else {
+            // Decrease quantity
+            const newQuantity = currentQty - 1;
+            setCounts((prev) => ({ ...prev, [cart_id]: newQuantity }));
+
+            try {
+                const formdata = new FormData();
+                formdata.append("product_id", p_id);
+                formdata.append("quantity", newQuantity);
+                formdata.append("type", 2);
+
+                await api.post(endPointApi.postAddToCart, formdata);
+            } catch (err) {
+                console.log("Error updating item", err);
+            }
         }
     };
+
 
     const handleAddcart = async () => {
         if (!alreadyLogin) {
@@ -591,6 +629,11 @@ const Header = () => {
                                 )}
                             </div>
                         </div>
+
+
+
+
+
 
                         {/* Footer */}
                         {cardList.length !== 0 && (

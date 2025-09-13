@@ -690,7 +690,7 @@ const Login = ({ onClose }) => {
                                 {/* Mobile */}
                                 <div>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="mobile"
                                         placeholder="Phone Number"
                                         className="w-full rounded-md bg-white px-3 py-3 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
@@ -723,7 +723,6 @@ const Login = ({ onClose }) => {
                                                     type="text"
                                                     inputMode="numeric"
                                                     pattern="[0-9]"
-                                                    autoComplete="cc-number"
                                                     maxLength="6"
 
                                                     style={{ width: "35px", height: "40px" }}
