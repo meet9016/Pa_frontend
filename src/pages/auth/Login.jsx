@@ -681,9 +681,8 @@ const Login = ({ onClose }) => {
                                 {/* Mobile */}
                                 <div>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="mobile"
-                                        pattern="[0-9]*"
                                         placeholder="Phone Number"
                                         className="w-full rounded-md bg-white px-3 py-3 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
                                         value={formData.mobile}
@@ -717,8 +716,8 @@ const Login = ({ onClose }) => {
                                                     pattern="[0-9]"
                                                     autoComplete="cc-number"
                                                     maxLength="6"
-                                                
-                                                    style={{ width: "38px", height: "40px" }}
+
+                                                    style={{ width: "35px", height: "40px" }}
                                                     className="border border-gray-300 rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#251C4B] transition"
                                                 />
                                             )}
