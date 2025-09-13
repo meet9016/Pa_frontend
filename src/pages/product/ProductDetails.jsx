@@ -80,10 +80,10 @@ const ProductDetails = () => {
       formdata.append("quantity", count);
       formdata.append("type", 1);
       console.log("res0000111");
-                                                                           
-      api.post(endPointApi.postAddToCart, formdata).then((res) => {   
-        console.log("res0000", res);                                 
- 
+
+      api.post(endPointApi.postAddToCart, formdata).then((res) => {
+        console.log("res0000", res);
+
         if (res.data.status == 200) {
           toast.success(res?.data?.message);
         }
@@ -424,7 +424,8 @@ const ProductDetails = () => {
 
 
           {/* Description Section */}
-          <div className="mt-4 sm:mt-12">
+          <div className={`mt-4 sm:mt-12 ${singleProductData?.related_products?.length === 0 ? "sm:pb-15 pb-5" : ""
+            }`}>
             {loading ? (
               <Skeleton height={220} baseColor="#D1D5DB"
                 highlightColor="#E5E7EB"
@@ -512,74 +513,72 @@ const ProductDetails = () => {
             )}
           </div>
 
+          {singleProductData?.related_products?.length > 0 && (
+            <div className="mt-4 sm:mt-12 w-full">
+              <div className="flex items-center justify-center pb-5 mb-5">
+                <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#251C4B] relative">
+                  Related Products
+                  <span className="absolute left-1/2 -bottom-2 w-16 sm:w-20 h-0.5 bg-gradient-to-r from-[#251C4B] to-[#5D4D9E] rounded transform -translate-x-1/2"></span>
+                </h2>
+              </div>
+
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8  hover: cursor-pointer">
+                {singleProductData?.related_products?.length > 0 && (
+                  singleProductData.related_products.map((item, index) => (
+                    <div
+                      key={index}
+                      data-aos="fade-up"
+                      className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
+                    >
+
+                      <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
+                        <div
+                          className="w-full h-full relative group preserve-3d"
+                          onClick={() => {
+                            navigate(`/single-product/${item.product_id}`);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
+                        >
+
+                          <div className="absolute inset-0 backface-hidden transform  group-hover:scale-105 transition-all duration-500">
+                            <img
+                              src={
+                                item.product_image && item.product_image !== ""
+                                  ? item.product_image
+                                  : "/src/Image/No image.jpg"
+                              }
+                              alt={item.name}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
 
 
 
-          <div className="mt-4 sm:mt-12 w-full">
-            <div className="flex items-center justify-center pb-5 mb-5">
-              <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#251C4B] relative">
-                Related Products
-                <span className="absolute left-1/2 -bottom-2 w-16 sm:w-20 h-0.5 bg-gradient-to-r from-[#251C4B] to-[#5D4D9E] rounded transform -translate-x-1/2"></span>
-              </h2>
-            </div>
-
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8  hover: cursor-pointer">
-              {singleProductData?.related_products?.length > 0 && (
-                singleProductData.related_products.map((item, index) => (
-                  <div
-                    key={index}
-                    data-aos="fade-up"
-                    className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
-                  >
-
-                    <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
-                      <div
-                        className="w-full h-full relative group preserve-3d"
-                        onClick={() => {
-                          navigate(`/single-product/${item.product_id}`);
-                          window.scrollTo({ top: 0, behavior: "smooth" });
-                        }}
-                      >
-
-                        <div className="absolute inset-0 backface-hidden transform  group-hover:scale-105 transition-all duration-500">
-                          <img
-                            src={
-                              item.product_image && item.product_image !== ""
-                                ? item.product_image
-                                : "/src/Image/No image.jpg"
-                            }
-                            alt={item.name}
-                            className="w-full h-full object-contain"
-                          />
                         </div>
-
-
-
                       </div>
-                    </div>
 
-                    <h4 className="font-semibold text-sm sm:text-base text-gray-800 line-clamp-1">
-                      {item.product_name}
-                    </h4>
+                      <h4 className="font-semibold text-sm sm:text-base text-gray-800 line-clamp-1">
+                        {item.product_name}
+                      </h4>
 
-                    <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-2">
-                      {item.description}
-                    </p>
+                      <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-2">
+                        {item.description}
+                      </p>
 
-                    <div className="flex items-center gap-4 mt-3">
-                      <span className="text-lg font-bold text-black">
-                        ₹{item.price}
-                      </span>
-                      {item.cancle_price && (
-                        <span className="text-sm font-bold text-red-500 line-through">
-                          ₹{item.cancle_price}
+                      <div className="flex items-center gap-4 mt-3">
+                        <span className="text-lg font-bold text-black">
+                          ₹{item.price}
                         </span>
-                      )}
-                    </div>
+                        {item.cancle_price && (
+                          <span className="text-sm font-bold text-red-500 line-through">
+                            ₹{item.cancle_price}
+                          </span>
+                        )}
+                      </div>
 
 
-                    <button
-                      className="
+                      <button
+                        className="
         opacity-100             
         sm:opacity-50            
         sm:group-hover:opacity-100 
@@ -589,14 +588,16 @@ const ProductDetails = () => {
         text-white rounded-lg 
         transition text-md
       "
-                    >
-                      View Product
-                    </button>
-                  </div>
-                ))
-              )}
+                      >
+                        View Product
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
-          </div>
+          )}
+
         </div>
 
 
