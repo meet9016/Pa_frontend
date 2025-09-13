@@ -29,8 +29,6 @@ const Header = () => {
     const [supplierButton, setSupplierButton] = useState(null);
     const authToken = localStorage.getItem("auth_token");
 
-    console.log(cardList, 'cardList');
-
 
     const fetchSuggestions = async (searchText) => {
         if (!searchText) {
@@ -59,65 +57,130 @@ const Header = () => {
         setShowDropdown(false)
     };
 
+    // const handleIncrement = async (cart_id, p_id) => {
+    //     const newQuantity = (counts[cart_id] || 1) + 1;
+
+    //     // UI update
+    //     setCounts((prev) => ({
+    //         ...prev,
+    //         [cart_id]: newQuantity,
+    //     }));
+
+    //     try {
+    //         const formdata = new FormData();
+    //         formdata.append("product_id", p_id);
+    //         formdata.append("quantity", newQuantity);
+    //         formdata.append("type", 2);
+
+    //         const res = await api.post(endPointApi.postAddToCart, formdata);
+
+    //         if (res.data.status === 200) {
+    //             // toast.success(res?.data?.message);
+    //         }
+    //     } catch (err) {
+    //         console.log("Error Fetch data", err);
+    //     }
+    // };
+
+
+    // const handleDecrement = async (cart_id, p_id) => {
+    //     const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+
+    //     setCounts((prev) => ({
+    //         ...prev,
+    //         [cart_id]: newQuantity,
+    //     }));
+
+    //     try {
+    //         const formdata = new FormData();
+    //         formdata.append("product_id", p_id);
+    //         formdata.append("quantity", newQuantity);
+    //         formdata.append("type", 2);
+
+    //         const res = await api.post(endPointApi.postAddToCart, formdata);
+
+    //         if (res.data.status === 200) {
+    //             // toast.success(res?.data?.message);
+    //         }
+    //     } catch (err) {
+    //         console.log("Error Fetch data", err);
+    //     }
+    // };
+
+
+
+
+
     const handleIncrement = async (cart_id, p_id) => {
-        const newQuantity = (counts[cart_id] || 1) + 1;
+        const item = cardList.find((i) => i.cart_id === cart_id);
+        if (!item) return;
+
+        const currentQty = Number(item.quantity) || 1;
+        const newQuantity = currentQty + 1;
+
+        console.log(newQuantity, 'currentQty')
 
         // UI update
-        setCounts((prev) => ({
-            ...prev,
-            [cart_id]: newQuantity,
-        }));
+        setCardList((prev) =>
+            prev.map((i) =>
+                i.cart_id === cart_id ? { ...i, quantity: newQuantity } : i
+            )
+        );
 
         try {
             const formdata = new FormData();
             formdata.append("product_id", p_id);
-            formdata.append("quantity", newQuantity);
+            formdata.append("quantity", newQuantity.toString());
             formdata.append("type", 2);
 
-            const res = await api.post(endPointApi.postAddToCart, formdata);
-
-            if (res.data.status === 200) {
-                // toast.success(res?.data?.message);
-            }
+            await api.post(endPointApi.postAddToCart, formdata);
         } catch (err) {
-            console.log("Error Fetch data", err);
+            console.log("Error incrementing", err);
         }
     };
 
 
     const handleDecrement = async (cart_id, p_id) => {
-        const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+        const item = cardList.find((i) => i.cart_id === cart_id);
+        if (!item) return;
 
-        setCounts((prev) => ({
-            ...prev,
-            [cart_id]: newQuantity,
-        }));
+        const currentQty = Number(item.quantity) || 1;
+        const newQuantity = currentQty - 1;
 
-        try {
-            const formdata = new FormData();
-            formdata.append("product_id", p_id);
-            formdata.append("quantity", newQuantity);
-            formdata.append("type", 2);
+        if (newQuantity <= 0) {
+            // Remove item
+            setCardList((prev) => prev.filter((i) => i.cart_id !== cart_id));
 
-            const res = await api.post(endPointApi.postAddToCart, formdata);
+            try {
+                const formdata = new FormData();
+                formdata.append("product_id", p_id);
+                formdata.append("quantity", "0");
+                formdata.append("type", 3);
 
-            if (res.data.status === 200) {
-                // toast.success(res?.data?.message);
+                await api.post(endPointApi.postAddToCart, formdata);
+            } catch (err) {
+                console.log("Error removing item", err);
             }
-        } catch (err) {
-            console.log("Error Fetch data", err);
+        } else {
+            // Update item
+            setCardList((prev) =>
+                prev.map((i) =>
+                    i.cart_id === cart_id ? { ...i, quantity: newQuantity } : i
+                )
+            );
+
+            try {
+                const formdata = new FormData();
+                formdata.append("product_id", p_id);
+                formdata.append("quantity", newQuantity.toString());
+                formdata.append("type", 2);
+
+                await api.post(endPointApi.postAddToCart, formdata);
+            } catch (err) {
+                console.log("Error decrementing", err);
+            }
         }
     };
-
-
-
-
-
-
-
-
-
-
 
 
     const handleAddcart = async () => {
@@ -128,7 +191,6 @@ const Header = () => {
         setShowCart(true)
         try {
             const res = await api.post(`${endPointApi.postCartList}`, {});
-
             if (res?.data && res?.data?.data) {
                 setCardList(res?.data?.data?.cart_list || [])
                 setTotalAmount(res?.data?.data?.cart_total)
@@ -582,7 +644,8 @@ const Header = () => {
                                                         -
                                                     </button>
                                                     <span className="px-2 text-lg font-semibold">
-                                                        {counts[item.cart_id] ?? item.quantity ?? 1}
+                                                        {/* {counts[item.cart_id] ?? item.quantity ?? 1} */}
+                                                        {Number(item.quantity)}
                                                     </span>
                                                     <button
                                                         className="px-2 py-1 cursor-pointer"
