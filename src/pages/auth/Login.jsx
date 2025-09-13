@@ -711,6 +711,9 @@ const Login = ({ onClose }) => {
                                             renderInput={(props) => (
                                                 <input
                                                     {...props}
+                                                    inputMode="numeric"
+                                                    pattern="[0-9]*"
+                                                    type="text"
                                                     style={{ width: "35px", height: "40px" }}
                                                     className="border border-gray-300 rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#251C4B] transition"
                                                 />
@@ -720,6 +723,7 @@ const Login = ({ onClose }) => {
                                             <p className="text-red-500 text-sm">{error.otp}</p>
                                         )}
                                     </div>
+
                                 )}
 
                                 {

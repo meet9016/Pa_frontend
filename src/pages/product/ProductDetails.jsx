@@ -80,10 +80,10 @@ const ProductDetails = () => {
       formdata.append("quantity", count);
       formdata.append("type", 1);
       console.log("res0000111");
-
-      api.post(endPointApi.postAddToCart, formdata).then((res) => {
-        console.log("res0000", res);
-
+                                                                           
+      api.post(endPointApi.postAddToCart, formdata).then((res) => {   
+        console.log("res0000", res);                                 
+ 
         if (res.data.status == 200) {
           toast.success(res?.data?.message);
         }
@@ -390,7 +390,6 @@ const ProductDetails = () => {
                         </p>
 
                         {/* Total Products */}
-                        {/* Total Products */}
                         <div className="flex flex-row items-center justify-center sm:justify-start gap-2 mt-1">
                           <h4 className="text-base sm:text-lg font-medium text-black">
                             {supplierData.total_products}
@@ -427,7 +426,6 @@ const ProductDetails = () => {
           {/* Description Section */}
           <div className="mt-4 sm:mt-12">
             {loading ? (
-              // Pure box ke jagah sirf skeleton dikhayega
               <Skeleton height={220} baseColor="#D1D5DB"
                 highlightColor="#E5E7EB"
                 borderRadius={12} />
