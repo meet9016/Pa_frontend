@@ -683,6 +683,7 @@ const Login = ({ onClose }) => {
                                     <input
                                         type="text"
                                         name="mobile"
+                                        pattern="[0-9]*"
                                         placeholder="Phone Number"
                                         className="w-full rounded-md bg-white px-3 py-3 outline-none focus:ring-2 ring-[#251C4B]/30 placeholder-black"
                                         value={formData.mobile}
