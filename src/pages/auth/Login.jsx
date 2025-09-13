@@ -699,14 +699,14 @@ const Login = ({ onClose }) => {
 
                                 {/* OTP */}
                                 {otpSent && !newSupplier && (
-                                    <div className="flex justify-center gap-10">
+                                    <div className="flex justify-center gap-12">
                                         <OtpInput
                                             value={formData.otp}
                                             onChange={(otp) =>
                                                 setFormData((prev) => ({ ...prev, otp }))
                                             }
                                             numInputs={6}
-                                            renderSeparator={<span className="text-white">-</span>}
+                                            renderSeparator={<span className="text-[#f3f4f6]">-</span>}
                                             shouldAutoFocus
                                             renderInput={(props) => (
                                                 <input
@@ -716,8 +716,8 @@ const Login = ({ onClose }) => {
                                                     pattern="[0-9]"
                                                     autoComplete="cc-number"
                                                     maxLength="6"
-                                                    placeholder="000000"
-                                                    style={{ width: "35px", height: "40px" }}
+                                                
+                                                    style={{ width: "38px", height: "40px" }}
                                                     className="border border-gray-300 rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#251C4B] transition"
                                                 />
                                             )}
