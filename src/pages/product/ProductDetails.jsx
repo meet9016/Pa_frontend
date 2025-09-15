@@ -82,13 +82,12 @@ const ProductDetails = () => {
       console.log("res0000111");
 
       api.post(endPointApi.postAddToCart, formdata).then((res) => {
-        console.log("res0000", res);
-
         if (res.data.status == 200) {
           toast.success(res?.data?.message);
+        } else {
+          toast.error(res?.data?.message)
         }
       });
-      // if (res.sta) console.log("res", res);
     } catch (err) {
       console.log("Error Fetch data", err);
     } finally {
