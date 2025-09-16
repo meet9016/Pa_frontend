@@ -340,7 +340,7 @@ const Header = () => {
                             <i className="ri-search-line text-black text-lg mr-2"></i>
                             <input
                                 type="text"
-                                placeholder='Search "grocery"'
+                                placeholder='Search "Any Product"'
                                 className="bg-transparent outline-none border-none focus:ring-0 h-[28px] flex-1 text-[14px] placeholder-gray-500"
                                 value={query}
                                 onChange={(e) => {
@@ -823,7 +823,7 @@ const Header = () => {
                             {/* Input */}
                             <input
                                 type="text"
-                                placeholder='Search "grocery"'
+                                placeholder='Search "Any Product"'
                                 className="bg-transparent outline-none border-none focus:ring-0 flex-1 text-sm placeholder-gray-500"
                                 value={query}
                                 onChange={(e) => {
