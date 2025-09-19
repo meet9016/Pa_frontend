@@ -142,7 +142,7 @@ const ViewShop = () => {
                                     <img
                                         src={item.product_image || "/src/Image/No image.jpg"}
                                         alt={item.product_name}
-                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500 bg-white p-3 rounded-xl"
+                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500 bg-white p-3 rounded-sm"
                                     />
                                 </div>
 
