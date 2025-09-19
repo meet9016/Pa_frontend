@@ -91,7 +91,7 @@ const Search = () => {
                                                 : "/src/Image/No image.jpg"
                                         }
                                         alt={item.name}
-                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500"
+                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500 bg-white p-3 rounded-sm"
                                     />
                                 </div>
 

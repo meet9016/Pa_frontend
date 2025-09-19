@@ -543,7 +543,7 @@ const ProductDetails = () => {
                                   : "/src/Image/No image.jpg"
                               }
                               alt={item.name}
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-contain bg-white p-3 rounded-sm"
                             />
                           </div>
 

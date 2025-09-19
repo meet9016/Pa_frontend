@@ -124,7 +124,7 @@ const Category = () => {
                     <img
                       src={sub.image}
                       alt={sub.sub_category_name}
-                      className="w-[120px] h-[120px] object-contain"
+                      className="w-[120px] h-[120px] object-contain bg-white p-3 rounded-sm"
                       loading={i < 6 ? "eager" : "lazy"}
                     />
                   </div>
