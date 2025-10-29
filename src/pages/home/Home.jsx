@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import "remixicon/fonts/remixicon.css";
 import { useNavigate } from "react-router";
 import Header from "../../component/Header";
@@ -14,6 +14,7 @@ import Login from "../auth/Login";
 import Aos from "aos";
 // import PageMeta from "../utils.jsx/PageMeta";
 import Skeleton from "react-loading-skeleton";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
 
@@ -24,6 +25,10 @@ const Home = () => {
 
   const [showLogin, setShowLogin] = useState(false)
   const [skeletonCount, setSkeletonCount] = useState(2);
+  const [meta, setMeta] = useState({
+    title: "Loading...",
+    description: "Please wait while we fetch data...",
+  });
 
   const getProduct = async () => {
     try {
@@ -32,12 +37,14 @@ const Home = () => {
         const res = await api.post(endPointApi.postHome, {});
         if (res.data && res.data.data) {
           setProduct(res.data.data || []);
+          setMeta(res.data.data.meta_arr || []);
         }
       })
     } catch (err) {
       console.log("Error Fetch data", err);
     }
   };
+
   useEffect(() => {
     Aos.init({
       duration: 600,
@@ -80,6 +87,22 @@ const Home = () => {
   return (
     <>
       <Header />
+      <Helmet>
+        <title>{meta?.title}</title>
+        <meta
+          name="description"
+          content={meta?.description}
+        ></meta>
+        <meta
+          name="keywords"
+          content={meta?.keywords}
+        ></meta>
+        <meta property="og:image" content={meta?.og_img}></meta>
+         <meta property="og:title" content={meta?.title}></meta>
+        <meta property="og:description"
+          content={meta?.description}></meta>
+      </Helmet>
+
       {/* <PageMeta title="Home" description="This is the Dashboard page" /> */}
       <div className="w-full pt-[60px] bg-[#EAEBEF] sm:pt-[80px] md:pt-[100px]">
         {/* Main Container with fixed width */}

@@ -15,7 +15,7 @@ import TermsCondition from "../home/TermsCondition";
 import MyProfile from "../home/MyProfile";
 import EditProfile from "../home/EditProfile";
 import ViewShop from "../product/ViewShop";
-
+import { Helmet } from "react-helmet-async";
 
 const AppRoutes = () => {
   return (
@@ -25,14 +25,12 @@ const AppRoutes = () => {
         <main className="flex-grow bg-[#EAEBEF]">
           <Routes>
             {/* <Route path="/" element={<LayoutWithHeader />} /> */}
-            <Route
-              path="/"
-              element={
-                <Home />
-              }
-            />
+            <Route path="/" element={<Home />} />
             {/* <Route path="/product/:id" element={<Product />} /> */}
-            <Route path="/product/:categories_id/:sub_category_id" element={<Product />} />
+            <Route
+              path="/product/:categories_id/:sub_category_id"
+              element={<Product />}
+            />
             <Route path="/single-product/:id" element={<ProductDetails />} />
             <Route path="/search/:id" element={<Search />} />
             <Route path="/inquiry" element={<Inquiry />} />
@@ -47,7 +45,6 @@ const AppRoutes = () => {
             {/* Fallback */}
             {/* <Route path="*" element={<NotFound />} /> */}
             <Route path="/category/:categoryId" element={<Category />} />
-
           </Routes>
         </main>
         <Footer />

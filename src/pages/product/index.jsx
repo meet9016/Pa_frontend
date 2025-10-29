@@ -8,9 +8,7 @@ import "aos/dist/aos.css";
 // import PageMeta from "../utils.jsx/PageMeta";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-
-
+import { Helmet } from "react-helmet-async";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -18,6 +16,10 @@ const Product = () => {
   const [singleProductData, setSingleProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState([]);
+  const [meta, setMeta] = useState({
+    title: "Loading...",
+    description: "Please wait while we fetch data...",
+  });
 
   const getSingleProductData = async () => {
     try {
@@ -33,6 +35,7 @@ const Product = () => {
 
       if (res?.data && res?.data?.data) {
         setSingleProductData(res?.data?.data?.products || []);
+        setMeta(res?.data?.data?.meta_arr || []);
         setName(res?.data);
       }
     } catch (err) {
@@ -58,7 +61,21 @@ const Product = () => {
   return (
     <>
       {/* <PageMeta title="Sub-Category" description="This is sub-category-page" /> */}
-
+      <Helmet>
+        <title>{meta?.title}</title>
+        <meta
+          name="description"
+          content={meta?.description}
+        ></meta>
+        <meta
+          name="keywords"
+          content={meta?.keywords}
+        ></meta>
+        <meta property="og:image" content={meta?.og_img}></meta>
+        <meta property="og:title" content={meta?.title}></meta>
+        <meta property="og:description"
+          content={meta?.description}></meta>
+      </Helmet>
 
 
       <div className="w-full px-4 bg-[#EAEBEF] flex mt-[60px] sm:mt-[80px] justify-center">

@@ -12,6 +12,7 @@ import Login from "../auth/Login";
 import DOMPurify from "dompurify";
 import { useDispatch } from "react-redux";
 import { setCartCount } from "../../redux/slices/cartSlice";
+import { Helmet } from "react-helmet-async";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,10 @@ const ProductDetails = () => {
   const [remarkData, setRemarkData] = useState("");
   const [loading, setLoading] = useState(false);
   const [remarkError, setRemarkError] = useState("");
+   const [meta, setMeta] = useState({
+      title: "Loading...",
+      description: "Please wait while we fetch data...",
+    });
   const getSingleProductData = async () => {
     setLoading(true)
     try {
@@ -39,6 +44,7 @@ const ProductDetails = () => {
 
       if (res?.data && res?.data?.data) {
         setSingleProductData(res?.data?.data || []);
+        setMeta(res?.data?.data?.meta_arr || []);
         if (res?.data?.data?.images?.length > 0) {
           setSelectedImage(res.data.data.images[0].image);
         }
@@ -184,6 +190,21 @@ const ProductDetails = () => {
   return (
     <>
       {/* <PageMeta title="ProductDetail" description="This is Product detail page" /> */}
+       <Helmet>
+        <title>{meta?.title}</title>
+        <meta
+          name="description"
+          content={meta?.description}
+        />
+        <meta
+          name="keywords"
+          content={meta?.keywords}
+        />
+         <meta property="og:image" content={meta?.og_img}></meta>
+          <meta property="og:title" content={meta?.title}></meta>
+        <meta property="og:description"
+          content={meta?.description}></meta>
+      </Helmet>
       <div className="w-full px-2  sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
         <div className="w-full mt-4 max-w-[1300px]">
           {/* Breadcrumb */}
