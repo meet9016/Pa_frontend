@@ -213,6 +213,7 @@ const Header = () => {
                 console.log("Error removing item", err);
             }
         } else {
+            // Update item
             setCardList((prev) =>
                 prev.map((i) =>
                     i.cart_id === cart_id ? { ...i, quantity: newQuantity } : i
@@ -236,6 +237,7 @@ const Header = () => {
             }
         }
     };
+
 
     const handleAddcart = async () => {
         if (!alreadyLogin) {
