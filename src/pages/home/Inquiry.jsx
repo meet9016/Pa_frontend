@@ -190,15 +190,15 @@ const Inquiry = () => {
         );
     };
 
-    // Safe formatter for date
     const formatDate = (d) => {
         if (!d) return '-';
         try {
-            return new Date(d).toLocaleDateString('en-GB');
+            return d.split(' ')[0];
         } catch {
             return '-';
         }
     };
+
 
     return (
         // outer wrapper: ensure no accidental horizontal overflow
@@ -262,10 +262,7 @@ const Inquiry = () => {
                             field="order_date"
                             header="Inquiry Date"
                             sortable
-                            body={(rowData) => {
-                                const date = new Date(rowData.order_date);
-                                return date.toLocaleDateString("en-GB");
-                            }}
+                            body={(rowData) => formatDate(rowData.order_date)}
                         />
                         <Column body={actionBodyTemplate} header="Action" />
                     </DataTable>

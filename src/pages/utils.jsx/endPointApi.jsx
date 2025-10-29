@@ -17,6 +17,7 @@ const endPointApi = {
     inquiryPopup: 'add-to-direct-inquiry',
     supplierProductList: 'supplier-web-product-list',
     footerSocialMedia: 'policy_and_social_media',
+    totalCartCount: 'cart-count'
 };
 
 export default endPointApi;

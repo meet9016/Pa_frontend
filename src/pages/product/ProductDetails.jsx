@@ -8,17 +8,16 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast } from "react-toastify";
 import Login from "../auth/Login";
-import Product from ".";
-import { classNames } from "primereact/utils";
 // import PageMeta from "../utils.jsx/PageMeta";
-
-
+import DOMPurify from "dompurify";
+import { useDispatch } from "react-redux";
+import { setCartCount } from "../../redux/slices/cartSlice";
 
 const ProductDetails = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [singleProductData, setSingleProductData] = useState([]);
   const [supplierData, setSupplierData] = useState([]);
   const [count, setCount] = useState(1);
@@ -29,9 +28,7 @@ const ProductDetails = () => {
   const [inquiryPopup, setInquiryPopup] = useState(false)
   const [remarkData, setRemarkData] = useState("");
   const [loading, setLoading] = useState(false);
-
-
-
+  const [remarkError, setRemarkError] = useState("");
   const getSingleProductData = async () => {
     setLoading(true)
     try {
@@ -67,36 +64,97 @@ const ProductDetails = () => {
     });
   }, []);
 
-  const addToCart = () => {
+  // const addToCart = () => {
+  //   try {
+  //     if (!auth_token) {
+  //       localStorage.setItem("redirectAfterLogin", location.pathname);
+  //       setShowLogin(true)
+  //       return;
+  //       // toast.error("Please Loginss!")
+  //     }
+  //     const formdata = new FormData();
+  //     formdata.append("product_id", id);
+  //     formdata.append("quantity", count);
+  //     formdata.append("type", 1);
+  //     console.log("res0000111");
+
+  //     api.post(endPointApi.postAddToCart, formdata).then((res) => {
+  //       if (res.data.status == 200) {
+  //         toast.success(res?.data?.message);
+  //       } else {
+  //         toast.error(res?.data?.message)
+  //       }
+  //     });
+  //   } catch (err) {
+  //     console.log("Error Fetch data", err);
+  //   } finally {
+  //     // setLoading(false)
+  //   }
+  // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const addToCart = async () => {
     try {
       if (!auth_token) {
         localStorage.setItem("redirectAfterLogin", location.pathname);
-        setShowLogin(true)
+        setShowLogin(true);
         return;
-        // toast.error("Please Loginss!")
       }
+
+      console.log("Adding to cart:", { id, count });
+
+      // FormData create karo
       const formdata = new FormData();
       formdata.append("product_id", id);
       formdata.append("quantity", count);
       formdata.append("type", 1);
-      console.log("res0000111");
 
-      api.post(endPointApi.postAddToCart, formdata).then((res) => {
-        console.log("res0000", res);
+      // Add to cart API call
+      const res = await api.post(endPointApi.postAddToCart, formdata);
 
-        if (res.data.status == 200) {
-          toast.success(res?.data?.message);
+      if (res?.data?.status === 200) {
+        toast.success(res.data.message);
+        console.log("Add to Cart Success:", res.data);
+
+        // Total cart count fetch
+        const countRes = await api.post(endPointApi.totalCartCount);
+        console.log("Total Cart API Response:", countRes.data);
+
+        // Safely access cart_total
+        const cartTotal = countRes?.data?.data?.cart_total;
+        if (cartTotal !== undefined && cartTotal !== null) {
+          dispatch(setCartCount(cartTotal)); // Redux me store
+          console.log("cart count", cartTotal);
+        } else {
+          console.error("cart_total undefined in API response:", countRes.data);
         }
-      });
-      // if (res.sta) console.log("res", res);
+
+      } else {
+        toast.error(res?.data?.message);
+      }
     } catch (err) {
-      console.log("Error Fetch data", err);
-    } finally {
-      // setLoading(false)
+      console.error("Error in addToCart:", err.response);
     }
   };
 
   const sendInquiry = async () => {
+    if (!remarkData.trim()) {
+      setRemarkError("Please enter a message");
+      return;
+    } else {
+      setRemarkError("");
+    }
     try {
       const formData = new FormData();
       formData.append("product_id", id);
@@ -104,7 +162,6 @@ const ProductDetails = () => {
       formData.append("remark", remarkData);
 
       const res = await api.post(endPointApi.inquiryPopup, formData);
-
       if (res.data && res.data.data) {
         setInquiryPopup(false);
         setRemarkData("");
@@ -116,6 +173,7 @@ const ProductDetails = () => {
       console.log("Error Fetch data", err);
     }
   };
+  ;
 
   const handleViewShop = () => {
     if (supplierData?.supplier_details_id) {
@@ -323,6 +381,7 @@ const ProductDetails = () => {
                             return;
                           }
                           setInquiryPopup(true);
+                          setRemarkError("");
                         }}
                       >
                         <i className="ri-whatsapp-fill text-2xl"></i> Inquiry
@@ -331,22 +390,6 @@ const ProductDetails = () => {
                   </>
                 )}
               </div>
-
-
-
-              {/* Wishlist, Share */}
-              {/* <div className="flex gap-6 text-sm sm:text-base text-black flex-wrap">
-                <div className="flex items-center gap-1 cursor-pointer">
-                                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-heart-line"></i>
-                                Add to wishlist
-                            </div>
-                <div className="flex items-center gap-1 cursor-pointer">
-                <i className="border border-gray-300 rounded-md w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center ri-share-2-line"></i>
-                Share this Product
-              </div>
-              </div> */}
-
-
 
               <div className="mt-6">
                 {loading ? (
@@ -403,7 +446,7 @@ const ProductDetails = () => {
                       <div className="w-full sm:w-auto flex justify-center sm:justify-end order-3 sm:order-3 mt-3 sm:mt-0">
                         <button
                           onClick={handleViewShop}
-                          className="px-5 py-1 rounded-lg border-2 bg-[#251c4b] border-[#1d163e] 
+                          className="px-5 py-1 rounded-lg cursor-pointer border-2 bg-[#251c4b] border-[#1d163e] 
         text-white font-medium shadow-md hover:bg-[#1d163e] transition 
         w-full sm:w-auto"
                         >
@@ -417,13 +460,11 @@ const ProductDetails = () => {
             </div>
           </div>
 
-
-
           {/* Description Section */}
           <div className={`mt-4 sm:mt-12 ${singleProductData?.related_products?.length === 0 ? "sm:pb-15 pb-5" : ""
             }`}>
             {loading ? (
-              <Skeleton height={220} baseColor="#D1D5DB"
+              <Skeleton height={250} baseColor="#D1D5DB"
                 highlightColor="#E5E7EB"
                 borderRadius={12} />
             ) : (
@@ -451,9 +492,14 @@ const ProductDetails = () => {
                 </div>
 
                 {/* Bottom Content */}
-                <div className="px-6 py-6 bg-white h-[220px]">
+                <div className="px-6 py-6 bg-white ">
                   {activeTab === "description" ? (
-                    <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
+                    // <p>{singleProductData?.long_description?.replace(/<[^>]+>/g, "")}</p>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(singleProductData?.long_description || ""),
+                      }}
+                    />
                   ) : singleProductData?.additional ? (
                     <p>{singleProductData.additional}</p>
                   ) : (
@@ -544,7 +590,7 @@ const ProductDetails = () => {
                                   : "/src/Image/No image.jpg"
                               }
                               alt={item.name}
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-contain bg-white p-3 rounded-sm"
                             />
                           </div>
 
@@ -595,14 +641,6 @@ const ProductDetails = () => {
           )}
 
         </div>
-
-
-
-
-
-
-
-
         {
           inquiryPopup && (
             <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
@@ -628,12 +666,19 @@ const ProductDetails = () => {
                     rows={5}
                     placeholder="Write your message here..."
                     value={remarkData}
-                    onChange={(e) => setRemarkData(e.target.value)}
+                    onChange={(e) => {
+                      setRemarkData(e.target.value);
+                      if (e.target.value.trim()) {
+                        setRemarkError("");
+                      }
+                    }}
                     className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#251c4b]"
                   />
+                  {remarkError && (
+                    <p className="text-red-500 text-sm mt-1">{remarkError}</p>
+                  )}
                 </div>
 
-                {/* Buttons */}
                 {/* Buttons */}
                 <div className="flex justify-between items-center mt-4">
                   <button
@@ -678,7 +723,6 @@ const ProductDetails = () => {
             </div>
           )
         }
-
       </div >
     </>
   );

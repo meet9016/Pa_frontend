@@ -103,7 +103,7 @@ const ViewShop = () => {
                         )}
                         {supplierData?.youtube_link && (
                             <a
-                            
+
                                 href={supplierData?.youtube_link}
                                 target="_blank"
                                 className="text-gray-500 hover:text-red-600 transition transform hover:scale-110 text-xl sm:text-2xl"
@@ -142,7 +142,7 @@ const ViewShop = () => {
                                     <img
                                         src={item.product_image || "/src/Image/No image.jpg"}
                                         alt={item.product_name}
-                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500"
+                                        className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500 bg-white p-3 rounded-sm"
                                     />
                                 </div>
 

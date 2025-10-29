@@ -7,6 +7,8 @@ import Login from "../pages/auth/Login";
 import debounce from 'lodash.debounce';
 import SupplierForm from "../pages/auth/Supplier";
 import Aos from "aos";
+import { useDispatch, useSelector } from "react-redux";
+import { setCartCount } from "../redux/slices/cartSlice";
 
 const Header = () => {
     const navigate = useNavigate()
@@ -14,11 +16,8 @@ const Header = () => {
     const [showCart, setShowCart] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [cardList, setCardList] = useState([]);
-    const [totalAmount, setTotalAmount] = useState();
     const [loading, setLoading] = useState(false);
     const [showLogin, setShowLogin] = useState(false)
-    const [counts, setCounts] = useState({});
-
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -28,8 +27,8 @@ const Header = () => {
     const [userDropDown, setUserDropDown] = useState(false);
     const [supplierButton, setSupplierButton] = useState(null);
     const authToken = localStorage.getItem("auth_token");
-
-    console.log(cardList, 'cardList');
+    const cartCount = useSelector((state) => state.cart.totalCount);
+    const dispatch = useDispatch();
 
 
     const fetchSuggestions = async (searchText) => {
@@ -59,66 +58,184 @@ const Header = () => {
         setShowDropdown(false)
     };
 
+    // const handleIncrement = async (cart_id, p_id) => {
+    //     const newQuantity = (counts[cart_id] || 1) + 1;
+
+    //     // UI update
+    //     setCounts((prev) => ({
+    //         ...prev,
+    //         [cart_id]: newQuantity,
+    //     }));
+
+    //     try {
+    //         const formdata = new FormData();
+    //         formdata.append("product_id", p_id);
+    //         formdata.append("quantity", newQuantity);
+    //         formdata.append("type", 2);
+
+    //         const res = await api.post(endPointApi.postAddToCart, formdata);
+
+    //         if (res.data.status === 200) {
+    //             // toast.success(res?.data?.message);
+    //         }
+    //     } catch (err) {
+    //         console.log("Error Fetch data", err);
+    //     }
+    // };
+
+
+    // const handleDecrement = async (cart_id, p_id) => {
+    //     const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+
+    //     setCounts((prev) => ({
+    //         ...prev,
+    //         [cart_id]: newQuantity,
+    //     }));
+
+    //     try {
+    //         const formdata = new FormData();
+    //         formdata.append("product_id", p_id);
+    //         formdata.append("quantity", newQuantity);
+    //         formdata.append("type", 2);
+
+    //         const res = await api.post(endPointApi.postAddToCart, formdata);
+
+    //         if (res.data.status === 200) {
+    //             // toast.success(res?.data?.message);
+    //         }
+    //     } catch (err) {
+    //         console.log("Error Fetch data", err);
+    //     }
+    // };
+
+
+
+
+
     const handleIncrement = async (cart_id, p_id) => {
-        const newQuantity = (counts[cart_id] || 1) + 1;
+        const item = cardList.find((i) => i.cart_id === cart_id);
+        if (!item) return;
+
+        const currentQty = Number(item.quantity) || 1;
+        const newQuantity = currentQty + 1;
+
+        console.log(newQuantity, 'currentQty')
 
         // UI update
-        setCounts((prev) => ({
-            ...prev,
-            [cart_id]: newQuantity,
-        }));
+        setCardList((prev) =>
+            prev.map((i) =>
+                i.cart_id === cart_id ? { ...i, quantity: newQuantity } : i
+            )
+        );
 
         try {
             const formdata = new FormData();
             formdata.append("product_id", p_id);
-            formdata.append("quantity", newQuantity);
+            formdata.append("quantity", newQuantity.toString());
             formdata.append("type", 2);
 
-            const res = await api.post(endPointApi.postAddToCart, formdata);
-
-            if (res.data.status === 200) {
-                // toast.success(res?.data?.message);
-            }
+            await api.post(endPointApi.postAddToCart, formdata);
         } catch (err) {
-            console.log("Error Fetch data", err);
+            console.log("Error incrementing", err);
         }
     };
+
+
+
+
+    // const handleDecrement = async (cart_id, p_id) => {
+    //     const item = cardList.find((i) => i.cart_id === cart_id);
+    //     if (!item) return;
+
+    //     const currentQty = Number(item.quantity) || 1;
+    //     const newQuantity = currentQty - 1;
+
+    //     if (newQuantity <= 0) {
+    //         setCardList((prev) => prev.filter((i) => i.cart_id !== cart_id));
+
+    //         try {
+    //             const formdata = new FormData();
+    //             formdata.append("product_id", p_id);
+    //             formdata.append("quantity", "0");
+    //             formdata.append("type", 3);
+
+    //             await api.post(endPointApi.postAddToCart, formdata);
+    //         } catch (err) {
+    //             console.log("Error removing item", err);
+    //         }
+    //     } else {
+    //         setCardList((prev) =>
+    //             prev.map((i) =>
+    //                 i.cart_id === cart_id ? { ...i, quantity: newQuantity } : i
+    //             )
+    //         );
+
+    //         try {
+    //             const formdata = new FormData();
+    //             formdata.append("product_id", p_id);
+    //             formdata.append("quantity", newQuantity.toString());
+    //             formdata.append("type", 2);
+
+    //             await api.post(endPointApi.postAddToCart, formdata);
+    //         } catch (err) {
+    //             console.log("Error decrementing", err);
+    //         }
+    //     }
+    // };
+
+
+
 
 
     const handleDecrement = async (cart_id, p_id) => {
-        const newQuantity = counts[cart_id] > 1 ? counts[cart_id] - 1 : 1;
+        const item = cardList.find((i) => i.cart_id === cart_id);
+        if (!item) return;
 
-        setCounts((prev) => ({
-            ...prev,
-            [cart_id]: newQuantity,
-        }));
+        const currentQty = Number(item.quantity) || 1;
+        const newQuantity = currentQty - 1;
 
-        try {
-            const formdata = new FormData();
-            formdata.append("product_id", p_id);
-            formdata.append("quantity", newQuantity);
-            formdata.append("type", 2);
+        if (newQuantity <= 0) {
+            setCardList((prev) => prev.filter((i) => i.cart_id !== cart_id));
 
-            const res = await api.post(endPointApi.postAddToCart, formdata);
+            try {
+                const formdata = new FormData();
+                formdata.append("product_id", p_id);
+                formdata.append("quantity", "0");
+                formdata.append("type", 3);
 
-            if (res.data.status === 200) {
-                // toast.success(res?.data?.message);
+                await api.post(endPointApi.postAddToCart, formdata);
+
+                const countRes = await api.get(endPointApi.totalCartCount);
+                if (countRes.data?.data?.cart_total !== undefined) {
+                    dispatch(setCartCount(Number(countRes.data.data.cart_total)));
+                }
+            } catch (err) {
+                console.log("Error removing item", err);
             }
-        } catch (err) {
-            console.log("Error Fetch data", err);
+        } else {
+            setCardList((prev) =>
+                prev.map((i) =>
+                    i.cart_id === cart_id ? { ...i, quantity: newQuantity } : i
+                )
+            );
+
+            try {
+                const formdata = new FormData();
+                formdata.append("product_id", p_id);
+                formdata.append("quantity", newQuantity.toString());
+                formdata.append("type", 2);
+
+                await api.post(endPointApi.postAddToCart, formdata);
+
+                const countRes = await api.get(endPointApi.totalCartCount);
+                if (countRes.data?.data?.cart_total !== undefined) {
+                    dispatch(setCartCount(Number(countRes.data.data.cart_total)));
+                }
+            } catch (err) {
+                console.log("Error decrementing", err);
+            }
         }
     };
-
-
-
-
-
-
-
-
-
-
-
 
     const handleAddcart = async () => {
         if (!alreadyLogin) {
@@ -128,16 +245,19 @@ const Header = () => {
         setShowCart(true)
         try {
             const res = await api.post(`${endPointApi.postCartList}`, {});
-
             if (res?.data && res?.data?.data) {
                 setCardList(res?.data?.data?.cart_list || [])
-                setTotalAmount(res?.data?.data?.cart_total)
+
+                // Calculate total count from fetched list
+                const totalCount = cartListFromApi.reduce((acc, item) => acc + Number(item.quantity), 0);
+                dispatch(setCartCount(totalCount)); //Redux updated correctly
             }
         } catch (err) {
             console.log("Error data", err)
         } finally {
         }
     }
+
 
     // const addToCart = () => {
     //     const p_id = cardList.map((i) => i.product_id.join(', '))
@@ -245,6 +365,7 @@ const Header = () => {
     const Suuplier = () => {
         window.location.href = `https://seller.progressalliance.org/?token=${authToken}`;
     };
+
     return (
         <>
             <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md px-4 sm:px-6 lg:px-8">
@@ -278,7 +399,7 @@ const Header = () => {
                             <i className="ri-search-line text-black text-lg mr-2"></i>
                             <input
                                 type="text"
-                                placeholder='Search "grocery"'
+                                placeholder='Search "Any Product"'
                                 className="bg-transparent outline-none border-none focus:ring-0 h-[28px] flex-1 text-[14px] placeholder-gray-500"
                                 value={query}
                                 onChange={(e) => {
@@ -337,9 +458,18 @@ const Header = () => {
                         {/* Cart Button (Desktop) */}
                         <button
                             onClick={handleAddcart}
-                            className="flex items-center gap-2  px-3 py-2 md:px-4 rounded-lg text-black  cursor-pointer"
+                            className="flex items-center gap-2 px-3 py-2 md:px-4 rounded-lg text-black cursor-pointer"
                         >
-                            <i className="ri-shopping-cart-2-line text-[#251c4b] text-2xl"></i>
+                            {/* Cart Icon Wrapper */}
+                            <div className="relative">
+                                <i className="ri-shopping-cart-2-line text-[#251c4b] text-2xl"></i>
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-1 -right-2 bg-[#251c4b]/80 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </div>
+
                         </button>
 
                         {/* Login / Logout Button */}
@@ -362,62 +492,9 @@ const Header = () => {
                                 <i className="ri-login-box-line text-2xl text-[#251c4b]"></i>
                             )}
                         </button>
-
-
-
                     </div>
 
 
-
-                    {/*User Dropdown */}
-                    {/* {userDropDown && alreadyLogin && (
-                        <div className="absolute right-3 mt-80 w-45 bg-white border border-gray-200 rounded-lg shadow-lg z-50 hidden md:block">
-                            <ul className="py-2">
-                                <li
-                                    onClick={() => navigate('/my-profile')}
-                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <div className="flex gap-4">
-                                        <i className="ri-user-fill text-[#251c4b] text-[20px] font-bold"></i>
-                                        My Profile
-                                    </div>
-                                </li>
-                                <li
-                                    onClick={() => navigate('/inquiry')}
-                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <div className="flex gap-4">
-                                        <i className="ri-whatsapp-line text-[#251c4b] text-[20px] font-bold"></i>
-                                        My Inquiry
-                                    </div>
-                                </li>
-                                <li
-                                    onClick={() => {
-                                        localStorage.removeItem("auth_token");
-                                        setUserDropDown(false);
-                                        toast.success("Logged out successfully!");
-                                        navigate("/");
-                                    }}
-                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <div className="flex gap-4">
-                                        <i className="ri-logout-box-line text-[#251c4b] text-[20px] font-bold"></i>
-                                        Sign Out
-                                    </div>
-                                </li>
-                                {supplierButton && (
-                                    <li className="px-4 py-2">
-                                        <button
-                                            onClick={Suuplier}
-                                            className="w-full cursor-pointer text-left bg-[#251c4b] text-white px-4 py-2 rounded-md hover:bg-[#1c1639]"
-                                        >
-                                            {supplierButton}
-                                        </button>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-                    )} */}
                     {userDropDown && alreadyLogin && (
                         <div className="absolute right-3 mt-75 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 hidden md:block">
                             <ul className="py-2">
@@ -474,10 +551,6 @@ const Header = () => {
                             </ul>
                         </div>
                     )}
-
-
-
-
                     {/* Mobile User Dropdown */}
 
                     {userDropDown && alreadyLogin && (
@@ -535,9 +608,6 @@ const Header = () => {
                         </div>
                     )}
 
-
-
-
                     {/* Cart Drawer (Show on both Mobile + Desktop) */}
                     <div
                         className={`fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-lg z-50 flex flex-col transform transition-transform duration-300 ease-in-out ${showCart ? "translate-x-0" : "translate-x-full"
@@ -582,7 +652,8 @@ const Header = () => {
                                                         -
                                                     </button>
                                                     <span className="px-2 text-lg font-semibold">
-                                                        {counts[item.cart_id] ?? item.quantity ?? 1}
+                                                        {/* {counts[item.cart_id] ?? item.quantity ?? 1} */}
+                                                        {Number(item.quantity)}
                                                     </span>
                                                     <button
                                                         className="px-2 py-1 cursor-pointer"
@@ -606,11 +677,6 @@ const Header = () => {
                             </div>
                         </div>
 
-
-
-
-
-
                         {/* Footer */}
                         {cardList.length !== 0 && (
                             <div className="bg-[#F5F7FD] px-4 py-3">
@@ -630,9 +696,6 @@ const Header = () => {
                         )}
 
                     </div>
-
-
-
                     {/* Mobile Right Side Icons */}
                     <div className="md:hidden flex items-center gap-3">
                         {/* Search Button */}
@@ -646,11 +709,18 @@ const Header = () => {
                         {/* Cart Button */}
                         <button
                             onClick={handleAddcart}
-                            className="p-2 rounded-md"
+                            className="flex items-center gap-2 px-3 py-2 md:px-4 rounded-lg text-black cursor-pointer"
                         >
-                            <i className="ri-shopping-cart-2-line text-xl text-[#251c4b]"></i>
+                            {/* Cart Icon Wrapper */}
+                            <div className="relative">
+                                <i className="ri-shopping-cart-2-line text-[#251c4b] text-2xl"></i>
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-1 -right-2 bg-[#251c4b]/80 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </div>
                         </button>
-
 
                         {/* Login / User Button (Mobile) */}
                         <button
@@ -670,10 +740,7 @@ const Header = () => {
                             >
                             </i>
                         </button>
-
-
                     </div>
-
                 </div>
 
                 {/* Mobile Menu Drawer */}
@@ -760,7 +827,7 @@ const Header = () => {
                             {/* Input */}
                             <input
                                 type="text"
-                                placeholder='Search "grocery"'
+                                placeholder='Search "Any Product"'
                                 className="bg-transparent outline-none border-none focus:ring-0 flex-1 text-sm placeholder-gray-500"
                                 value={query}
                                 onChange={(e) => {

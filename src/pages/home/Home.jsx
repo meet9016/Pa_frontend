@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import "remixicon/fonts/remixicon.css";
 import { useNavigate } from "react-router";
 import Header from "../../component/Header";
@@ -19,22 +19,23 @@ const Home = () => {
 
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  const [loading, startTransition] = useTransition();
+
   const [showLogin, setShowLogin] = useState(false)
   const [skeletonCount, setSkeletonCount] = useState(2);
 
   const getProduct = async () => {
     try {
-      setLoading(true);
-      const res = await api.post(endPointApi.postHome, {});
-      if (res.data && res.data.data) {
-        setProduct(res.data.data || []);
-      }
+      // setLoading(true);
+      startTransition(async () => {
+        const res = await api.post(endPointApi.postHome, {});
+        if (res.data && res.data.data) {
+          setProduct(res.data.data || []);
+        }
+      })
     } catch (err) {
       console.log("Error Fetch data", err);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -75,7 +76,6 @@ const Home = () => {
 
     return () => window.removeEventListener("resize", updateSkeletonCount);
   }, []);
-
 
   return (
     <>
@@ -267,7 +267,7 @@ const Home = () => {
                             <img
                               src={sub.image}
                               alt={sub.sub_category_name}
-                              className="w-[120px] h-[120px] object-contain"
+                              className="w-[120px] h-[120px] object-contain bg-white p-3 rounded-sm"
                             />
                           </div>
 
@@ -283,7 +283,6 @@ const Home = () => {
                 ))
               )
             }
-
           </div>
         </div>
       </div>
