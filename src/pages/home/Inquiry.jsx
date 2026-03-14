@@ -143,7 +143,6 @@ const Inquiry = () => {
     const [inquiryData, setInquiryData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth <= MOBILE_BREAKPOINT : false);
-    console.log(inquiryData, 'setInquiry')
 
     useEffect(() => {
         const onResize = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);

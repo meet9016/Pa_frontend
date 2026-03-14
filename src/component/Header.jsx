@@ -30,7 +30,6 @@ const Header = () => {
     const cartCount = useSelector((state) => state.cart.totalCount);
     const dispatch = useDispatch();
 
-
     const fetchSuggestions = async (searchText) => {
         if (!searchText) {
             setResults([]);
@@ -119,7 +118,7 @@ const Header = () => {
         const currentQty = Number(item.quantity) || 1;
         const newQuantity = currentQty + 1;
 
-        console.log(newQuantity, 'currentQty')
+        // console.log(newQuantity, 'currentQty')
 
         // UI update
         setCardList((prev) =>
@@ -295,7 +294,7 @@ const Header = () => {
             const res = await api.post(`${endPointApi.postAddToCart}`, formData);
 
             if (res.data && res.data.data) {
-                console.log("Cart Updated:", res.data.data);
+                // console.log("Cart Updated:", res.data.data);
             }
         } catch (err) {
             console.log(err, "ERROR");
@@ -350,11 +349,11 @@ const Header = () => {
         try {
             const res = await api.post(endPointApi.userProfile, {})
             if (res.data && res.data.data) {
-                console.log(res.data, 'success')
+                // console.log(res.data, 'success')
                 if (res.data.data.user_type == "2") {
                     setSupplierButton(res.data.data.button_text);
                 } else {
-                    console.log('not show')
+                    // console.log('not show')
                 }
             } else {
                 console.log(res.data, 'error')

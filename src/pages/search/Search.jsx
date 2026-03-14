@@ -13,9 +13,7 @@ const Search = () => {
 
     const navigate = useNavigate();
     const [singleProductData, setSingleProductData] = useState([])
-    const [loading, setLoading] = useState(false);
-
-    console.log("id", id);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!id) return;

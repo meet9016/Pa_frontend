@@ -30,17 +30,31 @@ const ProductDetails = () => {
   const [remarkData, setRemarkData] = useState("");
   const [loading, setLoading] = useState(false);
   const [remarkError, setRemarkError] = useState("");
-   const [meta, setMeta] = useState({
-      title: "Loading...",
-      description: "Please wait while we fetch data...",
-    });
+  const [productNotFound, setProductNotFound] = useState(false);
+  const [meta, setMeta] = useState({
+    title: "Loading...",
+    description: "Please wait while we fetch data...",
+  });
+
   const getSingleProductData = async () => {
     setLoading(true)
+    setProductNotFound(false)
     try {
       const formdata = new FormData();
       formdata.append("product_id", id);
       // setLoading(true);
       const res = await api.post(endPointApi.postSingleProduct, formdata);
+
+      // Check for product not found (status 400 with message)
+      if (res?.data?.status === 400 && res?.data?.message === "Product not found") {
+        setProductNotFound(true);
+        setMeta({
+          title: "Product Not Found",
+          description: "The requested product could not be found.",
+        });
+        setLoading(false);
+        return;
+      }
 
       if (res?.data && res?.data?.data) {
         setSingleProductData(res?.data?.data || []);
@@ -51,9 +65,22 @@ const ProductDetails = () => {
         if (res?.data?.data?.supplier_details) {
           setSupplierData(res.data.data.supplier_details)
         }
+        setProductNotFound(false);
+      } else {
+        // If no data but also not 400, still show not found
+        setProductNotFound(true);
+        setMeta({
+          title: "Product Not Found",
+          description: "The requested product could not be found.",
+        });
       }
     } catch (err) {
       console.log("Error Fetch data", err);
+      setProductNotFound(true);
+      setMeta({
+        title: "Product Not Found",
+        description: "The requested product could not be found.",
+      });
     } finally {
       setLoading(false)
     }
@@ -98,18 +125,6 @@ const ProductDetails = () => {
   //   }
   // };
 
-
-
-
-
-
-
-
-
-
-
-
-
   const addToCart = async () => {
     try {
       if (!auth_token) {
@@ -118,7 +133,7 @@ const ProductDetails = () => {
         return;
       }
 
-      console.log("Adding to cart:", { id, count });
+      // console.log("Adding to cart:", { id, count });
 
       // FormData create karo
       const formdata = new FormData();
@@ -131,17 +146,17 @@ const ProductDetails = () => {
 
       if (res?.data?.status === 200) {
         toast.success(res.data.message);
-        console.log("Add to Cart Success:", res.data);
+        // console.log("Add to Cart Success:", res.data);
 
         // Total cart count fetch
         const countRes = await api.post(endPointApi.totalCartCount);
-        console.log("Total Cart API Response:", countRes.data);
+        // console.log("Total Cart API Response:", countRes.data);
 
         // Safely access cart_total
         const cartTotal = countRes?.data?.data?.cart_total;
         if (cartTotal !== undefined && cartTotal !== null) {
           dispatch(setCartCount(cartTotal)); // Redux me store
-          console.log("cart count", cartTotal);
+          // console.log("cart count", cartTotal);
         } else {
           console.error("cart_total undefined in API response:", countRes.data);
         }
@@ -187,10 +202,47 @@ const ProductDetails = () => {
     }
   }
 
+  // Product Not Found Component
+  if (productNotFound && !loading) {
+    return (
+      <>
+        <Helmet>
+          <title>Product Not Found</title>
+          <meta name="description" content="The requested product could not be found." />
+        </Helmet>
+        <div className="w-full px-2 sm:px-4 md:px-6 lg:px-8 pt-[60px] sm:pt-[80px] md:pt-[100px] flex flex-col items-center">
+          <div className="w-full mt-4 max-w-[1300px]">
+            <div className="w-full min-h-[500px] flex justify-center items-center">
+              <div className="flex flex-col items-center justify-center text-center">
+                <img
+                  src="https://superadmin.progressalliance.org/upload/web_logo/not-found.png"
+                  alt="Product Not Found"
+                  className="w-48 h-48 sm:w-60 sm:h-60 object-contain one-time-bounce"
+                />
+                <h2 className="mt-4 text-xl font-semibold text-gray-700">
+                  Product Not Found
+                </h2>
+                <p className="mt-2 text-gray-500 max-w-md">
+                  The product you're looking for doesn't exist or may have been removed.
+                </p>
+                <button
+                  onClick={() => navigate("/")}
+                  className="mt-6 px-5 py-2 bg-[#251C4B] text-white rounded-lg cursor-pointer shadow-md hover:bg-[#372b63] transition"
+                >
+                  Go Home
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {/* <PageMeta title="ProductDetail" description="This is Product detail page" /> */}
-       <Helmet>
+      <Helmet>
         <title>{meta?.title}</title>
         <meta
           name="description"
@@ -200,8 +252,8 @@ const ProductDetails = () => {
           name="keywords"
           content={meta?.keywords}
         />
-         <meta property="og:image" content={meta?.og_img}></meta>
-          <meta property="og:title" content={meta?.title}></meta>
+        <meta property="og:image" content={meta?.og_img}></meta>
+        <meta property="og:title" content={meta?.title}></meta>
         <meta property="og:description"
           content={meta?.description}></meta>
       </Helmet>
@@ -592,15 +644,16 @@ const ProductDetails = () => {
                       key={index}
                       data-aos="fade-up"
                       className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
+                      onClick={() => {
+                        navigate(`/single-product/${item.product_id}`);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
                     >
 
                       <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
                         <div
                           className="w-full h-full relative group preserve-3d"
-                          onClick={() => {
-                            navigate(`/single-product/${item.product_id}`);
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                          }}
+
                         >
 
                           <div className="absolute inset-0 backface-hidden transform  group-hover:scale-105 transition-all duration-500">
