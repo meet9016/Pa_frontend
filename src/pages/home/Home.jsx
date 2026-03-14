@@ -266,9 +266,9 @@ const Home = () => {
                             onClick={() =>
                               navigate(`/category/${cat.categories_id}`)
                             }
-                            className="w-40 sm:w-auto px-5 cursor-pointer py-2 rounded-lg bg-[#251c4b] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#3a2d6f] hover:scale-105 transition"
+                            className="w-40 sm:w-auto px-6 cursor-pointer py-2 rounded-xl bg-gradient-to-r from-[#251c4b] to-[#3a2d6f] text-white font-medium text-sm sm:text-base shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out flex items-center justify-center gap-2"
                           >
-                            View Mores →
+                            View More <i className="ri-arrow-right-line"></i>
                           </button>
                         )}
                       </div>
@@ -279,10 +279,10 @@ const Home = () => {
                       {cat.sub_categories?.map((sub) => (
                         <div
                           key={sub.sub_category_id}
-                          className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+                          className="flex flex-col items-center cursor-pointer group"
                         >
                           <div
-                            className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center"
+                            className="p-5 w-full bg-gradient-to-br from-white to-[#eef7ff] rounded-2xl shadow-sm border border-transparent group-hover:border-[#d0e6ff] group-hover:shadow-lg group-hover:-translate-y-2 transition-all duration-300 ease-in-out flex justify-center items-center"
                             onClick={() => {
                               navigate(`/product/${cat.categories_id}/${sub.sub_category_id}`);
                             }}
@@ -290,12 +290,12 @@ const Home = () => {
                             <img
                               src={sub.image}
                               alt={sub.sub_category_name}
-                              className="w-[120px] h-[120px] object-contain bg-white p-3 rounded-sm"
+                              className="w-[100px] h-[100px] object-contain bg-transparent mix-blend-multiply group-hover:scale-110 transition-transform duration-500 ease-out"
                             />
                           </div>
 
                           {/* sub_category_name fix */}
-                          <p className="mt-2 sm:mt-3 md:mt-4 lg:mt-2 text-center text-sm font-medium">
+                          <p className="mt-3 sm:mt-4 text-center text-sm font-semibold text-gray-700 group-hover:text-[#251c4b] transition-colors duration-300">
                             {sub.sub_category_name}
                           </p>
                         </div>

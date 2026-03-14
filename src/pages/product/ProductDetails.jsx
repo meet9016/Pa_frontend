@@ -324,9 +324,9 @@ const ProductDetails = () => {
               </div>
 
               {/* Main Image - Right side */}
-              <div className="overflow-hidden rounded-lg flex-1">
+              <div className="overflow-hidden rounded-2xl flex-1 bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:shadow-md transition-shadow duration-300 group">
                 {loading ? (
-                  <div className="h-[280px] sm:h-[500px]">
+                  <div className="h-[280px] sm:h-[500px] w-full">
                     <Skeleton
                       baseColor="#D1D5DB"
                       highlightColor="#E5E7EB"
@@ -343,7 +343,7 @@ const ProductDetails = () => {
                         : "/src/Image/No image.jpg")
                     }
                     alt={singleProductData?.product_name || "Product"}
-                    className="w-full h-auto object-contain bg-white rounded-2xl p-10"
+                    className="w-full h-auto object-contain p-10 group-hover:scale-105 transition-transform duration-500 ease-out mix-blend-multiply"
                   />
                 )}
               </div>
@@ -439,14 +439,14 @@ const ProductDetails = () => {
 
                     <div className="flex flex-col sm:flex-row w-full gap-4">
                       <button
-                        className="flex-1 bg-[#251C4B] hover:bg-[#1a1335] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
+                        className="flex-1 bg-gradient-to-r from-[#251C4B] to-[#3a2d6f] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out text-white py-3 rounded-xl flex items-center justify-center gap-3 text-lg font-medium cursor-pointer"
                         onClick={() => addToCart()}
                       >
                         <i className="ri-shopping-cart-fill text-2xl"></i> Add to Cart
                       </button>
 
                       <button
-                        className="flex-1 bg-[green] hover:bg-[green] text-white py-3 rounded-lg flex items-center justify-center gap-3 text-lg cursor-pointer"
+                        className="flex-1 bg-gradient-to-r from-[#25D366] to-[#1DA851] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out text-white py-3 rounded-xl flex items-center justify-center gap-3 text-lg font-medium cursor-pointer"
                         onClick={() => {
                           if (!auth_token) {
                             localStorage.setItem("redirectAfterLogin", location.pathname);
@@ -643,37 +643,26 @@ const ProductDetails = () => {
                     <div
                       key={index}
                       data-aos="fade-up"
-                      className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative"
+                      className="group border border-gray-100/50 shadow-sm rounded-2xl p-5 hover:border-blue-100 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out bg-white flex flex-col justify-between relative cursor-pointer"
                       onClick={() => {
                         navigate(`/single-product/${item.product_id}`);
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
                     >
 
-                      <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3 perspective-1000">
-                        <div
-                          className="w-full h-full relative group preserve-3d"
-
-                        >
-
-                          <div className="absolute inset-0 backface-hidden transform  group-hover:scale-105 transition-all duration-500">
-                            <img
-                              src={
-                                item.product_image && item.product_image !== ""
-                                  ? item.product_image
-                                  : "/src/Image/No image.jpg"
-                              }
-                              alt={item.name}
-                              className="w-full h-full object-contain bg-white p-3 rounded-sm"
-                            />
-                          </div>
-
-
-
-                        </div>
+                      <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-4 bg-gradient-to-br from-gray-50 to-white rounded-xl group-hover:from-[#f8faff] group-hover:to-white transition-colors duration-500 relative overflow-hidden">
+                        <img
+                          src={
+                            item.product_image && item.product_image !== ""
+                              ? item.product_image
+                              : "/src/Image/No image.jpg"
+                          }
+                          alt={item.name}
+                          className="w-[85%] h-[85%] object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out absolute"
+                        />
                       </div>
 
-                      <h4 className="font-semibold text-sm sm:text-base text-gray-800 line-clamp-1">
+                      <h4 className="font-bold text-sm sm:text-base text-gray-900 line-clamp-1 group-hover:text-[#251c4b] transition-colors duration-300">
                         {item.product_name}
                       </h4>
 
@@ -693,19 +682,8 @@ const ProductDetails = () => {
                       </div>
 
 
-                      <button
-                        className="
-        opacity-100             
-        sm:opacity-50            
-        sm:group-hover:opacity-100 
-        cursor-pointer
-        mt-4 px-3 py-2 
-        border bg-[#251c4b] border-[#251c4b] 
-        text-white rounded-lg 
-        transition text-md
-      "
-                      >
-                        View Product
+                      <button className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 mt-5 px-4 py-2.5 bg-gradient-to-r from-[#251c4b] to-[#3a2d6f] text-white rounded-xl transition-all duration-500 ease-out transform translate-y-2 sm:group-hover:translate-y-0 text-sm font-medium shadow-md hover:shadow-lg flex justify-center items-center gap-2">
+                        View Product <i className="ri-arrow-right-s-line text-lg leading-none"></i>
                       </button>
                     </div>
                   ))

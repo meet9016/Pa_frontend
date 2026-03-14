@@ -67,6 +67,24 @@ button:focus-visible {
   }
 } */
 
-body {
-  font-family: 'Poppins', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+html {
+  font-family: 'Poppins', 'Inter', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif !important;
+  -webkit-font-smoothing: antialiased;  /* Safari / Chrome */
+  -moz-osx-font-smoothing: grayscale;   /* macOS Firefox */
+  text-rendering: optimizeLegibility;   /* improves kerning + font rendering */
+}
+
+/* Apply globally to bold text for extra sharpness */
+strong, b, .font-bold {
+  font-weight: 700;  /* Ensure bold weight is loaded */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Optional: slightly tweak line-height for sharper look */
+body, p, span, a, li {
+  line-height: 1.5; 
 }

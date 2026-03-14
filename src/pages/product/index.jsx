@@ -132,11 +132,11 @@ const Product = () => {
                 <div
                   key={index}
                   data-aos="fade-up"
-                  className="group border border-gray-200 rounded-xl p-4 hover:shadow-xl transition-all bg-white flex flex-col justify-between relative cursor-pointer"
+                  className="group border border-gray-100/50 shadow-sm rounded-2xl p-5 hover:border-blue-100 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out bg-white flex flex-col justify-between relative cursor-pointer"
                   onClick={() => navigate(`/single-product/${item.product_id}`)}
                 >
                   {/* Image */}
-                  <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-3">
+                  <div className="w-full h-[150px] sm:h-[160px] flex items-center justify-center mb-4 bg-gradient-to-br from-gray-50 to-white rounded-xl group-hover:from-[#f8faff] group-hover:to-white transition-colors duration-500 relative overflow-hidden">
                     <img
                       src={
                         item.product_image && item.product_image !== ""
@@ -144,12 +144,12 @@ const Product = () => {
                           : "/src/Image/No image.jpg"
                       }
                       alt={item.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500 bg-white p-3 rounded-sm"
+                      className="w-[85%] h-[85%] object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-700 ease-out absolute"
                     />
                   </div>
 
                   {/* Info */}
-                  <h4 className="font-semibold text-sm sm:text-base text-gray-800 truncate">
+                  <h4 className="font-bold text-sm sm:text-base text-gray-900 truncate group-hover:text-[#251c4b] transition-colors duration-300">
                     {item.product_name}
                   </h4>
                   <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-2">
@@ -167,8 +167,8 @@ const Product = () => {
                   </div>
 
                   {/* Button */}
-                  <button className="opacity-100 sm:opacity-50 sm:group-hover:opacity-100 mt-4 px-3 py-2 border bg-[#251c4b] border-[#251c4b] text-white rounded-lg transition text-md">
-                    View Product
+                  <button className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 mt-5 px-4 py-2.5 bg-gradient-to-r from-[#251c4b] to-[#3a2d6f] text-white rounded-xl transition-all duration-500 ease-out transform translate-y-2 sm:group-hover:translate-y-0 text-sm font-medium shadow-md hover:shadow-lg flex justify-center items-center gap-2">
+                    View Product <i className="ri-arrow-right-s-line text-lg leading-none"></i>
                   </button>
                 </div>
               ))}

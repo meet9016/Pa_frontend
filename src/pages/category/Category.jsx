@@ -115,20 +115,20 @@ const Category = () => {
               {sub_categories.map((sub, i) => (
                 <div
                   key={String(sub?.sub_category_id ?? i)}
-                  className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+                  className="flex flex-col items-center cursor-pointer group"
                   onClick={() =>
                     navigate(`/product/${categories_id}/${sub.sub_category_id}`)
                   }
                 >
-                  <div className="p-4 bg-[#eef7ff] rounded-xl flex justify-center items-center">
+                  <div className="p-5 w-full bg-gradient-to-br from-white to-[#eef7ff] rounded-2xl shadow-sm border border-transparent group-hover:border-[#d0e6ff] group-hover:shadow-lg group-hover:-translate-y-2 transition-all duration-300 ease-in-out flex justify-center items-center">
                     <img
                       src={sub.image}
                       alt={sub.sub_category_name}
-                      className="w-[120px] h-[120px] object-contain bg-white p-3 rounded-sm"
+                      className="w-[100px] h-[100px] object-contain bg-transparent mix-blend-multiply group-hover:scale-110 transition-transform duration-500 ease-out"
                       loading={i < 6 ? "eager" : "lazy"}
                     />
                   </div>
-                  <p className="mt-3 text-center text-sm font-medium">
+                  <p className="mt-4 text-center text-sm font-semibold text-gray-700 group-hover:text-[#251c4b] transition-colors duration-300">
                     {sub.sub_category_name}
                   </p>
                 </div>
